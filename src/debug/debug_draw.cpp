@@ -6,7 +6,7 @@
 #include "debug/debug_draw.hpp"
 #include "debug/logger.hpp"
 #include "utils.hpp"
-#include "math/math.hpp"
+#include "math.hpp"
 #include "graphics/vertex_array.hpp"
 
 namespace Core

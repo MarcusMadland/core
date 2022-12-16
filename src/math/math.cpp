@@ -22,7 +22,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "math/math.hpp"
+#include "math.hpp"
 #include "debug/logger.hpp"
 
 namespace Core::Math
