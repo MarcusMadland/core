@@ -2,7 +2,7 @@
 
 #include <bgfx/bgfx.h>
 
-#include "common/types.hpp"
+#include "common.hpp"
 
 namespace Core
 {
@@ -14,7 +14,7 @@ namespace Core
 
 		static Ref<VertexArray> Create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh);
 
-	public:
+	public: // @todo make private
 		bgfx::VertexBufferHandle vbh;
 		bgfx::IndexBufferHandle ibh;
 	};

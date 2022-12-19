@@ -18,7 +18,7 @@
 
 #include <glm/glm.hpp>
 
-#include "common/types.hpp"
+#include "common.hpp"
 
 namespace Core
 {

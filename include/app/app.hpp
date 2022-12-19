@@ -43,6 +43,11 @@ namespace Core
 		void Run();
 
 		/*
+		 * Call this to shutdown the application
+		 */
+		void Shutdown();
+
+		/*
 		 * This should be called on window event so the application and all
 		 * its layers can use them
 		 *

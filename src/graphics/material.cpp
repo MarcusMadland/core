@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-#pragma once
-
-#include <bgfx/bgfx.h>
-
-#include "graphics/texture.hpp"
+#include "crpch.hpp"
 
 namespace Core
 {
-	namespace Utils
-	{
-		uint8_t* LoadTexture2D(const std::string& filename, Texture2DParams& outParams);
-	}
+
 }

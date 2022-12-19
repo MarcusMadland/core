@@ -14,36 +14,23 @@
  * limitations under the License.
  */
 
-/*
- * @todo Make this class
- */
-
 #pragma once
 
+#include <vector>
+
 #include "common.hpp"
-#include "primitive.hpp"
-#include "graphics/vertex_array.hpp"
 
 namespace Core
 {
-	class Mesh
+	class Shader;
+	class Texture;
+
+	class Material
 	{
 	public:
-		Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices);
-		
-		static Ref<Mesh> Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices);
-		
-		[[nodiscard]] const Transform& GetTransform() const { return transform; }
-		[[nodiscard]] const Ref<VertexArray> GetVertexArray() const { return vao; }
 
 	private:
-		Transform transform;
-
-		std::vector<MeshVertex> vertices;
-		std::vector<uint16_t> indices;
-		
-		Ref<VertexArray> vao;
+		Ref<Shader> shader;
+		std::vector<Texture> textures;
 	};
-
-	
 }

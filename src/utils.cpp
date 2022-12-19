@@ -16,6 +16,8 @@
 
 #include "crpch.hpp"
 
+#include <stb_image.h>
+
 #include "utils.hpp"
 #include "debug/logger.hpp"
 
@@ -23,25 +25,26 @@ namespace Core
 {
 	namespace Utils
 	{
-		bgfx::ShaderHandle LoadShader(const std::string& filename)
+		uint8_t* LoadTexture2D(const std::string& filename, Texture2DParams& outParams)
 		{
-			FILE* file = fopen(filename.c_str(), "rb");
-			if (!file)
+			// Load texture data using stb image
+			int width = 0, height = 0, channels = 0;
+			uint8_t* bytes = stbi_load(filename.c_str(), &width, &height, &channels, 4);
+			
+			// If we fail to load the texture, we load a debug "no texture" texture
+			if (!bytes)
 			{
-				Logger::LogCritical("Failed to load shader");
-				return bgfx::ShaderHandle();
+				Core::Logger::LogError("Failed to create texture, invalid data");
+
+				bytes = stbi_load("../core/assets/textures/no_texture.png", &width, &height, &channels, 4);
 			}
 
-			fseek(file, 0, SEEK_END);
-			long fileSize = ftell(file);
-			fseek(file, 0, SEEK_SET);
+			// Output texture parameters we need to for the rendering of the texture
+			outParams.width = width;
+			outParams.height = height;
+			outParams.channels = 4;
 
-			const bgfx::Memory* mem = bgfx::alloc(fileSize + 1);
-			fread(mem->data, 1, fileSize, file);
-			mem->data[mem->size - 1] = '\0';
-			fclose(file);
-
-			return bgfx::createShader(mem);
+			return bytes;
 		}
 	}
 }

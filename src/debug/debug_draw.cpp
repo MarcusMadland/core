@@ -8,15 +8,13 @@
 #include "utils.hpp"
 #include "math.hpp"
 #include "graphics/vertex_array.hpp"
+#include "graphics/renderer.hpp"
 
 namespace Core
 {
 	DebugDraw::DebugDraw()
 	{
 	#ifdef _DEBUG
-		// Uniforms
-		u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
-
 		// Vertex Layout
 		layout.begin()
 			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -67,9 +65,11 @@ namespace Core
 		vaoCircle = VertexArray::Create(circleVbh, circleIbh);
 
 		// Shader
-		bgfx::ShaderHandle vsh = Core::Utils::LoadShader("../shaders/compiled/debugdraw-vert.bin");
-		bgfx::ShaderHandle fsh = Core::Utils::LoadShader("../shaders/compiled/debugdraw-frag.bin");
-		program = bgfx::createProgram(vsh, fsh, true);
+		shader = Renderer::GetShaderLibrary()->Get("debugdraw");
+
+		// Uniforms
+		u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+
 
 		Logger::LogInfo("Debug Draw allocated debug shapes");
 	#endif
@@ -89,7 +89,7 @@ namespace Core
 		bgfx::setState(BGFX_STATE_DEFAULT | BGFX_STATE_PT_LINESTRIP);
 
 		// Submit
-		bgfx::submit(0, program); // @todo Should camera be hard coded to 0? Draw debug only supports 1 viewport.
+		bgfx::submit(0, shader->handle); // @todo Should camera be hard coded to 0? Draw debug only supports 1 viewport.
 	#endif
 	}
 	void DebugDraw::DrawDebugShapeTransform(const Ref<VertexArray>& vao, glm::vec4 color, Transform transform)

@@ -10,13 +10,11 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * See the License for the specific language governing permissionsand
  * limitations under the License.
  */
 
 #include "crpch.hpp"
 
-//#define IMGUI_IMPL_OPENGL_LOADER_GLAD
-
-#include <examples/imgui_impl_bgfx.cpp>
-#include <examples/imgui_impl_glfw.cpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"

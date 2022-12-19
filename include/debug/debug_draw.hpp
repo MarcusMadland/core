@@ -17,7 +17,8 @@
 #pragma once
 
 #include "primitive/mesh.hpp"
-#include "common/types.hpp"
+#include "graphics/shader.hpp"
+#include "common.hpp"
 
 namespace Core
 {
@@ -147,9 +148,9 @@ namespace Core
 			glm::mat4 matrix);
 		
 	private:
-		bgfx::ProgramHandle program;
+		Ref<Shader> shader;
+
 		bgfx::VertexLayout layout;
-		
 		bgfx::UniformHandle u_color;
 
 		Ref<VertexArray> vaoCube;

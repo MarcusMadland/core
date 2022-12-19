@@ -14,36 +14,38 @@
  * limitations under the License.
  */
 
-/*
- * @todo Make this class
- */
-
 #pragma once
 
+#include <bgfx/bgfx.h>
+
 #include "common.hpp"
-#include "primitive.hpp"
-#include "graphics/vertex_array.hpp"
 
 namespace Core
 {
-	class Mesh
+	struct Texture2DParams
 	{
-	public:
-		Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices);
-		
-		static Ref<Mesh> Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices);
-		
-		[[nodiscard]] const Transform& GetTransform() const { return transform; }
-		[[nodiscard]] const Ref<VertexArray> GetVertexArray() const { return vao; }
+		bool hasMips = false;
+		bool nearest = false;
 
-	private:
-		Transform transform;
-
-		std::vector<MeshVertex> vertices;
-		std::vector<uint16_t> indices;
-		
-		Ref<VertexArray> vao;
+		uint16_t width = 0;
+		uint16_t height = 0;
+		uint16_t channels = 0;
 	};
 
-	
+	class Texture2D
+	{
+	public:
+		Texture2D(void* data, const Texture2DParams& params);
+		~Texture2D();
+
+		[[nodiscard]] const Texture2DParams& GetParams() const { return params; }
+
+		static Ref<Texture2D> Create(void* data, const Texture2DParams& params);
+
+	public: // @todo Make private
+		Texture2DParams params;
+
+		bgfx::TextureHandle handle;
+		
+	};
 }

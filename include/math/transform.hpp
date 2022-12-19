@@ -21,19 +21,19 @@
 
 namespace Core
 {
-	/*
-	 * Transform holds a readable version of the transformation matrix
-	 *
-	 * position The position in world space
-	 * orientation Euler rotation in degrees, x = yaw, y = pitch, z = roll
-	 * scale Scale / Size in all three axis
-	 */
 	struct Transform
 	{
 		glm::vec3 position;
 		glm::vec3 orientation; 
 		glm::vec3 scale;
 
+		/*
+		 * Transform holds a readable version of the transformation matrix
+		 *
+		 * position The position in world space
+		 * orientation Euler rotation in degrees, x = yaw, y = pitch, z = roll
+		 * scale Scale / Size in all three axis
+		 */
 		explicit Transform(glm::vec3 position = glm::vec3(0.0f), glm::vec3 orientation = glm::vec3(0.0f),
 			glm::vec3 scale = glm::vec3(1.0f));
 		

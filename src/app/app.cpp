@@ -19,6 +19,7 @@
 #include <GLFW/glfw3.h>
 
 #include "app/app.hpp"
+#include "graphics/renderer.hpp"
 #include "debug/logger.hpp"
 
 namespace Core
@@ -47,7 +48,9 @@ namespace Core
 		window = new Window(name, width, height);
 		window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
-		// @todo Renderer::Init(); (remember to add logs of information etc)
+		// Initialize renderer
+		Logger::LogInfo("Initializing Renderer...");
+		Renderer::Init();
 
 		// Layers
 		#ifdef _DEBUG
@@ -99,6 +102,15 @@ namespace Core
 			window->OnUpdate();
 		}
 	}
+
+	void App::Shutdown()
+	{
+		if (isRunning)
+		{
+			isRunning = false;
+		}
+	}
+
 	void App::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
