@@ -5,10 +5,10 @@
 
 #include "debug/debug_draw.hpp"
 #include "debug/logger.hpp"
-#include "utils.hpp"
 #include "math.hpp"
-#include "graphics/vertex_array.hpp"
 #include "graphics/renderer.hpp"
+#include "graphics/shader.hpp"
+#include "primitive/primitive.hpp"
 
 namespace Core
 {
@@ -24,48 +24,48 @@ namespace Core
 
 		// Shape (Cube)
 		static Core::Ref<Core::Cube> cubePrim = Core::MakeRef<Core::Cube>();
-		bgfx::VertexBufferHandle cubeVbh = bgfx::createVertexBuffer(bgfx::makeRef(cubePrim->GetVertices().data(), cubePrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle cubeIbh = bgfx::createIndexBuffer(bgfx::makeRef(cubePrim->GetIndices().data(), cubePrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle cubeVbh = bgfx::createVertexBuffer(bgfx::makeRef(cubePrim->GetVertices().data(), static_cast<uint32_t>(cubePrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle cubeIbh = bgfx::createIndexBuffer(bgfx::makeRef(cubePrim->GetIndices().data(), static_cast<uint32_t>(cubePrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoCube = VertexArray::Create(cubeVbh, cubeIbh);
 
 		// Shape (Sphere)
 		static Core::Ref<Core::Sphere> spherePrim = Core::MakeRef<Core::Sphere>();
-		bgfx::VertexBufferHandle sphereVbh = bgfx::createVertexBuffer(bgfx::makeRef(spherePrim->GetVertices().data(), spherePrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle sphereIbh = bgfx::createIndexBuffer(bgfx::makeRef(spherePrim->GetIndices().data(), spherePrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle sphereVbh = bgfx::createVertexBuffer(bgfx::makeRef(spherePrim->GetVertices().data(), static_cast<uint32_t>(spherePrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle sphereIbh = bgfx::createIndexBuffer(bgfx::makeRef(spherePrim->GetIndices().data(), static_cast<uint32_t>(spherePrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoSphere = VertexArray::Create(sphereVbh, sphereIbh);
 
 		// Shape (Pyramid)
 		static Core::Ref<Core::Pyramid> pyramidPrim = Core::MakeRef<Core::Pyramid>();
-		bgfx::VertexBufferHandle pyramidVbh = bgfx::createVertexBuffer(bgfx::makeRef(pyramidPrim->GetVertices().data(), pyramidPrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle pyramidIbh = bgfx::createIndexBuffer(bgfx::makeRef(pyramidPrim->GetIndices().data(), pyramidPrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle pyramidVbh = bgfx::createVertexBuffer(bgfx::makeRef(pyramidPrim->GetVertices().data(), static_cast<uint32_t>(pyramidPrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle pyramidIbh = bgfx::createIndexBuffer(bgfx::makeRef(pyramidPrim->GetIndices().data(), static_cast<uint32_t>(pyramidPrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoPyramid = VertexArray::Create(pyramidVbh, pyramidIbh);
 
 		// Shape (Quad)
 		static Core::Ref<Core::Quad> quadPrim = Core::MakeRef<Core::Quad>();
-		bgfx::VertexBufferHandle quadVbh = bgfx::createVertexBuffer(bgfx::makeRef(quadPrim->GetVertices().data(), quadPrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle quadIbh = bgfx::createIndexBuffer(bgfx::makeRef(quadPrim->GetIndices().data(), quadPrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle quadVbh = bgfx::createVertexBuffer(bgfx::makeRef(quadPrim->GetVertices().data(), static_cast<uint32_t>(quadPrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle quadIbh = bgfx::createIndexBuffer(bgfx::makeRef(quadPrim->GetIndices().data(), static_cast<uint32_t>(quadPrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoQuad = VertexArray::Create(quadVbh, quadIbh);
 
 		// Shape (Line)
 		static Core::Ref<Core::Line> linePrim = Core::MakeRef<Core::Line>();
-		bgfx::VertexBufferHandle lineVbh = bgfx::createVertexBuffer(bgfx::makeRef(linePrim->GetVertices().data(), linePrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle lineIbh = bgfx::createIndexBuffer(bgfx::makeRef(linePrim->GetIndices().data(), linePrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle lineVbh = bgfx::createVertexBuffer(bgfx::makeRef(linePrim->GetVertices().data(), static_cast<uint32_t>(linePrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle lineIbh = bgfx::createIndexBuffer(bgfx::makeRef(linePrim->GetIndices().data(), static_cast<uint32_t>(linePrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoLine = VertexArray::Create(lineVbh, lineIbh);
 		
 		// Shape (Grid)
 		static Core::Ref<Core::Grid> gridPrim = Core::MakeRef<Core::Grid>();
-		bgfx::VertexBufferHandle gridVbh = bgfx::createVertexBuffer(bgfx::makeRef(gridPrim->GetVertices().data(), gridPrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle gridIbh = bgfx::createIndexBuffer(bgfx::makeRef(gridPrim->GetIndices().data(), gridPrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle gridVbh = bgfx::createVertexBuffer(bgfx::makeRef(gridPrim->GetVertices().data(), static_cast<uint32_t>(gridPrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle gridIbh = bgfx::createIndexBuffer(bgfx::makeRef(gridPrim->GetIndices().data(), static_cast<uint32_t>(gridPrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoGrid = VertexArray::Create(gridVbh, gridIbh);
 		
 		// Shape (Circle)
 		static Core::Ref<Core::Circle> circlePrim = Core::MakeRef<Core::Circle>();
-		bgfx::VertexBufferHandle circleVbh = bgfx::createVertexBuffer(bgfx::makeRef(circlePrim->GetVertices().data(), circlePrim->GetVertices().size() * sizeof(PrimitiveVertex)), layout);
-		bgfx::IndexBufferHandle circleIbh = bgfx::createIndexBuffer(bgfx::makeRef(circlePrim->GetIndices().data(), circlePrim->GetIndices().size() * sizeof(uint16_t)));
+		bgfx::VertexBufferHandle circleVbh = bgfx::createVertexBuffer(bgfx::makeRef(circlePrim->GetVertices().data(), static_cast<uint32_t>(circlePrim->GetVertices().size() * sizeof(PrimitiveVertex))), layout);
+		bgfx::IndexBufferHandle circleIbh = bgfx::createIndexBuffer(bgfx::makeRef(circlePrim->GetIndices().data(), static_cast<uint32_t>(circlePrim->GetIndices().size() * sizeof(uint16_t))));
 		vaoCircle = VertexArray::Create(circleVbh, circleIbh);
 
 		// Shader
-		shader = Renderer::GetShaderLibrary()->Get("debugdraw");
+		shader = Renderer::GetShaderManager()->Get("debugdraw");
 
 		// Uniforms
 		u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
@@ -75,42 +75,17 @@ namespace Core
 	#endif
 	}
 
-	void DebugDraw::DrawDebugShape(const Ref<VertexArray>& vao, glm::vec4 color)
+	void DebugDraw::DrawDebugShape(const Ref<VertexArray>& vao, glm::vec4 color, Transform transform)
 	{
 	#ifdef _DEBUG
 		// Uniforms
 		bgfx::setUniform(u_color, &color[0]);
 
-		// Submit
-		bgfx::setVertexBuffer(0, vao->vbh);
-		bgfx::setIndexBuffer(vao->ibh);
-
 		// State
 		bgfx::setState(BGFX_STATE_DEFAULT | BGFX_STATE_PT_LINESTRIP);
 
 		// Submit
-		bgfx::submit(0, shader->handle); // @todo Should camera be hard coded to 0? Draw debug only supports 1 viewport.
-	#endif
-	}
-	void DebugDraw::DrawDebugShapeTransform(const Ref<VertexArray>& vao, glm::vec4 color, Transform transform)
-	{
-	#ifdef _DEBUG
-		// Transform
-		glm::mat4 matrix = Core::Math::ComposeMatrix(transform);
-		bgfx::setTransform(&matrix[0][0]);
-
-		// Draw with color
-		DrawDebugShape(vao, color);
-	#endif
-	}
-	void DebugDraw::DrawDebugShapeMatrix(const Ref<VertexArray>& vao, glm::vec4 color, glm::mat4 matrix)
-	{
-	#ifdef _DEBUG
-		// Transform
-		bgfx::setTransform(&matrix[0][0]);
-
-		// Draw with color
-		DrawDebugShape(vao, color);
+		Renderer::SubmitVertexArrayTransform(vao, shader, transform);
 	#endif
 	}
 	
@@ -123,19 +98,19 @@ namespace Core
 		// Scale matrix from the distance between the two points 
 		glm::vec3 finalScale = scale * glm::vec3(glm::length(end - start));
 
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoPyramid, color, Transform(start, orientation, finalScale));
+		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, orientation, finalScale));
 	}
 	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::vec3 orientation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
 	{
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoCube, color, Transform(position, orientation, scale));
+		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, orientation, scale));
 	}
 	void DebugDraw::DrawDebugSphere(glm::vec4 color, glm::vec3 position, float radius /* = 1.0f */)
 	{
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoSphere, color, Transform(position, glm::vec3(0.0f), glm::vec3(radius)));
+		GetInstance().DrawDebugShape(GetInstance().vaoSphere, color, Transform(position, glm::vec3(0.0f), glm::vec3(radius)));
 	}
 	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::vec3 orientation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
 	{
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoQuad, color, Transform(position, glm::vec3(orientation), glm::vec3(scale, 1.0f)));
+		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, glm::vec3(orientation), glm::vec3(scale, 1.0f)));
 	}
 	void DebugDraw::DrawDebugGrid(glm::vec4 color, glm::vec3 position, uint32_t gridCount /* = 1 */)
 	{
@@ -143,7 +118,7 @@ namespace Core
 		{
 			for (uint32_t y = 0; y < gridCount; y++)
 			{
-				GetInstance().DrawDebugShapeTransform(GetInstance().vaoGrid, color, 
+				GetInstance().DrawDebugShape(GetInstance().vaoGrid, color,
 					Transform(position + glm::vec3(x * 2, 0.0f, y * 2), glm::vec3(90.0f, 0.0f, 0.0f),
 						glm::vec3(1.0f)));
 			}
@@ -158,7 +133,7 @@ namespace Core
 		// Scale matrix from the distance between the two points 
 		glm::vec3 scale = glm::vec3(glm::length(end - start));
 
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoLine, color, Transform(start, orientation, scale));
+		GetInstance().DrawDebugShape(GetInstance().vaoLine, color, Transform(start, orientation, scale));
 	}
 	void DebugDraw::DrawDebugArrow(glm::vec4 color, glm::vec3 position, glm::vec3 direction, float length /* = 1.0f */)
 	{
@@ -175,7 +150,7 @@ namespace Core
 	}
 	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::vec3 orientation, glm::vec2 scale)
 	{
-		GetInstance().DrawDebugShapeTransform(GetInstance().vaoCircle, color, Transform(position, orientation, glm::vec3(scale, 0.0f)));
+		GetInstance().DrawDebugShape(GetInstance().vaoCircle, color, Transform(position, orientation, glm::vec3(scale, 0.0f)));
 	}
 	void DebugDraw::DrawDebugText(uint16_t x, uint16_t y, const char* text, ...)
 	{

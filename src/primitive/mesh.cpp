@@ -16,8 +16,11 @@
 
 #include "crpch.hpp"
 
+#include <bgfx/bgfx.h>
+
 #include "primitive/mesh.hpp"
-#include "debug/logger.hpp"
+#include "graphics/vertex_array.hpp"
+#include "primitive/vertex.hpp"
 
 namespace Core
 {

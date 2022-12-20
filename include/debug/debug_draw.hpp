@@ -16,13 +16,18 @@
 
 #pragma once
 
-#include "primitive/mesh.hpp"
-#include "graphics/shader.hpp"
+#include <glm/glm.hpp>
+
 #include "common.hpp"
+#include "graphics/vertex_array.hpp"
+#include "graphics/shader.hpp"
+#include "math/transform.hpp"
+
+struct bgfx::VertexLayout;
+struct bgfx::UniformHandle;
 
 namespace Core
 {
-	// @todo add comments!	
 	class DebugDraw final
 	{
 	public:
@@ -141,11 +146,8 @@ namespace Core
 		static void DrawDebugText(uint16_t x, uint16_t y, const char* text, ...);
 
 	private:
-		void DrawDebugShape(const Ref<VertexArray>& vao, glm::vec4 color);
-		void DrawDebugShapeTransform(const Ref<VertexArray>& vao, glm::vec4 color,
+		void DrawDebugShape(const Ref<VertexArray>& vao, glm::vec4 color, 
 			Transform transform);
-		void DrawDebugShapeMatrix(const Ref<VertexArray>& vao, glm::vec4 color,
-			glm::mat4 matrix);
 		
 	private:
 		Ref<Shader> shader;

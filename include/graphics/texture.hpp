@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include <bgfx/bgfx.h>
-
 #include "common.hpp"
+
+struct bgfx::TextureHandle;
 
 namespace Core
 {
@@ -42,9 +42,10 @@ namespace Core
 
 		static Ref<Texture2D> Create(void* data, const Texture2DParams& params);
 
-	public: // @todo Make private
-		Texture2DParams params;
+	public: //@todo Make private
+		//friend class Renderer;
 
+		Texture2DParams params;
 		bgfx::TextureHandle handle;
 		
 	};

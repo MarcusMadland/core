@@ -37,12 +37,14 @@ namespace Core
 	private:
 		bgfx::ShaderHandle LoadShader(const std::string& filename);
 
-	public: // @todo make private
+	private: 
+		friend class Renderer;
+
 		bgfx::ProgramHandle handle;
 		std::string name;
 	};
 
-	class ShaderLibrary
+	class ShaderManager
 	{
 	public:
 		void LoadAndAdd(const std::string& vertexShaderPath,

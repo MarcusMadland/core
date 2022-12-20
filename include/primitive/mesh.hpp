@@ -21,7 +21,9 @@
 #pragma once
 
 #include "common.hpp"
-#include "primitive.hpp"
+
+#include "math/transform.hpp"
+#include "primitive/vertex.hpp"
 #include "graphics/vertex_array.hpp"
 
 namespace Core

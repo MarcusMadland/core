@@ -19,18 +19,52 @@
 #include <vector>
 
 #include "common.hpp"
+#include "shader.hpp"
+
+class Texture;
 
 namespace Core
 {
-	class Shader;
-	class Texture;
+	enum MaterialType
+	{
+		Default,
+	};
+
+	enum BlendType
+	{
+		Opaque,
+		Translucent,
+	};
+
+	enum ShadingType
+	{
+		Lit,
+		Unlit,
+	};
+
+	struct MaterialParams
+	{
+		MaterialType materialType = MaterialType::Default;
+		BlendType blendType = BlendType::Opaque;
+		ShadingType shadingType = ShadingType::Lit;
+		bool castShadow = true;
+		bool twoSided = false;
+	};
 
 	class Material
 	{
 	public:
+		Material(MaterialParams params);
+		~Material();
+
+		Ref<Shader> GetShader() { return shader; }
+
+		static Ref<Material> Create(MaterialParams params);
 
 	private:
+		MaterialParams params;
+
 		Ref<Shader> shader;
-		std::vector<Texture> textures;
+		std::vector<Ref<Texture>> textures;
 	};
 }

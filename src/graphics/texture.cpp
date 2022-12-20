@@ -16,6 +16,8 @@
 
 #include "crpch.hpp"
 
+#include <bgfx/bgfx.h>
+
 #include "graphics/texture.hpp"
 #include "debug/logger.hpp"
 

@@ -70,7 +70,7 @@ namespace Core
 		return bgfx::createShader(mem);
 	}
 
-	void ShaderLibrary::LoadAndAdd(const std::string& vertexShaderPath,
+	void ShaderManager::LoadAndAdd(const std::string& vertexShaderPath,
 		const std::string& fragmentShaderPath)
 	{
 		if (const Ref<Shader> shader = Load(vertexShaderPath, fragmentShaderPath))
@@ -79,12 +79,12 @@ namespace Core
 		}	
 	}
 
-	void ShaderLibrary::Add(const Ref<Shader>& shader)
+	void ShaderManager::Add(const Ref<Shader>& shader)
 	{
 		shaders[shader->GetName()] = shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& vertexShaderPath,
+	Ref<Shader> ShaderManager::Load(const std::string& vertexShaderPath,
 		const std::string& fragmentShaderPath)
 	{
 		Ref<Shader> shader = Shader::Create(vertexShaderPath, fragmentShaderPath);
@@ -92,7 +92,7 @@ namespace Core
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	Ref<Shader> ShaderManager::Get(const std::string& name)
 	{
 		return shaders[name];
 	}

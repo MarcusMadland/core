@@ -1,6 +1,9 @@
 #pragma once
 
 #include "shader.hpp"
+#include "vertex_array.hpp"
+#include "system/camera.hpp"
+#include "math/transform.hpp"
 
 namespace Core
 {
@@ -10,7 +13,14 @@ namespace Core
 		static void Init();
 		static void Shutdown();
 
-		static Ref<ShaderLibrary> GetShaderLibrary();
+		// if camera is nullptr, we use view id 0
+		static bool Begin(Ref<Camera> camera);
+		static void End();
+
+		static void SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader);
+		static void SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform);
+
+		static Ref<ShaderManager> GetShaderManager();
 
 	private:
 

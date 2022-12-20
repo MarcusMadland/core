@@ -1,25 +1,37 @@
 #include "crpch.hpp"
 
+#include <bgfx/bgfx.h>
+
 #include "graphics/renderer.hpp"
+#include "math.hpp"
+#include "debug/logger.hpp"
 
 namespace Core
 {
 	struct RendererData
 	{
-		Ref<ShaderLibrary> shaderLibrary;
+		Ref<ShaderManager> shaderManager;
+		Ref<Camera> camera;
 	};
 	static RendererData* data;
 
 	void Renderer::Init()
 	{
 		data = new RendererData();
-		data->shaderLibrary = std::make_shared<ShaderLibrary>();
+		data->shaderManager = std::make_shared<ShaderManager>();
 
 		// Shaders
-		data->shaderLibrary->LoadAndAdd("../shaders/compiled/simple-vert.bin", "../shaders/compiled/simple-frag.bin");
+		data->shaderManager->LoadAndAdd(
+			"../shaders/compiled/uber-vert.bin", 
+			"../shaders/compiled/uber-frag.bin");
+		data->shaderManager->LoadAndAdd(
+			"../shaders/compiled/simple-vert.bin", 
+			"../shaders/compiled/simple-frag.bin");
 		
 		#ifdef _DEBUG
-			data->shaderLibrary->LoadAndAdd("../shaders/compiled/debugdraw-vert.bin", "../shaders/compiled/debugdraw-frag.bin");
+			data->shaderManager->LoadAndAdd(
+				"../shaders/compiled/debugdraw-vert.bin", 
+				"../shaders/compiled/debugdraw-frag.bin");
 		#endif
 	}
 
@@ -28,8 +40,46 @@ namespace Core
 		delete data;
 	}
 
-	Ref<ShaderLibrary> Renderer::GetShaderLibrary()
+	bool Renderer::Begin(Ref<Camera> camera)
 	{
-		return data->shaderLibrary;
+		data->camera = camera;
+
+		return true;
+	}
+	void Renderer::End()
+	{
+
+	}
+
+	void Renderer::SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader)
+	{
+		// If camera is null, meaning we either passed null at begin or never called begin
+		// We set it to 0 if no camera is availanble. This only happens in debug draw
+		bgfx::ViewId viewID = 0; 
+		if (data->camera)
+		{
+			viewID = data->camera->GetViewID();
+		}
+
+		// Handle Vertex Array
+		bgfx::setVertexBuffer(0, vao->vbh);
+		bgfx::setIndexBuffer(vao->ibh);
+
+		// Submit
+		bgfx::submit(viewID, shader->handle);
+	}
+
+	void Renderer::SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform)
+	{
+		// Handle Transform
+		bgfx::setTransform(&Math::ComposeMatrix(transform)[0][0]);
+
+		// Submit
+		SubmitVertexArray(vao, shader);
+	}
+
+	Ref<ShaderManager> Renderer::GetShaderManager()
+	{
+		return data->shaderManager;
 	}
 }

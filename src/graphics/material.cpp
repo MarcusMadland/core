@@ -16,7 +16,23 @@
 
 #include "crpch.hpp"
 
+#include "graphics/material.hpp"
+#include "graphics/renderer.hpp"
+
 namespace Core
 {
+	Material::Material(MaterialParams params)
+		: params(params)
+	{
+		shader = Renderer::GetShaderManager()->Get("uber");
+	}
 
+	Material::~Material()
+	{
+	}
+
+	Ref<Material> Material::Create(MaterialParams params)
+	{
+		return MakeRef<Material>(params);
+	}
 }
