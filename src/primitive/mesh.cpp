@@ -24,8 +24,8 @@
 
 namespace Core
 {
-	Mesh::Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices)
-		: vertices(vertices), indices(indices)
+	Mesh::Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material)
+		: vertices(vertices), indices(indices), material(material)
 	{
 		// Vertex Layout following MeshVertex struct
 		bgfx::VertexLayout layout;
@@ -43,8 +43,8 @@ namespace Core
 		vao = VertexArray::Create(cubeVbh, cubeIbh);
 	}
 
-	Ref<Mesh> Mesh::Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices)
+	Ref<Mesh> Mesh::Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material)
 	{
-		return MakeRef<Mesh>(vertices, indices);
+		return MakeRef<Mesh>(vertices, indices, material);
 	}
 }

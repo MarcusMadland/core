@@ -25,14 +25,40 @@ namespace Core
 		: params(params)
 	{
 		shader = Renderer::GetShaderManager()->Get("uber");
+
+		// Uniforms
+		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap", bgfx::UniformType::Sampler);
+		u_BaseColorFactor = bgfx::createUniform("u_BaseColorFactor", bgfx::UniformType::Vec4);
 	}
 
 	Material::~Material()
 	{
 	}
 
+	void Material::SetBasecolor(Ref<Texture2D> texture)
+	{
+		baseColorMap = texture;
+	}
+
+	void Material::SetBasecolor(glm::vec4 color)
+	{
+		baseColorFactor = color;
+	}
+
 	Ref<Material> Material::Create(MaterialParams params)
 	{
 		return MakeRef<Material>(params);
+	}
+
+	void Material::UpdateUniforms()
+	{
+		if (baseColorMap)
+		{
+			bgfx::setTexture(0, u_BaseColorMap, baseColorMap->handle);
+		}
+		else
+		{
+			bgfx::setUniform(u_BaseColorFactor, &baseColorFactor);
+		}
 	}
 }

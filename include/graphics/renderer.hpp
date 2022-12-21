@@ -4,6 +4,7 @@
 #include "vertex_array.hpp"
 #include "system/camera.hpp"
 #include "math/transform.hpp"
+#include "primitive/mesh.hpp"
 
 namespace Core
 {
@@ -19,6 +20,7 @@ namespace Core
 
 		static void SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader);
 		static void SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform);
+		static void SubmitMesh(Ref<Mesh> mesh, Transform transform);
 
 		static Ref<ShaderManager> GetShaderManager();
 

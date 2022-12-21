@@ -78,6 +78,18 @@ namespace Core
 		SubmitVertexArray(vao, shader);
 	}
 
+	void Renderer::SubmitMesh(Ref<Mesh> mesh, Transform transform)
+	{
+		// Handle Transform
+		bgfx::setTransform(&(Math::ComposeMatrix(transform) * Math::ComposeMatrix(mesh->GetTransform()))[0][0]);
+
+		// Material
+		mesh->GetMaterial()->UpdateUniforms();
+
+		// Submit
+		SubmitVertexArray(mesh->GetVertexArray(), mesh->GetMaterial()->GetShader());
+	}
+
 	Ref<ShaderManager> Renderer::GetShaderManager()
 	{
 		return data->shaderManager;

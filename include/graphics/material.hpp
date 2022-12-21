@@ -17,11 +17,12 @@
 #pragma once
 
 #include <vector>
+#include <glm/glm.hpp>
+#include <bgfx/bgfx.h>
 
 #include "common.hpp"
 #include "shader.hpp"
-
-class Texture;
+#include "texture.hpp"
 
 namespace Core
 {
@@ -53,18 +54,31 @@ namespace Core
 
 	class Material
 	{
+	friend class Renderer;
+
 	public:
 		Material(MaterialParams params);
 		~Material();
 
-		Ref<Shader> GetShader() { return shader; }
+		void SetBasecolor(Ref<Texture2D> texture);
+		void SetBasecolor(glm::vec4 color);
+
+		[[nodiscard]] Ref<Shader> GetShader() { return shader; }
 
 		static Ref<Material> Create(MaterialParams params);
+
+	private:
+		void UpdateUniforms();
 
 	private:
 		MaterialParams params;
 
 		Ref<Shader> shader;
-		std::vector<Ref<Texture>> textures;
+
+		Ref<Texture2D> baseColorMap;
+		bgfx::UniformHandle u_BaseColorMap;
+
+		glm::vec4 baseColorFactor;
+		bgfx::UniformHandle u_BaseColorFactor;
 	};
 }

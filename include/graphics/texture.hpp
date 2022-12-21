@@ -34,6 +34,8 @@ namespace Core
 
 	class Texture2D
 	{
+		friend class Material;
+
 	public:
 		Texture2D(void* data, const Texture2DParams& params);
 		~Texture2D();
@@ -42,9 +44,7 @@ namespace Core
 
 		static Ref<Texture2D> Create(void* data, const Texture2DParams& params);
 
-	public: //@todo Make private
-		//friend class Renderer;
-
+	private: 
 		Texture2DParams params;
 		bgfx::TextureHandle handle;
 		
