@@ -91,26 +91,26 @@ namespace Core
 	
 	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale /* = glm::vec3(1.0f) */)
 	{
-		// Handle direction to euler orientation
+		// Handle direction to euler rotation
 		glm::vec3 direction = glm::normalize(end - start);
-		glm::vec3 orientation = Math::OrientationFromVectorXZ(direction);
+		glm::vec3 rotation = Math::RotationFromXVector(direction);
 
 		// Scale matrix from the distance between the two points 
 		glm::vec3 finalScale = scale * glm::vec3(glm::length(end - start));
 
-		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, orientation, finalScale));
+		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, rotation, finalScale));
 	}
-	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::vec3 orientation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
+	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::vec3 rotation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
 	{
-		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, orientation, scale));
+		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, rotation, scale));
 	}
 	void DebugDraw::DrawDebugSphere(glm::vec4 color, glm::vec3 position, float radius /* = 1.0f */)
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoSphere, color, Transform(position, glm::vec3(0.0f), glm::vec3(radius)));
 	}
-	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::vec3 orientation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
+	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::vec3 rotation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
 	{
-		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, glm::vec3(orientation), glm::vec3(scale, 1.0f)));
+		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, glm::vec3(rotation), glm::vec3(scale, 1.0f)));
 	}
 	void DebugDraw::DrawDebugGrid(glm::vec4 color, glm::vec3 position, uint32_t gridCount /* = 1 */)
 	{
@@ -126,14 +126,14 @@ namespace Core
 	}
 	void DebugDraw::DrawDebugLine(glm::vec4 color, glm::vec3 start, glm::vec3 end)
 	{
-		// Handle direction to euler orientation
+		// Handle direction to euler rotation
 		glm::vec3 direction = glm::normalize(end - start);
-	    glm::vec3 orientation = Math::OrientationFromVectorXZ(direction);
+	    glm::vec3 rotation = Math::RotationFromXVector(direction);
 
 		// Scale matrix from the distance between the two points 
 		glm::vec3 scale = glm::vec3(glm::length(end - start));
 
-		GetInstance().DrawDebugShape(GetInstance().vaoLine, color, Transform(start, orientation, scale));
+		GetInstance().DrawDebugShape(GetInstance().vaoLine, color, Transform(start, rotation, scale));
 	}
 	void DebugDraw::DrawDebugArrow(glm::vec4 color, glm::vec3 position, glm::vec3 direction, float length /* = 1.0f */)
 	{
@@ -148,9 +148,9 @@ namespace Core
 		DrawDebugLine(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), position, position + glm::vec3(0.0f, 1.0f, 0.0f));
 		DrawDebugLine(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), position, position + glm::vec3(0.0f, 0.0f, 1.0f));
 	}
-	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::vec3 orientation, glm::vec2 scale)
+	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::vec3 rotation, glm::vec2 scale)
 	{
-		GetInstance().DrawDebugShape(GetInstance().vaoCircle, color, Transform(position, orientation, glm::vec3(scale, 0.0f)));
+		GetInstance().DrawDebugShape(GetInstance().vaoCircle, color, Transform(position, rotation, glm::vec3(scale, 0.0f)));
 	}
 	void DebugDraw::DrawDebugText(uint16_t x, uint16_t y, const char* text, ...)
 	{

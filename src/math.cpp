@@ -23,21 +23,22 @@
 #include <glm/gtx/vector_angle.hpp>
 
 #include "math.hpp"
+#include "defines.hpp"
 #include "debug/logger.hpp"
 
 namespace Core::Math
 {
-	Transform DecomposeMatrix(const glm::mat4& transform)
+	Transform DecomposeMatrix(const glm::mat4& matrix)
 	{
 		glm::vec3 rotation, scale;
-		glm::mat4 localMatrix(transform);
+		glm::mat4 localMatrix(matrix);
 
 		// Normalize the matrix
 		if (glm::epsilonEqual(localMatrix[3][3], static_cast<float>(0),
 			glm::epsilon<float>()))
 			return Transform();
 
-		// First, isolate perspective.  This is the messiest
+		// First, isolate perspective
 		if (
 			glm::epsilonNotEqual(localMatrix[0][3], static_cast<float>(0), glm::epsilon<float>()) ||
 			glm::epsilonNotEqual(localMatrix[1][3], static_cast<float>(0), glm::epsilon<float>()) ||
@@ -58,7 +59,7 @@ namespace Core::Math
 		for (uint8_t i = 0; i < 3; ++i)
 			for (uint8_t j = 0; j < 3; ++j)
 				row[i][j] = localMatrix[i][j];
-		
+
 		// Compute X scale factor and normalize first row
 		scale.x = length(row[0]);
 		row[0] = glm::detail::scale(row[0], static_cast<float>(1));
@@ -71,10 +72,11 @@ namespace Core::Math
 		rotation.x = glm::degrees(atan2f(row[1][2], row[2][2]));
 		rotation.y = glm::degrees(atan2f(-row[0][2], sqrtf(row[1][2] * row[1][2] + row[2][2] * row[2][2])));
 		rotation.z = glm::degrees(atan2f(row[0][1], row[0][0]));
-	
+
 
 		return Transform(translation, rotation, scale);
 	}
+
 	glm::mat4 ComposeMatrix(const Transform& transform)
 	{
 		// Compose translation matrix by translating from vec3
@@ -82,57 +84,46 @@ namespace Core::Math
 
 		// Compose rotation matrix by converting the euler vec3 to radians and then 
 		// over to quaternion. From quat we can easily convert to a rotation matrix
-		glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(transform.orientation)));
-	
+		glm::mat4 rotation = glm::toMat4(glm::quat(glm::radians(transform.rotation)));
+
 		// Compose scale matrix by scaling from vec3
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.scale);
 
 		// Multiply all transformation matrices and return result
 		return translation * rotation * scale;
 	}
-	glm::vec3 OrientationFromVectorXZ(glm::vec3 direction)
+
+	glm::mat4 MatrixFromXVector(glm::vec3 direction)
 	{
-		glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 const NewX = glm::normalize(direction);
 
-		// Final rotation matrix we convert to euler on return
-		glm::mat4 rotation= glm::mat4(1.0f);
+		glm::vec3 const UpVector = (glm::abs(NewX.y) < (10.0f - CORE_SMALL_NUMBER)) ? 
+			glm::vec3(0.0f, 1.0f, 0.0f) : glm::vec3(1.0f, 0.0f, 0.0f);
 
-		// As long as the direction and vector we rotate against is not the same
-		// either negative or positive we calculate the perpendicular
-		if (upVector != glm::abs(direction))
-		{
-			glm::vec3 perp = glm::cross(upVector, direction);
-			float angle = glm::angle(direction, upVector);
-			rotation = glm::rotate(angle, perp);
-		}
+		const glm::vec3 NewZ = glm::normalize(Caret(UpVector , NewX));
+		const glm::vec3 NewY = Caret(NewX , NewZ);
 
-		// Since rotation is rotated from up vector the rotation will stay positive 
-		// even tho it's negative. We solve this by rotating it 180 degrees around 
-		// either x or z (in this case x) 
-		else if(direction.y < 0.0f)
-		{	
-			rotation = glm::rotate(glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		}
-
-		// Decompose the matrix so we get a transform struct. Then get the euler orientation
-		// and return it
-		return DecomposeMatrix(rotation).orientation;
+		return glm::mat4(glm::mat3(NewX, NewY, NewZ));
 	}
-	float Interp(float current, float target, float interpSpeed, float deltaTime)
+
+
+	glm::vec3 RotationFromXVector(glm::vec3 direction)
 	{
-		const float dist = target - current;
-
-		if (glm::sqrt(dist) < 1.e-8f)
-		{
-			return target;
-		}
-
-		const float step = interpSpeed * deltaTime;
-		return current + glm::clamp(dist, -step, step);
+		return DecomposeMatrix(MatrixFromXVector(direction)).rotation;
 	}
+
+	glm::vec3 Caret(glm::vec3 a, glm::vec3 b)
+	{
+		return glm::vec3
+			(
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x
+			);
+	}
+
 	bool InRange(float value, float min, float max)
 	{
 		return value > min && value < max;
 	}
-
 }

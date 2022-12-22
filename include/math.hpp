@@ -20,41 +20,22 @@
 
 namespace Core::Math
 {
-	/*
-	 * Decomposes a 4x4 matrix to a transform
-	 * 
-	 * @param transform The matrix that should be decomposed
-	 * @return The final constructed transform
-	 */
-	Transform DecomposeMatrix(const glm::mat4& transform);
+	enum AxisType
+	{
+		X, Y, Z
+	};
 
-	/*
-	 * Composes a 4x4 matrix from a transform
-	 *
-	 * @param transform The transform that the matrix should be composed from
-	 * @return The final constructed matrix
-	 */
+	// Advanced Math
+	Transform DecomposeMatrix(const glm::mat4& matrix);
 	glm::mat4 ComposeMatrix(const Transform& transform);
 
-	/*
-	 * Constructs a euler rotation from a normalized direction
-	 *
-	 * @param direction The direction the rotation should be constructed from,
-	 * must be normalized
-	 * @return Final euler vector made from the orientation of direction
-	 */
-	glm::vec3 OrientationFromVectorXZ(glm::vec3 direction);
-	
-	/*
-	 * Checks if the value is greater than min and less than max
-	 *
-	 * @param value The value to check against
-	 * @param min The lowest the value can be for the return to be true
-	 * @param max The highest the value can be for the return to be true
-	 * @return True if value is between min and max, False otherwise
-	 */
+	glm::mat4 MatrixFromXVector(glm::vec3 direction);
+	glm::vec3 RotationFromXVector(glm::vec3 direction);
+
+	// Simple Math
+	// glm does not support this with floats so we need a custom function for this
+	glm::vec3 Caret(glm::vec3 a, glm::vec3 b);
+
+	// Utils
 	bool InRange(float value, float min, float max);
-	
-	// @todo Take a look at linear and non linear lerp and make new functions
-	float Interp(float current, float target, float interpSpeed, float deltaTime);
 }

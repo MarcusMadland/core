@@ -20,10 +20,10 @@
 
 namespace Core
 {
-	Transform::Transform(const glm::vec3 position, const glm::vec3 orientation /* = glm::vec3(0.0f) */, 
+	Transform::Transform(const glm::vec3 position, const glm::vec3 rotation /* = glm::vec3(0.0f) */,
 		const glm::vec3 scale /* = glm::vec3(1.0f) */)
 		: position(position)
-		, orientation(orientation)
+		, rotation(rotation)
 		, scale(scale)
 	{
 	}
@@ -31,7 +31,7 @@ namespace Core
 	bool operator!=(const Transform& a, const Transform& b)
 	{
 		const bool pos = a.position != b.position;
-		const bool ori = a.orientation != b.orientation;
+		const bool ori = a.rotation != b.rotation;
 		const bool scale = a.scale != b.scale;
 
 		return (pos || ori || scale);
@@ -40,7 +40,7 @@ namespace Core
 	bool operator==(const Transform& a, const Transform& b)
 	{
 		const bool pos = a.position == b.position;
-		const bool ori = a.orientation == b.orientation;
+		const bool ori = a.rotation == b.rotation;
 		const bool scale = a.scale == b.scale;
 
 		return (pos && ori && scale);
@@ -48,11 +48,11 @@ namespace Core
 
 	Transform operator*(const Transform& a, const Transform& b)
 	{
-		return Transform(a.position * b.position, a.orientation * b.orientation, a.scale * b.scale);
+		return Transform(a.position * b.position, a.rotation * b.rotation, a.scale * b.scale);
 	}
 
 	Transform operator+(const Transform& a, const Transform& b)
 	{
-		return Transform(a.position + b.position, a.orientation + b.orientation, a.scale + b.scale);
+		return Transform(a.position + b.position, a.rotation + b.rotation, a.scale + b.scale);
 	}
 }

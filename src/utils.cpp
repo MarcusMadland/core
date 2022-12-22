@@ -27,6 +27,9 @@ namespace Core
 	{
 		uint8_t* LoadTexture2D(const std::string& filename, Texture2DParams& outParams)
 		{
+			// Flip texture
+			stbi_set_flip_vertically_on_load(true);
+
 			// Load texture data using stb image
 			int width = 0, height = 0, channels = 0;
 			uint8_t* bytes = stbi_load(filename.c_str(), &width, &height, &channels, 4);

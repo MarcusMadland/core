@@ -171,7 +171,7 @@ namespace Core
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(2);
 		vertices[0].position = glm::vec3(0.0f, 0.0f, 0.0f);
-		vertices[1].position = glm::vec3(0.0f, 1.0f, 0.0f);
+		vertices[1].position = glm::vec3(1.0f, 0.0f, 0.0f);
 
 		std::vector<uint16_t> indices;
 		indices.resize(2);

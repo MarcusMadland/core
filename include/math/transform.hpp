@@ -24,17 +24,17 @@ namespace Core
 	struct Transform
 	{
 		glm::vec3 position;
-		glm::vec3 orientation; 
+		glm::vec3 rotation;
 		glm::vec3 scale;
 
 		/*
 		 * Transform holds a readable version of the transformation matrix
 		 *
 		 * position The position in world space
-		 * orientation Euler rotation in degrees, x = yaw, y = pitch, z = roll
+		 * rotation Euler rotation in degrees, x = pitch, y = yaw, z = roll
 		 * scale Scale / Size in all three axis
 		 */
-		explicit Transform(glm::vec3 position = glm::vec3(0.0f), glm::vec3 orientation = glm::vec3(0.0f),
+		explicit Transform(glm::vec3 position = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f),
 			glm::vec3 scale = glm::vec3(1.0f));
 		
 		friend bool operator!= (const Transform& a, const Transform& b);
