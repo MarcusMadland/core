@@ -92,8 +92,7 @@ namespace Core
 	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale /* = glm::vec3(1.0f) */)
 	{
 		// Handle direction to euler rotation
-		glm::vec3 direction = glm::normalize(end - start);
-		glm::vec3 rotation = Math::RotationFromXVector(direction);
+		glm::vec3 rotation = Math::FindLookAtRotation(start, end);
 
 		// Scale matrix from the distance between the two points 
 		glm::vec3 finalScale = scale * glm::vec3(glm::length(end - start));
@@ -119,7 +118,7 @@ namespace Core
 			for (uint32_t y = 0; y < gridCount; y++)
 			{
 				GetInstance().DrawDebugShape(GetInstance().vaoGrid, color,
-					Transform(position + glm::vec3(x * 2, 0.0f, y * 2), glm::vec3(90.0f, 0.0f, 0.0f),
+					Transform(position + glm::vec3(x * 2, 0.0f, y * 2), glm::vec3(0.0f, 0.0f, 90.0f),
 						glm::vec3(1.0f)));
 			}
 		}
@@ -142,11 +141,11 @@ namespace Core
 		DrawDebugLine(color, position, lineEnd);
 		DrawDebugPyramid(color, lineEnd, lineEnd + (direction), glm::vec3(0.05f, 0.05f, 0.05f));
 	}
-	void DebugDraw::DrawDebugWorldCoord(glm::vec3 position)
+	void DebugDraw::DrawDebugWorldCoord(glm::vec3 position, float scale /* = 1.0f */)
 	{
-		DrawDebugLine(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), position, position + glm::vec3(1.0f, 0.0f, 0.0f));
-		DrawDebugLine(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), position, position + glm::vec3(0.0f, 1.0f, 0.0f));
-		DrawDebugLine(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), position, position + glm::vec3(0.0f, 0.0f, 1.0f));
+		DrawDebugLine(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), position, position + glm::vec3(scale, 0.0f, 0.0f));
+		DrawDebugLine(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), position, position + glm::vec3(0.0f, scale, 0.0f));
+		DrawDebugLine(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), position, position + glm::vec3(0.0f, 0.0f, scale));
 	}
 	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::vec3 rotation, glm::vec2 scale)
 	{

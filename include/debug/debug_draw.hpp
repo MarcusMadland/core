@@ -122,7 +122,7 @@ namespace Core
 		 * @param color Color of the shape in RGBA
 		 * @param position Position in world space
 		 */
-		static void DrawDebugWorldCoord(glm::vec3 position);
+		static void DrawDebugWorldCoord(glm::vec3 position, float scale = 1.0f);
 
 		/*
 		 * Draws a debug circle shape

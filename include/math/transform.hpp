@@ -31,7 +31,7 @@ namespace Core
 		 * Transform holds a readable version of the transformation matrix
 		 *
 		 * position The position in world space
-		 * rotation Euler rotation in degrees, x = pitch, y = yaw, z = roll
+		 * rotation Euler rotation in degrees, x = yaw, y = roll, z = pitch
 		 * scale Scale / Size in all three axis
 		 */
 		explicit Transform(glm::vec3 position = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f),

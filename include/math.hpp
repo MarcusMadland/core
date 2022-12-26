@@ -17,25 +17,34 @@
 #pragma once
 
 #include "math/transform.hpp"
+#include "common.hpp"
+
+class Camera;
 
 namespace Core::Math
 {
-	enum AxisType
-	{
-		X, Y, Z
-	};
-
 	// Advanced Math
 	Transform DecomposeMatrix(const glm::mat4& matrix);
 	glm::mat4 ComposeMatrix(const Transform& transform);
 
-	glm::mat4 MatrixFromXVector(glm::vec3 direction);
-	glm::vec3 RotationFromXVector(glm::vec3 direction);
+	glm::vec3 FindLookAtRotation(const glm::vec3& start, const glm::vec3& target);
+	glm::vec3 RotationFromXVector(const glm::vec3& direction);
+	glm::mat4 MatrixFromXVector(const glm::vec3& direction);
+
+	glm::vec3 RotationFromQuat(const glm::quat& quat);
+	glm::quat QuatFromRotation(const glm::vec3& rotation);
+
+	glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace, const Ref<Camera>& camera);
+	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace, const Ref<Camera>& camera, const float& depth = 2.0f);
 
 	// Simple Math
-	// glm does not support this with floats so we need a custom function for this
-	glm::vec3 Caret(glm::vec3 a, glm::vec3 b);
+	glm::vec3 Caret(const glm::vec3& a, const glm::vec3& b);// glm does not support this with floats so we need a custom function for this
+	float Square(const float& a);
+	void SinCos(double* ScalarSin, double* ScalarCos, double Value);
+	double NormalizeAxis(double angle);
+	double ClampAxis(double angle);
 
 	// Utils
 	bool InRange(float value, float min, float max);
+	float Interp(float current, float target, float deltaTime, float speed);
 }
