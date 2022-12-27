@@ -84,12 +84,12 @@ void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _
 	char temp[1024];
 
 	// Save screen shot as PNG.
-	bx::snprintf(temp, BX_COUNTOF(temp), "%s.tga", _filePath);
+	bx::snprintf(temp, BX_COUNTOF(temp), "%s.png", _filePath);
 	bx::FileWriter writer;
 	bx::Error err;
 	if (bx::open(&writer, temp, false, &err))
 	{
-		bimg::imageWriteTga(&writer, _width, _height, _pitch, _data, false, _yflip, &err);
+		bimg::imageWritePng(&writer, _width, _height, _pitch, _data, bimg::TextureFormat::RGBA8, _yflip, &err);
 		bx::close(&writer);
 	}
 }

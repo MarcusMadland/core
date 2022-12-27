@@ -34,7 +34,8 @@ namespace Core::Math
 {
 	Transform DecomposeMatrix(const glm::mat4& matrix)
 	{
-		glm::vec3 translation, scale, rotation;
+		glm::vec3 translation, scale;
+		glm::quat rotation;
 
 		// Lets start with translation: it is equal to the elements of the last column, we get these and then 0 out that column
 		glm::mat4 Local(matrix);
@@ -53,7 +54,7 @@ namespace Core::Math
 			scale[i] = glm::length(glm::vec3(matrix[i]));
 
 		const glm::mat3 rotMatrix(glm::vec3(matrix[0]) / scale[0], glm::vec3(matrix[1]) / scale[1], glm::vec3(matrix[2]) / scale[2]);
-		rotation = RotationFromQuat(glm::quat(rotMatrix));
+		rotation = glm::quat(rotMatrix);
 
 		return Transform(translation, rotation, scale);
 	}
@@ -65,7 +66,7 @@ namespace Core::Math
 
 		// Compose rotation matrix by converting the euler vec3 to radians and then 
 		// over to quaternion. From quat we can easily convert to a rotation matrix
-		glm::mat4 rotation = glm::toMat4(QuatFromRotation(transform.rotation));
+		glm::mat4 rotation = glm::toMat4(transform.rotation);
 
 		// Compose scale matrix by scaling from vec3
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.scale);
@@ -74,87 +75,22 @@ namespace Core::Math
 		return translation * rotation * scale;
 	}
 
-	glm::vec3 FindLookAtRotation(const glm::vec3& start, const glm::vec3& target)
+	glm::quat FindLookAtRotation(const glm::vec3& start, const glm::vec3& target)
 	{
 		return RotationFromXVector(target - start);
 	}
 
-	glm::vec3 RotationFromXVector(const glm::vec3& direction)
+	glm::quat RotationFromXVector(const glm::vec3& direction)
 	{
-		return RotationFromQuat(MatrixFromXVector(direction));
-	}
-
-	glm::mat4 MatrixFromXVector(const glm::vec3& direction)
-	{
-		// Work on this, now think about 3d coords (y up, not z)
-
 		glm::vec3 const NewX = glm::normalize(direction);
 
 		// try to use up if possible
-		glm::vec3 const UpVector = (glm::abs(NewX.y) < (1.f - CORE_SMALL_NUMBER)) ? glm::vec3(0, 1.0f, 0.f) : glm::vec3(0, 0, 1.f);
+		glm::vec3 const UpVector = (glm::abs(NewX.y) < (1.f - CORE_SMALL_NUMBER)) ? glm::vec3(0, 1.0f, 0.f) : glm::vec3(1.f, 0, 0.f);
 
 		const glm::vec3 NewY = glm::normalize(Caret(UpVector, NewX));
 		const glm::vec3 NewZ = Caret(NewX, NewY);
 
-		return glm::mat4(glm::mat3(NewX, NewY, NewZ));
-	}
-
-	glm::vec3 RotationFromQuat(const glm::quat& quat)
-	{
-		const double SingularityTest = quat.z * quat.x - quat.w * quat.y;
-		const double YawY = 2.0 * (quat.w * quat.z + quat.x * quat.y);
-		const double YawX = (1.0 - 2.0 * (Square(quat.y) + Square(quat.z)));
-
-		const double SINGULARITY_THRESHOLD = 0.4999995;
-		const double RAD_TO_DEG = (180.0 / CORE_PI);
-		double Pitch, Yaw, Roll;
-
-		if (SingularityTest < -SINGULARITY_THRESHOLD)
-		{
-			Pitch = -90.0;
-			Yaw = (atan2(YawY, YawX) * RAD_TO_DEG);
-			Roll = NormalizeAxis(-Yaw - (2.0 * atan2(quat.x, quat.w) * RAD_TO_DEG));
-		}
-		else if (SingularityTest > SINGULARITY_THRESHOLD)
-		{
-			Pitch = 90.0;
-			Yaw = (atan2(YawY, YawX) * RAD_TO_DEG);
-			Roll = NormalizeAxis(Yaw - (2.0 * atan2(quat.x, quat.w) * RAD_TO_DEG));
-		}
-		else
-		{
-			Pitch = (asin(2.0 * SingularityTest) * RAD_TO_DEG); // Note: not FastAsin like float implementation
-			Yaw = (atan2(YawY, YawX) * RAD_TO_DEG);
-			Roll = (atan2(-2.0 * (quat.w * quat.x + quat.y * quat.z), (1.0 - 2.0 * (Square(quat.x) + Square(quat.y)))) * RAD_TO_DEG);
-		}
-
-		glm::vec3 RotatorFromQuat = glm::vec3(Pitch, Yaw, Roll);
-
-		return RotatorFromQuat;
-	}
-
-	glm::quat QuatFromRotation(const glm::vec3& rotation)
-	{
-		const double DEG_TO_RAD = CORE_PI / (180.0);
-		const double RADS_DIVIDED_BY_2 = DEG_TO_RAD / 2.0;
-		double SP, SY, SR;
-		double CP, CY, CR;
-
-		const double PitchNoWinding = glm::mod(rotation.x, 360.0f); // fmod?
-		const double YawNoWinding = glm::mod(rotation.y, 360.0f); // fmod?
-		const double RollNoWinding = glm::mod(rotation.z, 360.0f);// fmod?
-
-		SinCos(&SP, &CP, PitchNoWinding * RADS_DIVIDED_BY_2);
-		SinCos(&SY, &CY, YawNoWinding * RADS_DIVIDED_BY_2);
-		SinCos(&SR, &CR, RollNoWinding * RADS_DIVIDED_BY_2);
-
-		glm::quat RotationQuat;
-		RotationQuat.w = CR * CP * CY + SR * SP * SY;
-		RotationQuat.x = CR * SP * SY - SR * CP * CY;
-		RotationQuat.y = -CR * SP * CY - SR * CP * SY;
-		RotationQuat.z = CR * CP * SY - SR * SP * CY;
-
-		return RotationQuat;
+		return glm::quat(glm::mat4(glm::mat3(NewX, NewY, NewZ)));
 	}
 
 	glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace, const Ref<Camera>& camera)
@@ -191,40 +127,25 @@ namespace Core::Math
 		return a * a;
 	}
 
-	void SinCos(double* ScalarSin, double* ScalarCos, double Value)
+
+
+
+
+
+
+	glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll)
 	{
-		// No approximations for doubles
-		*ScalarSin = sin(Value);
-		*ScalarCos = cos(Value);
+		return glm::quat(glm::radians(glm::vec3(pitch, yaw, roll)));
 	}
 
-	double NormalizeAxis(double angle)
+	glm::quat ToQuat(const glm::vec3& euler)
 	{
-		// returns Angle in the range [0,360)
-		angle = ClampAxis(angle);
-
-		if (angle > (double)180.0)
-		{
-			// shift to (-180,180]
-			angle -= (double)360.0;
-		}
-
-		return angle;
+		return ToQuat(euler.x, euler.y, euler.z);
 	}
 
-	double ClampAxis(double angle)
-	{
-		// returns Angle in the range (-360,360)
-		angle = glm::mod((float)angle, 360.0f); // fmod?
-	
-		if (angle < (double)0.0)
-		{
-			// shift to [0,360) range
-			angle += (double)360.0;
-		}
 
-		return angle;
-	}
+
+
 
 	bool InRange(float value, float min, float max)
 	{
@@ -233,7 +154,24 @@ namespace Core::Math
 
 	float Interp(float current, float target, float deltaTime, float speed)
 	{
-		// @todo
-		return 0.0f;
+		const float difference = target - current;
+		const float move = deltaTime * speed;
+
+		if (difference > deltaTime)
+		{
+			return current + move;
+		}
+		if (difference < -deltaTime)
+		{
+			return current - move;
+		}
+
+		return target;
+	}
+	glm::vec3 Interp(glm::vec3 current, glm::vec3 target, float deltaTime, float speed)
+	{
+		return glm::vec3(Interp(current.x, target.x, deltaTime, speed), 
+						 Interp(current.y, target.y, deltaTime, speed),
+						 Interp(current.z, target.z, deltaTime, speed));
 	}
 }

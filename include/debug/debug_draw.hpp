@@ -60,7 +60,7 @@ namespace Core
 		 * @param scale The size / scale of the shape
 		 */
 		static void DrawDebugCube(glm::vec4 color, glm::vec3 position,
-			glm::vec3 rotation = glm::vec3(0.0f),
+			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec3 scale = glm::vec3(1.0f));
 
 		/*
@@ -82,7 +82,7 @@ namespace Core
 		 * @param radius The size / scale of the shape
 		 */
 		static void DrawDebugQuad(glm::vec4 color, glm::vec3 position,
-			glm::vec3 rotation = glm::vec3(0.0f),
+			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
 		/*
@@ -133,7 +133,7 @@ namespace Core
 		 * @param scale The size / scale of the shape
 		 */
 		static void DrawDebugCircle(glm::vec4 color, glm::vec3 position,
-			glm::vec3 rotation = glm::vec3(0.0f),
+			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
 		/*

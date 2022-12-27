@@ -92,14 +92,15 @@ namespace Core
 	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale /* = glm::vec3(1.0f) */)
 	{
 		// Handle direction to euler rotation
-		glm::vec3 rotation = Math::FindLookAtRotation(start, end);
+		const glm::quat offset = Core::Math::ToQuat(90.0f, 90.0f, 0.0f);
+		glm::quat rotation = Math::FindLookAtRotation(start, end) * offset;
 
 		// Scale matrix from the distance between the two points 
 		glm::vec3 finalScale = scale * glm::vec3(glm::length(end - start));
 
 		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, rotation, finalScale));
 	}
-	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::vec3 rotation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
+	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::quat rotation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, rotation, scale));
 	}
@@ -107,9 +108,9 @@ namespace Core
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoSphere, color, Transform(position, glm::vec3(0.0f), glm::vec3(radius)));
 	}
-	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::vec3 rotation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
+	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::quat rotation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
 	{
-		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, glm::vec3(rotation), glm::vec3(scale, 1.0f)));
+		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, rotation, glm::vec3(scale, 1.0f)));
 	}
 	void DebugDraw::DrawDebugGrid(glm::vec4 color, glm::vec3 position, uint32_t gridCount /* = 1 */)
 	{
@@ -118,16 +119,14 @@ namespace Core
 			for (uint32_t y = 0; y < gridCount; y++)
 			{
 				GetInstance().DrawDebugShape(GetInstance().vaoGrid, color,
-					Transform(position + glm::vec3(x * 2, 0.0f, y * 2), glm::vec3(0.0f, 0.0f, 90.0f),
-						glm::vec3(1.0f)));
+					Transform(position + glm::vec3(x * 2, 0.0f, y * 2), Math::ToQuat(90.0f, 0.0f, 0.0f), glm::vec3(1.0f)));
 			}
 		}
 	}
 	void DebugDraw::DrawDebugLine(glm::vec4 color, glm::vec3 start, glm::vec3 end)
 	{
 		// Handle direction to euler rotation
-		glm::vec3 direction = glm::normalize(end - start);
-	    glm::vec3 rotation = Math::RotationFromXVector(direction);
+	    glm::quat rotation = Math::FindLookAtRotation(start, end);
 
 		// Scale matrix from the distance between the two points 
 		glm::vec3 scale = glm::vec3(glm::length(end - start));
@@ -147,7 +146,7 @@ namespace Core
 		DrawDebugLine(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), position, position + glm::vec3(0.0f, scale, 0.0f));
 		DrawDebugLine(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), position, position + glm::vec3(0.0f, 0.0f, scale));
 	}
-	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::vec3 rotation, glm::vec2 scale)
+	void DebugDraw::DrawDebugCircle(glm::vec4 color, glm::vec3 position, glm::quat rotation, glm::vec2 scale)
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoCircle, color, Transform(position, rotation, glm::vec3(scale, 0.0f)));
 	}

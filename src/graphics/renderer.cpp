@@ -12,6 +12,9 @@ namespace Core
 	{
 		Ref<ShaderManager> shaderManager;
 		Ref<Camera> camera;
+
+		std::vector<Ref<Mesh>> batchMeshesSeperated;
+		std::vector<Transform> batchMeshesSeperatedTransform;
 	};
 	static RendererData* data;
 
@@ -48,7 +51,16 @@ namespace Core
 	}
 	void Renderer::End()
 	{
+		if (data->batchMeshesSeperated.size() > 0)
+		{
+			for (uint32_t i = 0; i < data->batchMeshesSeperated.size(); i++)
+			{
+				Logger::LogInfo("Batched Mesh");
+			}
 
+			data->batchMeshesSeperated.clear();
+			data->batchMeshesSeperatedTransform.clear();
+		}
 	}
 
 	void Renderer::SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader)
@@ -88,6 +100,12 @@ namespace Core
 
 		// Submit
 		SubmitVertexArray(mesh->GetVertexArray(), mesh->GetMaterial()->GetShader());
+	}
+
+	void Renderer::SubmitMeshBatched(Ref<Mesh> mesh, Transform transform)
+	{
+		data->batchMeshesSeperated.push_back(mesh);
+		data->batchMeshesSeperatedTransform.push_back(transform);
 	}
 
 	Ref<ShaderManager> Renderer::GetShaderManager()
