@@ -8,23 +8,28 @@ namespace Core
 {
 	struct BatchParams
 	{
-		const size_t maxTriangleCount = 1000;
-		const size_t maxVertexCount = maxTriangleCount * 4;
-		const size_t maxIndexCount = maxTriangleCount * 6;
-		const size_t maxTextures = 8;
+		
 	};
 
 	class Batch
 	{
 	public:
-		Batch(const BatchParams& params);
+		Batch(const BatchParams& params, Ref<Material> material);
 		~Batch();
+
+		void Add(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices);
+		void Add(Ref<Mesh> mesh);
+		void Flush();
 
 		std::vector<Ref<Mesh>> GetBatchedMeshes() { return batchedMeshes; }
 
-		static Ref<Batch> Create(const BatchParams& params);
+		static Ref<Batch> Create(const BatchParams& params, Ref<Material> material);
 
 	private:
+		Ref<Material> material; //temp
+		std::vector<MeshVertex> currBatchedVertices;
+		std::vector<uint16_t> currBatchedIndices;
+
 		std::vector<Ref<Mesh>> batchedMeshes;
 	};
 }

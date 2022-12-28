@@ -40,6 +40,9 @@ namespace Core
 		[[nodiscard]] const Ref<Material> GetMaterial() const { return material; }
 		[[nodiscard]] const Ref<VertexArray> GetVertexArray() const { return vao; }
 
+		[[nodsicard]] const std::vector<MeshVertex> GetVertices() const { return vertices; }
+		[[nodsicard]] const std::vector<uint16_t> GetIndices() const { return indices; }
+
 	private:
 		Ref<Material> material;
 		Transform transform;
