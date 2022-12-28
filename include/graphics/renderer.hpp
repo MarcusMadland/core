@@ -34,7 +34,6 @@ namespace Core
 
 		static void SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform);
 		static void SubmitMesh(Ref<Mesh> mesh, Transform transform);
-		static void SubmitMeshBatched(Ref<Mesh> mesh, Transform transform);
 
 		static Ref<ShaderManager> GetShaderManager();
 
