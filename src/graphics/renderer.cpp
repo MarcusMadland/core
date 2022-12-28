@@ -83,13 +83,23 @@ namespace Core
 		// Handle Transform
 		bgfx::setTransform(&(Math::ComposeMatrix(transform) * Math::ComposeMatrix(mesh->GetTransform()))[0][0]);
 
-		// Material
+		// Only submit mesh if material is valid 
+		// @todo Add standard material if not material is submitted
 		if (mesh->GetMaterial())
 		{
+			// Material
 			mesh->GetMaterial()->UpdateUniforms();
 
 			// Submit
 			SubmitVertexArray(mesh->GetVertexArray(), mesh->GetMaterial()->GetShader());
+		}
+	}
+
+	void Renderer::SubmitBatch(Ref<Batch> batch)
+	{
+		for (uint32_t i = 0; i < batch->GetBatchedMeshes().size(); i++)
+		{
+			SubmitMesh(batch->GetBatchedMeshes()[i], Transform());
 		}
 	}
 
