@@ -89,7 +89,7 @@ void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _
 	bx::Error err;
 	if (bx::open(&writer, temp, false, &err))
 	{
-		bimg::imageWritePng(&writer, _width, _height, _pitch, _data, bimg::TextureFormat::RGBA8, _yflip, &err);
+		bimg::imageWritePng(&writer, _width, _height, _pitch, _data, bimg::TextureFormat::BGRA8, _yflip, &err);
 		bx::close(&writer);
 	}
 }
