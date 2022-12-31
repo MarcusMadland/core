@@ -2,7 +2,7 @@
 
 #include "crpch.hpp"
 
-#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h> // for glfw getTime
 
 #include "app/app.hpp"
 #include "graphics/renderer.hpp"
@@ -63,7 +63,7 @@ namespace Core
 
 		while (isRunning)
 		{
-			const auto time = static_cast<float>(glfwGetTime()); 
+			const auto time = static_cast<float>(glfwGetTime()); // @todo Is this cross-platform friendly?
 			deltaTime = time - lastFrameTime;
 			lastFrameTime = time;
 

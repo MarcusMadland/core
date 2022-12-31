@@ -5,6 +5,9 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
+#include <bx/bx.h>
+#include <bgfx/bgfx.h>
+#include <bgfx/platform.h>
 #include <GLFW/glfw3.h>
 #if BX_PLATFORM_LINUX
 #define GLFW_EXPOSE_NATIVE_X11
@@ -37,31 +40,35 @@ namespace Core
 		// Init GLFW
 		if (!glfwInit())
 		{
-			// @todo Log
+			Logger::LogCritical("Failed to initialize GLFW");
 			return;
 		}
 			
 		// Create GLFW Window
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		window = glfwCreateWindow(static_cast<int>(windowInfo.width),
-			static_cast<int>(windowInfo.height), windowInfo.title, nullptr, nullptr);
+		window = glfwCreateWindow(
+			static_cast<int>(windowInfo.width),
+			static_cast<int>(windowInfo.height), 
+			windowInfo.title, 
+			nullptr, 
+			nullptr);
 		if (!window)
 		{
-			// @todo Log
+			Logger::LogCritical("Failed to initialize Window");
 			return;
 		}
 
 		// Init Graphics
-		bgfx::renderFrame();
+		bgfx::renderFrame(); // Call bgfx::renderFrame before bgfx::init to signal to bgfx not to create a render thread.
 		bgfx::Init init;
-		#if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
-			init.platformData.ndt = glfwGetX11Display();
-			init.platformData.nwh = (void*)(uintptr_t)glfwGetX11Window(window);
-		#elif BX_PLATFORM_OSX
-			init.platformData.nwh = glfwGetCocoaWindow(window);
-		#elif BX_PLATFORM_WINDOWS
-			init.platformData.nwh = glfwGetWin32Window(window);
-		#endif
+#if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
+		init.platformData.ndt = glfwGetX11Display();
+		init.platformData.nwh = (void*)(uintptr_t)glfwGetX11Window(window);
+#elif BX_PLATFORM_OSX
+		init.platformData.nwh = glfwGetCocoaWindow(window);
+#elif BX_PLATFORM_WINDOWS
+		init.platformData.nwh = glfwGetWin32Window(window);
+#endif
 		int w, h;
 		glfwGetWindowSize(window, &w, &h);
 
@@ -198,6 +205,9 @@ namespace Core
 		bgfx::shutdown();
 
 		glfwDestroyWindow(window);
+
+		if (bgfxCallback) { delete bgfxCallback; }
+		if (window) { delete window; }
 	}
 
 	void Window::OnUpdate()

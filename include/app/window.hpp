@@ -46,8 +46,9 @@ namespace Core
 		[[nodiscard]] uint32_t GetResetFlags() const { return windowInfo.resetFlags; }
 
 	private:
-		GLFWwindow* window;
 		WindowInfo windowInfo;
+
+		GLFWwindow* window;
 		BgfxCallback* bgfxCallback;
 	};
 }
