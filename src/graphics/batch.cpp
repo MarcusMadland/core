@@ -6,7 +6,7 @@
 namespace Core
 {
 	Batch::Batch(const BatchParams& params, Ref<Material> material)
-		: material(material)
+		: params(params), material(material)
 	{
 		// @todo for dynamic
 		//currBatchedVertices.reserve(8);
@@ -19,6 +19,13 @@ namespace Core
 
 	void Batch::Add(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices)
 	{
+		const size_t dataCount = (vertices.size() + indices.size()) + (currBatchedVertices.size() + currBatchedIndices.size());
+		if (dataCount > params.maxDataCount)
+		{
+			Flush();
+			Add(vertices, indices);
+		}
+
 		// Indices
 		for (uint32_t i = 0; i < indices.size(); i++)
 		{
@@ -44,8 +51,11 @@ namespace Core
 		Ref<Mesh> batchedMesh = Mesh::Create(currBatchedVertices, currBatchedIndices, material);
 		batchedMeshes.push_back(batchedMesh);
 
-		Logger::LogInfo("Flushed batch, with %u batches, %u vertices and %u indices", 
+		Logger::LogInfo("Flushed batch, with %u batches, %u vertices and %u indices",
 			batchedMeshes.size(), currBatchedVertices.size(), currBatchedIndices.size());
+
+		currBatchedVertices.clear();
+		currBatchedIndices.clear();
 	}
 
 	Ref<Batch> Batch::Create(const BatchParams& params, Ref<Material> material)

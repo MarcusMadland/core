@@ -1,8 +1,4 @@
-/*
- * From BGFX Examples
- *
- * @todo Write my own setup
- */
+
 
 #pragma once
 

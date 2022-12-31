@@ -97,6 +97,11 @@ namespace Core
 
 	void Renderer::SubmitBatch(Ref<Batch> batch)
 	{
+		if (batch->currBatchedIndices.size() > 0 || batch->currBatchedVertices.size() > 0)
+		{
+			batch->Flush();
+		}
+
 		for (uint32_t i = 0; i < batch->GetBatchedMeshes().size(); i++)
 		{
 			SubmitMesh(batch->GetBatchedMeshes()[i], Transform());

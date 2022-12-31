@@ -1,18 +1,4 @@
-/*
- * Copyright 2022 Marcus Madland
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 #include "crpch.hpp"
 
@@ -36,7 +22,7 @@ namespace Core
 
 	
 	// Hard coded Cube that will be used mostly for debug drawing
-	Cube::Cube(const glm::vec3& scale /* = glm::vec3(1.0f) */)
+	Cube::Cube(const glm::vec3& scale )
 	{
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(36);
@@ -61,7 +47,7 @@ namespace Core
 	}
 
 	// Hard coded Pyramid that will be used mostly for debug drawing
-	Pyramid::Pyramid(const glm::vec3& scale /* = glm::vec3(1.0f) */)
+	Pyramid::Pyramid(const glm::vec3& scale )
 	{
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(5);
@@ -97,7 +83,7 @@ namespace Core
 	}
 
 	// Hard coded Sphere that will be used mostly for debug drawing
-	Sphere::Sphere(const float& radius /* = 1.0f */)
+	Sphere::Sphere(const float& radius )
 	{
 		std::vector<PrimitiveVertex> vertices;
 		std::vector<uint16_t> indices;
@@ -144,7 +130,7 @@ namespace Core
 	}
 
 	// Hard coded Quad that will be used mostly for debug drawing and billboards
-	Quad::Quad(const float scale /* = 1.0f */)
+	Quad::Quad(const float scale )
 	{
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(4);
@@ -219,7 +205,7 @@ namespace Core
 	}
 
 	// Hard coded Circle that will be used mostly for debug drawing
-	Circle::Circle(float radius /* = 1.0f */)
+	Circle::Circle(float radius )
 	{
 		std::vector<PrimitiveVertex> vertices;
 		std::vector<uint16_t> indices;

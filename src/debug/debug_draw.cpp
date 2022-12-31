@@ -89,7 +89,7 @@ namespace Core
 	#endif
 	}
 	
-	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale /* = glm::vec3(1.0f) */)
+	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale )
 	{
 		// Handle direction to euler rotation
 		const glm::quat offset = Core::Math::ToQuat(90.0f, 90.0f, 0.0f);
@@ -100,19 +100,19 @@ namespace Core
 
 		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, rotation, finalScale));
 	}
-	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::quat rotation /* = glm::vec3(0.0f) */, glm::vec3 scale /* = glm::vec3(1.0f)*/)
+	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::quat rotation , glm::vec3 scale )
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, rotation, scale));
 	}
-	void DebugDraw::DrawDebugSphere(glm::vec4 color, glm::vec3 position, float radius /* = 1.0f */)
+	void DebugDraw::DrawDebugSphere(glm::vec4 color, glm::vec3 position, float radius )
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoSphere, color, Transform(position, glm::vec3(0.0f), glm::vec3(radius)));
 	}
-	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::quat rotation  /* = glm::vec3(0.0f) */, glm::vec2 scale /* = glm::vec2(1.0f) */)
+	void DebugDraw::DrawDebugQuad(glm::vec4 color, glm::vec3 position, glm::quat rotation  , glm::vec2 scale )
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoQuad, color, Transform(position, rotation, glm::vec3(scale, 1.0f)));
 	}
-	void DebugDraw::DrawDebugGrid(glm::vec4 color, glm::vec3 position, uint32_t gridCount /* = 1 */)
+	void DebugDraw::DrawDebugGrid(glm::vec4 color, glm::vec3 position, uint32_t gridCount )
 	{
 		for (uint32_t x = 0; x < gridCount; x++)
 		{
@@ -133,14 +133,14 @@ namespace Core
 
 		GetInstance().DrawDebugShape(GetInstance().vaoLine, color, Transform(start, rotation, scale));
 	}
-	void DebugDraw::DrawDebugArrow(glm::vec4 color, glm::vec3 position, glm::vec3 direction, float length /* = 1.0f */)
+	void DebugDraw::DrawDebugArrow(glm::vec4 color, glm::vec3 position, glm::vec3 direction, float length )
 	{
 		glm::vec3 lineEnd = position + (direction * length);
 
 		DrawDebugLine(color, position, lineEnd);
 		DrawDebugPyramid(color, lineEnd, lineEnd + (direction), glm::vec3(0.05f, 0.05f, 0.05f));
 	}
-	void DebugDraw::DrawDebugWorldCoord(glm::vec3 position, float scale /* = 1.0f */)
+	void DebugDraw::DrawDebugWorldCoord(glm::vec3 position, float scale )
 	{
 		DrawDebugLine(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), position, position + glm::vec3(scale, 0.0f, 0.0f));
 		DrawDebugLine(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), position, position + glm::vec3(0.0f, scale, 0.0f));
@@ -157,7 +157,7 @@ namespace Core
 	#ifdef _DEBUG
 		va_list argList;
 		va_start(argList, text);
-		bgfx::dbgTextPrintfVargs(x, y, 0x0f, (std::string(/*Color ansi escape code*/) + std::string(text)).c_str(), argList);
+		bgfx::dbgTextPrintfVargs(x, y, 0x0f, (std::string() + std::string(text)).c_str(), argList);
 		va_end(argList);
 	#endif
 	}

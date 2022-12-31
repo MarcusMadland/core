@@ -1,18 +1,4 @@
-/*
- * Copyright 2022 Marcus Madland
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 #include "crpch.hpp"
 
@@ -27,7 +13,7 @@
 
 #include "math.hpp"
 #include "defines.hpp"
-#include "system/camera.hpp"
+#include "graphics/camera.hpp"
 #include "debug/logger.hpp"
 
 namespace Core::Math
@@ -99,7 +85,7 @@ namespace Core::Math
 		return glm::vec3();
 	}
 
-	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace, const Ref<Camera>& camera, const float& depth /* = 10.0f */)
+	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace, const Ref<Camera>& camera, const float& depth )
 	{
 		glm::vec4 viewport = { 0,0,camera->GetParams().width, camera->GetParams().height};
 		glm::vec3 pos = glm::unProject({ screenSpace.x,screenSpace.y,1 }, camera->GetViewMatrix(), camera->GetProjectionMatrix(), viewport);

@@ -1,18 +1,4 @@
-/*
- * Copyright 2022 Marcus Madland
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 #include "crpch.hpp"
 
@@ -27,17 +13,24 @@ namespace Core
 		shader = Renderer::GetShaderManager()->Get("uber");
 
 		// Uniforms
-		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap", bgfx::UniformType::Sampler);
+		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap", bgfx::UniformType::Sampler, 2);
 		u_BaseColorFactor = bgfx::createUniform("u_BaseColorFactor", bgfx::UniformType::Vec4);
+
+		baseColorMap.resize(2);
 	}
 
 	Material::~Material()
 	{
 	}
 
-	void Material::SetBasecolor(Ref<Texture2D> texture)
+	void Material::AddTexture(Ref<Texture2D> texture, const std::string& name)
 	{
-		baseColorMap = texture;
+		textures[name] = texture;
+	}
+
+	void Material::SetBasecolor(const std::string& textureName, const uint32_t& index)
+	{
+		baseColorMap[index] = textures[textureName];
 	}
 
 	void Material::SetBasecolor(glm::vec4 color)
@@ -52,11 +45,15 @@ namespace Core
 
 	void Material::UpdateUniforms()
 	{
-		if (baseColorMap)
+		// Base Color	
+		for (uint32_t i = 0; i < 2; i++)
 		{
-			bgfx::setTexture(0, u_BaseColorMap, baseColorMap->handle);
+			if (baseColorMap[i])
+			{
+				bgfx::setTexture(i, u_BaseColorMap, baseColorMap[i]->handle, i);
+			}
 		}
-		else
+		if (baseColorMap.empty())
 		{
 			bgfx::setUniform(u_BaseColorFactor, &baseColorFactor);
 		}
@@ -64,13 +61,13 @@ namespace Core
 		// States
 		uint64_t twoSidedStates = (params.twoSided == true) ? 
 			( BGFX_STATE_WRITE_RGB
-			| BGFX_STATE_WRITE_A
+			| BGFX_STATE_WRITE_A 
 			| BGFX_STATE_WRITE_Z
 			| BGFX_STATE_DEPTH_TEST_LESS
 			| BGFX_STATE_MSAA) : BGFX_STATE_DEFAULT;
 
 		uint64_t translucentStates = (params.blendType == Translucent) ?
-			BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA) : 0;
+			BGFX_STATE_BLEND_ALPHA : 0;
 									
 		bgfx::setState(twoSidedStates | translucentStates);
 	}

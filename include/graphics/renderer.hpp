@@ -3,7 +3,7 @@
 #include "shader.hpp"
 #include "vertex_array.hpp"
 #include "batch.hpp"
-#include "system/camera.hpp"
+#include "camera.hpp"
 #include "math/transform.hpp"
 #include "primitive/mesh.hpp"
 

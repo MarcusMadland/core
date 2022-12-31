@@ -53,11 +53,11 @@ void BgfxCallback::traceVargs(const char* _filePath, uint16_t _line, const char*
 	Core::Logger::LogInfo(outString.c_str());
 }
 
-void BgfxCallback::profilerBegin(const char* /*_name*/, uint32_t /*_abgr*/, const char* /*_filePath*/, uint16_t /*_line*/) 
+void BgfxCallback::profilerBegin(const char* , uint32_t , const char* , uint16_t ) 
 {
 }
 
-void BgfxCallback::profilerBeginLiteral(const char* /*_name*/, uint32_t /*_abgr*/, const char* /*_filePath*/, uint16_t /*_line*/) 
+void BgfxCallback::profilerBeginLiteral(const char* , uint32_t , const char* , uint16_t ) 
 {
 }
 
@@ -79,7 +79,7 @@ void BgfxCallback::cacheWrite(uint64_t _id, const void* _data, uint32_t _size)
 {
 }
 
-void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _data, uint32_t /*_size*/, bool _yflip) 
+void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _data, uint32_t , bool _yflip) 
 {
 	char temp[1024];
 
@@ -94,7 +94,7 @@ void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _
 	}
 }
 
-void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t /*_pitch*/, bgfx::TextureFormat::Enum /*_format*/, bool _yflip) 
+void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t , bgfx::TextureFormat::Enum , bool _yflip) 
 {
 	Core::Logger::LogWarn("Recording video capture...");
 
@@ -127,21 +127,7 @@ void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t /*_p
 
 void BgfxCallback::captureEnd() 
 {
-	Core::Logger::LogWarn("Video capture saved to debug/captures/*.avi");
-
-	if (aviWriter != nullptr)
-	{
-		aviWriter->close();
-
-		delete aviWriter;
-		aviWriter = nullptr;
-
-		delete fileWriter;
-		fileWriter = nullptr;
-	}
-}
-
-void BgfxCallback::captureFrame(const void* _data, uint32_t /*_size*/) 
+	Core::Logger::LogWarn("Video capture saved to debug/captures) 
 {
 	//Core::Logger::LogWarn("Using capture without callback (a.k.a. pointless) [frame]");
 
