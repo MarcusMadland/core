@@ -115,7 +115,6 @@ namespace Core
 			
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 #endif
-
 			
 			std::printf(messageTitle);
 			std::printf(message, args...);

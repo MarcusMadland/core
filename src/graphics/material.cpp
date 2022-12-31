@@ -15,8 +15,6 @@ namespace Core
 		// Uniforms
 		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap", bgfx::UniformType::Sampler, 2);
 		u_BaseColorFactor = bgfx::createUniform("u_BaseColorFactor", bgfx::UniformType::Vec4);
-
-		baseColorMap.resize(2);
 	}
 
 	Material::~Material()
@@ -30,7 +28,7 @@ namespace Core
 
 	void Material::SetBasecolor(const std::string& textureName, const uint32_t& index)
 	{
-		baseColorMap[index] = textures[textureName];
+		baseColorMap = textures[textureName];
 	}
 
 	void Material::SetBasecolor(glm::vec4 color)
@@ -46,14 +44,11 @@ namespace Core
 	void Material::UpdateUniforms()
 	{
 		// Base Color	
-		for (uint32_t i = 0; i < 2; i++)
+		if (baseColorMap)
 		{
-			if (baseColorMap[i])
-			{
-				bgfx::setTexture(i, u_BaseColorMap, baseColorMap[i]->handle, i);
-			}
+			bgfx::setTexture(0, u_BaseColorMap, baseColorMap->handle);
 		}
-		if (baseColorMap.empty())
+		else
 		{
 			bgfx::setUniform(u_BaseColorFactor, &baseColorFactor);
 		}

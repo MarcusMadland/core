@@ -1,34 +1,173 @@
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-
+/*
+ * Collection of commonly used maths not present in the GLM library
+ */
 #pragma once
 
-#include "math/transform.hpp"
 #include "common.hpp"
+#include "math/transform.hpp"
 
+/*
+ * Forward Declarations
+ */
 class Camera;
 
-namespace Core::Math
+namespace Core
 {
-	// Advanced Math
-	Transform DecomposeMatrix(const glm::mat4& matrix);
-	glm::mat4 ComposeMatrix(const Transform& transform);
+	namespace Math
+	{
+		/*
+		 * Advanced Maths
+		 */
 
-	glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace, const Ref<Camera>& camera);
-	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace, const Ref<Camera>& camera, const float& depth = 2.0f); // from bottom left corner
+		/*
+		 * Decomposes a 4x4 matrix into a Transform structure.
+		 *
+		 * @param[in] matrix A 4x4 matrix to decompose from
+		 * 
+		 * @return A three component transform for Position, Rotation and Scale
+		 */
+		Transform DecomposeMatrix(const glm::mat4& matrix);
 
-	glm::quat FindLookAtRotation(const glm::vec3& start, const glm::vec3& target);
-	glm::quat RotationFromXVector(const glm::vec3& direction);
+		/*
+		 * Composes a 4x4 matrix from a Transform structure.
+		 *
+		 * @param[in] transform A transform struct to construct from
+		 * 
+		 * @return A 4x4 transformation matrix 
+		 */
+		glm::mat4 ComposeMatrix(const Transform& transform);
 
-	// Simple Math
-	glm::vec3 Caret(const glm::vec3& a, const glm::vec3& b);// glm does not support this with floats so we need a custom function for this
-	float Square(const float& a);
+		/*
+		 * @todo Yet to be implemented
+		 */
+		glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace,
+			const Ref<Camera>& camera);
 
-	// Conversions
-	glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll);
-	glm::quat ToQuat(const glm::vec3& euler);
+		/*
+		 * Tries to convert from screen space to world space.
+		 * 
+		 * @remark The returned value starts from the bottom left corner in
+		 * pixels
+		 *
+		 * @param[in] screenSpace A two dimensional vector in screen space to
+		 * convert from
+		 * @param[in] camera The camera to read the returned screenspace from
+		 * @param[in] depth The depth that should be used in the returned value
+		 * since screen space is two dimensional
+		 * 
+		 * @return Three dimensional vector in world space
+		 */
+		glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace,
+			const Ref<Camera>& camera, const float& depth = 2.0f); 
 
-	// Utils
-	bool InRange(float value, float min, float max);
-	float Interp(float current, float target, float deltaTime, float speed);
-	glm::vec3 Interp(glm::vec3 current, glm::vec3 target, float deltaTime, float speed);
+		/*
+		 * Tries to find the rotation between two points
+		 *
+		 * @param[in] start The start position in world space (eye)
+		 * @param[in] target The end position in world space (lookAt)
+		 * 
+		 * @return The quaternion rotation between two points
+		 */
+		glm::quat FindLookAtRotation(const glm::vec3& start,
+			const glm::vec3& target);
+
+		/*
+		 * Tries to find the rotation from a directional vector's X axis
+		 *
+		 * @param[in] direction The direction to convert from
+		 * 
+		 * @return The quaternion rotation from direction
+		 */
+		glm::quat RotationFromXVector(const glm::vec3& direction);
+
+		/*
+		 * Simple Maths
+		 */
+
+		/*
+		 * @todo Yet to be documented
+		 */
+		glm::vec3 Exp(const glm::vec3& a, const glm::vec3& b);
+		
+		/*
+		 * Conversions
+		 */
+
+		/*
+		 * Converts from euler rotation to a quaternion rotation
+		 *
+		 * @param[in] pitch Pitch rotation (x)
+		 * @param[in] yaw Pitch rotation (y)
+		 * @param[in] roll Pitch rotation (z)
+		 *
+		 * @return The quaternion rotation from euler
+		 */
+		glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll);
+
+		/*
+		 * Converts from euler rotation to a quaternion rotation
+		 *
+		 * @remark Euler rotation should be in this order, Pitch, Yaw, Roll
+		 *
+		 * @param[in] euler Three dimensional vector in euler degrees.
+		 *
+		 * @return The quaternion rotation from euler
+		 */
+		glm::quat ToQuat(const glm::vec3& euler);
+
+		/*
+		 * Utilities
+		 */
+
+		/*
+		 * Checks if input value is between min and max
+		 *
+		 * @param[in] value The value to check
+		 * @param[in] min The minimum the value can be
+		 * @param[in] max The maximum the value can be
+		 *
+		 * @return True if the value is higher than min and lower than max
+		 */
+		bool InRange(const float& value, const float& min, const float& max);
+
+		/*
+		 * Linear Interpolates from current to target
+		 *
+		 * @param[in] current The current value to interpolate from. Should be
+		 * the same value that is set upon return
+		 * @param[in] target The desired value current should be
+		 * @param[in] deltaTime The Delta Time of current frame
+		 * @param[in] speed The speed of the interpolation. Higher = Faster
+		 */
+		float Interp(const float& current, const float& target,
+			const float& deltaTime, const float& speed);
+
+		/*
+		 * Linear Interpolates from current to target
+		 *
+		 * @param[in] current The current value to interpolate from. Should be
+		 * the same value that is set upon return
+		 * @param[in] target The desired value current should be
+		 * @param[in] deltaTime The Delta Time of current frame
+		 * @param[in] speed The speed of the interpolation. Higher = Faster
+		 */
+		glm::vec3 Interp(const glm::vec3& current, const glm::vec3& target,
+			const float& deltaTime, const float& speed);
+	}
 }

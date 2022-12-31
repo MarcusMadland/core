@@ -9,40 +9,39 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include <glm/gtx/transform.hpp>
 
 #include "math.hpp"
 #include "defines.hpp"
 #include "graphics/camera.hpp"
-#include "debug/logger.hpp"
 
 namespace Core::Math
 {
 	Transform DecomposeMatrix(const glm::mat4& matrix)
 	{
-		glm::vec3 translation, scale;
-		glm::quat rotation;
-
-		// Lets start with translation: it is equal to the elements of the last column, we get these and then 0 out that column
+		Transform result;
+		
 		glm::mat4 Local(matrix);
 
 		// Normalize the matrix
-		if (glm::epsilonEqual(Local[3][3], (float)(0), glm::epsilon<float>()))
+		if (glm::epsilonEqual(Local[3][3], static_cast<float>(0),
+			glm::epsilon<float>()))
+		{
 			return Transform();
-
-		translation = glm::vec3(Local[3]);
+		}
+		
+		result.position = glm::vec3(Local[3]);
 		Local[3] = glm::vec4(0, 0, 0, Local[3].w);
-
-		// Now onto rotation: Calculate the polar decomposition of Local to obtain rotation R and stretch S matrices:
-		// Local = RS
-
+		
 		for (int i = 0; i < 3; i++)
-			scale[i] = glm::length(glm::vec3(matrix[i]));
+			result.scale[i] = glm::length(glm::vec3(matrix[i]));
 
-		const glm::mat3 rotMatrix(glm::vec3(matrix[0]) / scale[0], glm::vec3(matrix[1]) / scale[1], glm::vec3(matrix[2]) / scale[2]);
-		rotation = glm::quat(rotMatrix);
+		const glm::mat3 rotMatrix(
+			glm::vec3(matrix[0]) / result.scale[0],
+			glm::vec3(matrix[1]) / result.scale[1],
+			glm::vec3(matrix[2]) / result.scale[2]);
+		result.rotation = glm::quat(rotMatrix);
 
-		return Transform(translation, rotation, scale);
+		return result;
 	}
 
 	glm::mat4 ComposeMatrix(const Transform& transform)
@@ -73,8 +72,8 @@ namespace Core::Math
 		// try to use up if possible
 		glm::vec3 const UpVector = (glm::abs(NewX.y) < (1.f - CORE_SMALL_NUMBER)) ? glm::vec3(0, 1.0f, 0.f) : glm::vec3(1.f, 0, 0.f);
 
-		const glm::vec3 NewY = glm::normalize(Caret(UpVector, NewX));
-		const glm::vec3 NewZ = Caret(NewX, NewY);
+		const glm::vec3 NewY = glm::normalize(Exp(UpVector, NewX));
+		const glm::vec3 NewZ = Exp(NewX, NewY);
 
 		return glm::quat(glm::mat4(glm::mat3(NewX, NewY, NewZ)));
 	}
@@ -94,51 +93,35 @@ namespace Core::Math
 		return pos;
 	}
 
-
-
-
-
-	glm::vec3 Caret(const glm::vec3& a, const glm::vec3& b)
+	glm::vec3 Exp(const glm::vec3& a, const glm::vec3& b)
 	{
-		return glm::vec3
-			(
-			a.y * b.z - a.z * b.y,
-			a.z * b.x - a.x * b.z,
-			a.x * b.y - a.y * b.x
-			);
+		const glm::vec3 result = glm::vec3(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x);
+		
+		return result;
 	}
-
-	float Square(const float& a)
-	{
-		return a * a;
-	}
-
-
-
-
-
-
 
 	glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll)
 	{
-		return glm::quat(glm::radians(glm::vec3(pitch, yaw, roll)));
+		const glm::quat result = glm::quat(
+			glm::radians(glm::vec3(pitch, yaw, roll)));
+		return result;
 	}
 
 	glm::quat ToQuat(const glm::vec3& euler)
 	{
 		return ToQuat(euler.x, euler.y, euler.z);
 	}
-
-
-
-
-
-	bool InRange(float value, float min, float max)
+	
+	bool InRange(const float& value, const float& min, const float& max)
 	{
 		return value > min && value < max;
 	}
 
-	float Interp(float current, float target, float deltaTime, float speed)
+	float Interp(const float& current, const float& target,
+		const float& deltaTime, const float& speed)
 	{
 		const float difference = target - current;
 		const float move = deltaTime * speed;
@@ -154,10 +137,13 @@ namespace Core::Math
 
 		return target;
 	}
-	glm::vec3 Interp(glm::vec3 current, glm::vec3 target, float deltaTime, float speed)
+	glm::vec3 Interp(const glm::vec3& current, const glm::vec3& target,
+		const float& deltaTime, const float& speed)
 	{
-		return glm::vec3(Interp(current.x, target.x, deltaTime, speed), 
-						 Interp(current.y, target.y, deltaTime, speed),
-						 Interp(current.z, target.z, deltaTime, speed));
+		const glm::vec3 result = glm::vec3(
+			Interp(current.x, target.x, deltaTime, speed), 
+			Interp(current.y, target.y, deltaTime, speed),
+			Interp(current.z, target.z, deltaTime, speed));
+		return result;
 	}
 }

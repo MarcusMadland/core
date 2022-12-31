@@ -127,7 +127,21 @@ void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t , bg
 
 void BgfxCallback::captureEnd() 
 {
-	Core::Logger::LogWarn("Video capture saved to debug/captures) 
+	Core::Logger::LogWarn("Video capture saved to debug/captures/*.avi");
+
+	if (aviWriter != nullptr)
+	{
+		aviWriter->close();
+
+		delete aviWriter;
+		aviWriter = nullptr;
+
+		delete fileWriter;
+		fileWriter = nullptr;
+	}
+}
+
+void BgfxCallback::captureFrame(const void* _data, uint32_t /*_size*/) 
 {
 	//Core::Logger::LogWarn("Using capture without callback (a.k.a. pointless) [frame]");
 

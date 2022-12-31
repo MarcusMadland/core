@@ -13,8 +13,6 @@
 
 namespace Core
 {
-	static const uint32_t maxTextureSlots = 16;
-
 	enum MaterialType
 	{
 		Default,
@@ -68,8 +66,8 @@ namespace Core
 
 		std::unordered_map<std::string, Ref<Texture2D>> textures;
 
-		std::vector<Ref<Texture2D>> baseColorMap;
-		std::array<bgfx::UniformHandle, maxTextureSlots> u_BaseColorMap;
+		Ref<Texture2D> baseColorMap;
+		bgfx::UniformHandle u_BaseColorMap;
 
 		glm::vec4 baseColorFactor;
 		bgfx::UniformHandle u_BaseColorFactor;
