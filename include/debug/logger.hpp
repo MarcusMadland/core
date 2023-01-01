@@ -9,28 +9,24 @@
 
 #include <bgfx/platform.h>
 
-
 #ifdef BX_PLATFORM_WINDOWS 
 	#include <Windows.h> 
 #endif
 
-
 namespace Core
 {
+	enum class LogPriority
+	{
+		Trace,
+		Debug,
+		Info,
+		Warn,
+		Error,
+		Critical
+	};
+
 	class Logger final
 	{
-	public:
-		
-		enum class LogPriority
-		{
-			Trace,
-			Debug,
-			Info,
-			Warn,
-			Error,
-			Critical
-		};
-
 	public:
 		Logger() = default;
 
@@ -107,12 +103,11 @@ namespace Core
 				break;
 			default:
 				color = 15 + 4 * 16;
-				messageTitle = "[Critical] DEBUG TEXT MISSING TITLE! - ";
+				messageTitle = "[Critical] Debug text is missing title ";
 				break;
 			}
 
 #ifdef BX_PLATFORM_WINDOWS
-			
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 #endif
 			
