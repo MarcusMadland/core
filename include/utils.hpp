@@ -22,9 +22,9 @@
 #include <bgfx/bgfx.h>
 #include "renderer/texture.hpp"
 
-namespace Core
+namespace core
 {
-	namespace Utils
+	namespace utils
 	{
 		/*
 		 * Loads a texture's data
@@ -38,6 +38,6 @@ namespace Core
 		 *
 		 * @return Texture data in bytes
 		 */
-		uint8_t* LoadTexture2D(const std::string& filename, Texture2DParams& outParams);
+		uint8_t* loadTexture2D(const std::string& filename, Texture2DParams& outParams);
 	}
 }

@@ -10,7 +10,7 @@
 struct GLFWwindow;
 struct BgfxCallback;
 
-namespace Core
+namespace core
 {
 	class Window
 	{
@@ -36,14 +36,14 @@ namespace Core
 		Window(const char* name, uint32_t width, uint32_t height);
 		~Window();
 
-		void OnUpdate();
-		void SetEventCallback(const std::function<void(Event&)>& callback);
+		void onUpdate();
+		void setEventCallback(const std::function<void(Event&)>& callback);
 
-		[[nodiscard]] GLFWwindow* GetNativeWindow();
+		[[nodiscard]] GLFWwindow* getNativeWindow();
 
-		[[nodiscard]] uint32_t GetWidth() const { return windowInfo.width; }
-		[[nodiscard]] uint32_t GetHeight() const { return windowInfo.height; }
-		[[nodiscard]] uint32_t GetResetFlags() const { return windowInfo.resetFlags; }
+		[[nodiscard]] uint32_t getWidth() const { return windowInfo.width; }
+		[[nodiscard]] uint32_t getHeight() const { return windowInfo.height; }
+		[[nodiscard]] uint32_t getResetFlags() const { return windowInfo.resetFlags; }
 
 	private:
 		WindowInfo windowInfo;

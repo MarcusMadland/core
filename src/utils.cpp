@@ -7,11 +7,11 @@
 #include "utils.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
-	namespace Utils
+	namespace utils
 	{
-		uint8_t* LoadTexture2D(const std::string& filename, Texture2DParams& outParams)
+		uint8_t* loadTexture2D(const std::string& filename, Texture2DParams& outParams)
 		{
 			// Flip texture
 			stbi_set_flip_vertically_on_load(true);
@@ -23,7 +23,7 @@ namespace Core
 			// If we fail to load the texture, we load a debug "no texture" texture
 			if (!bytes)
 			{
-				Core::Logger::LogError("Failed to create texture, invalid data");
+				core::Logger::logError("Failed to create texture, invalid data");
 
 				bytes = stbi_load("../core/assets/textures/no_texture.png", &width, &height, &channels, 4);
 			}

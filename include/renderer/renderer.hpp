@@ -7,24 +7,24 @@
 #include "mesh.hpp"
 #include "math/transform.hpp"
 
-namespace Core
+namespace core
 {
 	class Renderer
 	{
 	public:
-		static void Init();
-		static void Shutdown();
+		static void init();
+		static void shutdown();
 
-		static bool Begin(Ref<Camera> camera);// if camera is nullptr, we use view id 0
-		static void End();
+		static bool begin(ref<Camera> camera);// if camera is nullptr, we use view id 0
+		static void end();
 
-		static void SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader);
+		static void submitVertexArray(ref<VertexArray> vao, ref<Shader> shader);
 
-		static void SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform);
-		static void SubmitMesh(Ref<Mesh> mesh, Transform transform);
-		static void SubmitBatch(Ref<Batch> batch);
+		static void submitVertexArrayTransform(ref<VertexArray> vao, ref<Shader> shader, Transform transform);
+		static void submitMesh(ref<Mesh> mesh, Transform transform);
+		static void submitBatch(ref<Batch> batch);
 
-		static Ref<ShaderManager> GetShaderManager();
+		static ref<ShaderManager> getShaderManager();
 
 	private:
 

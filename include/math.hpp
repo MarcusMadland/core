@@ -27,9 +27,9 @@
  */
 class Camera;
 
-namespace Core
+namespace core
 {
-	namespace Math
+	namespace math
 	{
 		/*
 		 * Advanced Maths
@@ -42,7 +42,7 @@ namespace Core
 		 * 
 		 * @return A three component transform for Position, Rotation and Scale
 		 */
-		Transform DecomposeMatrix(const glm::mat4& matrix);
+		Transform decomposeMatrix(const glm::mat4& matrix);
 
 		/*
 		 * Composes a 4x4 matrix from a Transform structure.
@@ -51,13 +51,13 @@ namespace Core
 		 * 
 		 * @return A 4x4 transformation matrix 
 		 */
-		glm::mat4 ComposeMatrix(const Transform& transform);
+		glm::mat4 composeMatrix(const Transform& transform);
 
 		/*
 		 * @todo Yet to be implemented
 		 */
-		glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace,
-			const Ref<Camera>& camera);
+		glm::vec3 worldToScreenSpace(const glm::vec3& worldSpace,
+			const ref<Camera>& camera);
 
 		/*
 		 * Tries to convert from screen space to world space.
@@ -73,8 +73,8 @@ namespace Core
 		 * 
 		 * @return Three dimensional vector in world space
 		 */
-		glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace,
-			const Ref<Camera>& camera, const float& depth = 2.0f); 
+		glm::vec3 screenToWorldSpace(const glm::vec2& screenSpace,
+			const ref<Camera>& camera, const float& depth = 2.0f); 
 
 		/*
 		 * Tries to find the rotation between two points
@@ -84,7 +84,7 @@ namespace Core
 		 * 
 		 * @return The quaternion rotation between two points
 		 */
-		glm::quat FindLookAtRotation(const glm::vec3& start,
+		glm::quat findLookAtRotation(const glm::vec3& start,
 			const glm::vec3& target);
 
 		/*
@@ -94,7 +94,7 @@ namespace Core
 		 * 
 		 * @return The quaternion rotation from direction
 		 */
-		glm::quat RotationFromXVector(const glm::vec3& direction);
+		glm::quat rotationFromXVector(const glm::vec3& direction);
 
 		/*
 		 * Simple Maths
@@ -103,7 +103,7 @@ namespace Core
 		/*
 		 * @todo Yet to be documented
 		 */
-		glm::vec3 Exp(const glm::vec3& a, const glm::vec3& b);
+		glm::vec3 exp(const glm::vec3& a, const glm::vec3& b);
 		
 		/*
 		 * Conversions
@@ -118,7 +118,7 @@ namespace Core
 		 *
 		 * @return The quaternion rotation from euler
 		 */
-		glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll);
+		glm::quat toQuat(const float& pitch, const float& yaw, const float& roll);
 
 		/*
 		 * Converts from euler rotation to a quaternion rotation
@@ -129,7 +129,7 @@ namespace Core
 		 *
 		 * @return The quaternion rotation from euler
 		 */
-		glm::quat ToQuat(const glm::vec3& euler);
+		glm::quat toQuat(const glm::vec3& euler);
 
 		/*
 		 * Utilities
@@ -144,7 +144,7 @@ namespace Core
 		 *
 		 * @return True if the value is higher than min and lower than max
 		 */
-		bool InRange(const float& value, const float& min, const float& max);
+		bool inRange(const float& value, const float& min, const float& max);
 
 		/*
 		 * Linear Interpolates from current to target
@@ -155,7 +155,7 @@ namespace Core
 		 * @param[in] deltaTime The Delta Time of current frame
 		 * @param[in] speed The speed of the interpolation. Higher = Faster
 		 */
-		float Interp(const float& current, const float& target,
+		float interp(const float& current, const float& target,
 			const float& deltaTime, const float& speed);
 
 		/*
@@ -167,7 +167,7 @@ namespace Core
 		 * @param[in] deltaTime The Delta Time of current frame
 		 * @param[in] speed The speed of the interpolation. Higher = Faster
 		 */
-		glm::vec3 Interp(const glm::vec3& current, const glm::vec3& target,
+		glm::vec3 interp(const glm::vec3& current, const glm::vec3& target,
 			const float& deltaTime, const float& speed);
 	}
 }

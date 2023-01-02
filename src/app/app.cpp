@@ -8,7 +8,7 @@
 #include "renderer/renderer.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
 	#define BIND_EVENT_FN(x) std::bind(&App::x, \
 		this, std::placeholders::_1)
@@ -20,7 +20,7 @@ namespace Core
 		, lastFrameTime(0.0f)
 		, deltaTime(0.0f)
 	{
-		Logger::LogInfo("Initializing Application...");
+		Logger::logInfo("Initializing Application...");
 
 		if (!instance)
 		{
@@ -32,34 +32,34 @@ namespace Core
 
 		// Window
 		window = new Window(name, width, height);
-		window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		window->setEventCallback(BIND_EVENT_FN(onEvent));
 
 		// Initialize renderer
-		Logger::LogInfo("Initializing Renderer...");
-		Renderer::Init();
+		Logger::logInfo("Initializing Renderer...");
+		Renderer::init();
 
 		// Layers
 		#ifdef _DEBUG
 		{
 			imguiLayer = new ImGuiLayer();
-			PushOverlay(imguiLayer);
+			pushOverlay(imguiLayer);
 		}
 		#endif
 	}
 
-	void App::PushLayer(Layer* layer)
+	void App::pushLayer(Layer* layer)
 	{
-		layerStack.PushLayer(layer);
+		layerStack.pushLayer(layer);
 	}
 
-	void App::PushOverlay(Layer* layer)
+	void App::pushOverlay(Layer* layer)
 	{
-		layerStack.PushOverlay(layer);
+		layerStack.pushOverlay(layer);
 	}
 
-	void App::Run()
+	void App::run()
 	{
-		Logger::LogInfo("Running Application...");
+		Logger::logInfo("Running Application...");
 
 		while (isRunning)
 		{
@@ -70,26 +70,26 @@ namespace Core
 			if (!isMinimized)
 			{
 				for (Layer* layer : layerStack)
-					layer->OnUpdate(deltaTime);
+					layer->onUpdate(deltaTime);
 
 
 				#ifdef _DEBUG
 				{
-					Core::ImGuiLayer::Begin();
+					core::ImGuiLayer::begin();
 
 					for (Layer* layer : layerStack)
-						layer->OnImGuiRender();
+						layer->onImGuiRender();
 
-					Core::ImGuiLayer::End();
+					core::ImGuiLayer::end();
 				}
 				#endif
 			}
 
-			window->OnUpdate();
+			window->onUpdate();
 		}
 	}
 
-	void App::Shutdown()
+	void App::shutdown()
 	{
 		if (isRunning)
 		{
@@ -97,29 +97,29 @@ namespace Core
 		}
 	}
 
-	void App::OnEvent(Event& e)
+	void App::onEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
+		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+		dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(onWindowResize));
 
 		for (auto it = layerStack.end(); it != layerStack.begin(); )
 		{
-			(*--it)->OnEvent(e);
+			(*--it)->onEvent(e);
 			if (e.handled)
 				break;
 		}
 	}
 
-	bool App::OnWindowClose(WindowCloseEvent& e)
+	bool App::onWindowClose(WindowCloseEvent& e)
 	{
 		isRunning = false;
 		return true;
 	}
 
-	bool App::OnWindowResize(const WindowResizeEvent& e)
+	bool App::onWindowResize(const WindowResizeEvent& e)
 	{
-		isMinimized = (e.GetWidth() == 0 || e.GetHeight() == 0);
+		isMinimized = (e.getWidth() == 0 || e.getHeight() == 0);
 		return false;
 	}
 }

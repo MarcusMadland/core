@@ -3,9 +3,9 @@
 #include "renderer/batch.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
-	Batch::Batch(const BatchParams& params, Ref<Material> material)
+	Batch::Batch(const BatchParams& params, ref<Material> material)
 		: params(params), material(material)
 	{
 		// @todo for dynamic
@@ -17,13 +17,13 @@ namespace Core
 	{
 	}
 
-	void Batch::Add(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices)
+	void Batch::add(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices)
 	{
 		const size_t dataCount = (vertices.size() + indices.size()) + (currBatchedVertices.size() + currBatchedIndices.size());
 		if (dataCount > params.maxDataCount)
 		{
-			Flush();
-			Add(vertices, indices);
+			flush();
+			add(vertices, indices);
 		}
 
 		// Indices
@@ -36,30 +36,30 @@ namespace Core
 		currBatchedVertices.insert(currBatchedVertices.end(), vertices.begin(), vertices.end());
 	}
 
-	void  Batch::Add(Ref<Mesh> mesh)
+	void  Batch::add(ref<Mesh> mesh)
 	{
-		if (mesh->GetMaterial() != material)
+		if (mesh->getMaterial() != material)
 		{
-			Logger::LogWarn("Overwriting mesh material to batch material");
+			Logger::logWarn("Overwriting mesh material to batch material");
 		}
 
-		Add(mesh->GetVertices(), mesh->GetIndices());
+		add(mesh->getVertices(), mesh->getIndices());
 	}
 
-	void Batch::Flush()
+	void Batch::flush()
 	{
-		Ref<Mesh> batchedMesh = Mesh::Create(currBatchedVertices, currBatchedIndices, material);
+		ref<Mesh> batchedMesh = Mesh::create(currBatchedVertices, currBatchedIndices, material);
 		batchedMeshes.push_back(batchedMesh);
 
-		Logger::LogInfo("Flushed batch, with %u batches, %u vertices and %u indices",
+		Logger::logInfo("Flushed batch, with %u batches, %u vertices and %u indices",
 			batchedMeshes.size(), currBatchedVertices.size(), currBatchedIndices.size());
 
 		currBatchedVertices.clear();
 		currBatchedIndices.clear();
 	}
 
-	Ref<Batch> Batch::Create(const BatchParams& params, Ref<Material> material)
+	ref<Batch> Batch::create(const BatchParams& params, ref<Material> material)
 	{
-		return MakeRef<Batch>(params, material);
+		return makeRef<Batch>(params, material);
 	}
 }

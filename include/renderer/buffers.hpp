@@ -4,7 +4,7 @@
 
 #include "common.hpp"
 
-namespace Core
+namespace core
 {
 	class VertexArray
 	{
@@ -12,7 +12,7 @@ namespace Core
 		VertexArray(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh);
 		~VertexArray();
 
-		static Ref<VertexArray> Create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh);
+		static ref<VertexArray> create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh);
 
 	public: // @todo make private
 		bgfx::VertexBufferHandle vbh;

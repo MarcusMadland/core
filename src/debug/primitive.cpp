@@ -4,7 +4,7 @@
 
 #include "debug/primitive.hpp"
 
-namespace Core
+namespace core
 {
 	Primitive::Primitive(const std::vector<PrimitiveVertex>& primitiveVertices,
 			const std::vector<uint16_t>& primitiveIndices)
@@ -13,7 +13,7 @@ namespace Core
 		indices = primitiveIndices;
 	}
 
-	void Primitive::Make(const std::vector<PrimitiveVertex>& primitiveVertices,
+	void Primitive::make(const std::vector<PrimitiveVertex>& primitiveVertices,
 			const std::vector<uint16_t>& primitiveIndices)
 	{
 		vertices = primitiveVertices;
@@ -43,7 +43,7 @@ namespace Core
 		};
 		std::vector<uint16_t> indices = std::vector<uint16_t>(std::begin(indicesArr), std::end(indicesArr));
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded Pyramid that will be used mostly for debug drawing
@@ -79,7 +79,7 @@ namespace Core
 		indices[16] = 0;
 		indices[17] = 4;
 		
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded Sphere that will be used mostly for debug drawing
@@ -126,7 +126,7 @@ namespace Core
 			}
 		}
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded Quad that will be used mostly for debug drawing and billboards
@@ -148,7 +148,7 @@ namespace Core
 		indices[4] = 3;
 		indices[5] = 0;
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded Line that will be used mostly for debug drawing
@@ -164,7 +164,7 @@ namespace Core
 		indices[0] = 0;
 		indices[1] = 1;
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded 2x2 Grid that will be used mostly for debug drawing
@@ -201,7 +201,7 @@ namespace Core
 		indices[14] = 8;
 		indices[15] = 1;
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 
 	// Hard coded Circle that will be used mostly for debug drawing
@@ -247,6 +247,6 @@ namespace Core
 
 		indices.push_back(1);
 
-		Make(vertices, indices);
+		make(vertices, indices);
 	}
 }

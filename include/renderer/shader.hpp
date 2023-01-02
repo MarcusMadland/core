@@ -8,7 +8,7 @@
 
 #include "common.hpp"
 
-namespace Core
+namespace core
 {
 	class Shader
 	{
@@ -16,12 +16,12 @@ namespace Core
 		Shader(const std::string& filenameVertex, const std::string& filenameFragment);
 		~Shader();
 
-		const std::string GetName() const { return name; }
+		const std::string getName() const { return name; }
 
-		static Ref<Shader> Create(const std::string& filenameVertex, const std::string& filenameFragment);
+		static ref<Shader> create(const std::string& filenameVertex, const std::string& filenameFragment);
 
 	private:
-		bgfx::ShaderHandle LoadShader(const std::string& filename);
+		bgfx::ShaderHandle loadShader(const std::string& filename);
 
 	private: 
 		friend class Renderer;
@@ -33,14 +33,14 @@ namespace Core
 	class ShaderManager
 	{
 	public:
-		void LoadAndAdd(const std::string& vertexShaderPath,
+		void loadAndAdd(const std::string& vertexShaderPath,
 			const std::string& fragmentShaderPath);
-		void Add(const Ref<Shader>& shader);
-		static Ref<Shader> Load(const std::string& vertexShaderPath,
+		void add(const ref<Shader>& shader);
+		static ref<Shader> load(const std::string& vertexShaderPath,
 			const std::string& fragmentShaderPath);
-		Ref<Shader> Get(const std::string& name);
+		ref<Shader> get(const std::string& name);
 
 	private:
-		std::unordered_map<std::string, Ref<Shader>> shaders;
+		std::unordered_map<std::string, ref<Shader>> shaders;
 	};
 }

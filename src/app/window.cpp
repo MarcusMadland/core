@@ -24,22 +24,22 @@
 #include "debug/logger.hpp"
 
 
-namespace Core
+namespace core
 {
 	Window::Window(const char* name, uint32_t width, uint32_t height)
-		: window(nullptr)
+		: window(nullptr), bgfxCallback(nullptr)
 	{
 		windowInfo.title = name;
 		windowInfo.width = width;
 		windowInfo.height = height;
 		windowInfo.resetFlags = BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X16;
 
-		Logger::LogInfo(std::string("Creating window with name: " + std::string(name) + ", (Width: %u, Height: %u)").c_str(), width, height);
+		Logger::logInfo(std::string("Creating window with name: " + std::string(name) + ", (Width: %u, Height: %u)").c_str(), width, height);
 
 		// Init GLFW
 		if (!glfwInit())
 		{
-			Logger::LogCritical("Failed to initialize GLFW");
+			Logger::logCritical("Failed to initialize GLFW");
 			return;
 		}
 			
@@ -53,7 +53,7 @@ namespace Core
 			nullptr);
 		if (!window)
 		{
-			Logger::LogCritical("Failed to initialize Window");
+			Logger::logCritical("Failed to initialize Window");
 			return;
 		}
 
@@ -78,7 +78,7 @@ namespace Core
 		init.callback = bgfxCallback;
 		if (!bgfx::init(init))
 		{
-			Logger::LogCritical("Failed to initialize BGFX");
+			Logger::logCritical("Failed to initialize BGFX");
 			return;
 		}
 
@@ -209,7 +209,7 @@ namespace Core
 		if (window) { delete window; }
 	}
 
-	void Window::OnUpdate()
+	void Window::onUpdate()
 	{
 		glfwPollEvents();
 
@@ -226,12 +226,12 @@ namespace Core
 		#endif
 	}
 
-	void Window::SetEventCallback(const std::function<void(Event&)>& callback)
+	void Window::setEventCallback(const std::function<void(Event&)>& callback)
 	{
 		windowInfo.eventCallback = callback;
 	}
 
-	GLFWwindow* Window::GetNativeWindow()
+	GLFWwindow* Window::getNativeWindow()
 	{
 		return window;
 	}

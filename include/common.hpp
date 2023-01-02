@@ -18,20 +18,20 @@
 
 #include <memory>
 
-namespace Core
+namespace core
 {
 	/*
 	 * Unique Pointer, destroys itself when out of scope
 	 */
 	template<typename T>
-	using Scope = std::unique_ptr<T>;
+	using scope = std::unique_ptr<T>;
 	
 	/*
 	 * Shared Pointer, destroys itself when all owners are destroyed or .reset()
 	 * has been used
 	 */
 	template<typename T>
-	using Ref = std::shared_ptr<T>;
+	using ref = std::shared_ptr<T>;
 	
 	/*
 	 * Makes a unique pointer of type T
@@ -40,7 +40,7 @@ namespace Core
 	 * @param[in] args Arguments needed to construct object
 	 */
 	template<typename T, typename ... Args>
-	constexpr Scope<T> MakeScope(Args&& ... args)
+	constexpr scope<T> makeScope(Args&& ... args)
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
@@ -52,7 +52,7 @@ namespace Core
 	 * @param[in] args Arguments needed to construct object
 	 */
 	template<typename T, typename ... Args>
-	constexpr Ref<T> MakeRef(Args&& ... args)
+	constexpr ref<T> makeRef(Args&& ... args)
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}

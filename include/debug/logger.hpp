@@ -33,7 +33,7 @@
 	#include <Windows.h> 
 #endif
 
-namespace Core
+namespace core
 {
 	/*
 	 * Log priorities in order.
@@ -60,7 +60,7 @@ namespace Core
 		 * 
 		 * @return Reference to this class.
 		 */
-		static Logger& GetInstance()
+		static Logger& getInstance()
 		{
 			static Logger instance;
 			return instance;
@@ -72,14 +72,14 @@ namespace Core
 		 *
 		 * @param[in] newPriority The desired priority type
 		 */
-		static void SetPriority(const LogPriority& newPriority);
+		static void setPriority(const LogPriority& newPriority);
 
 		/*
 		 * Get the current priority of the logger as type
 		 *
 		 * @return Current set log priority
 		 */
-		static LogPriority GetPriority();
+		static LogPriority getPriority();
 		
 	private:
 		/*
@@ -92,7 +92,7 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		void Log(const LogPriority& messagePriority, const char* message, Args... args)
+		void log(const LogPriority& messagePriority, const char* message, Args... args)
 		{
 
 			// Skip logging when in release mode
@@ -102,7 +102,7 @@ namespace Core
 
 			// Skip logging if this message's priority is below our global
 			// priority
-			if (GetPriority() > priority)
+			if (getPriority() > priority)
 			{
 				return;
 			}
@@ -170,9 +170,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogTrace(const char* message, Args... args)
+		static void logTrace(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Trace, message, args...);
+			getInstance().log(LogPriority::Trace, message, args...);
 		}
 
 		/*
@@ -182,9 +182,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogDebug(const char* message, Args... args)
+		static void logDebug(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Debug, message, args...);
+			getInstance().log(LogPriority::Debug, message, args...);
 		}
 
 		/*
@@ -194,9 +194,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogInfo(const char* message, Args... args)
+		static void logInfo(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Info, message, args...);
+			getInstance().log(LogPriority::Info, message, args...);
 		}
 
 		/*
@@ -206,9 +206,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogWarn(const char* message, Args... args)
+		static void logWarn(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Warn, message, args...);
+			getInstance().log(LogPriority::Warn, message, args...);
 		}
 
 		/*
@@ -218,9 +218,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogError(const char* message, Args... args)
+		static void logError(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Error, message, args...);
+			getInstance().log(LogPriority::Error, message, args...);
 		}
 
 		/*
@@ -230,9 +230,9 @@ namespace Core
 		 * @param[in] args Arguments that are used inside the message, if any
 		 */
 		template<typename... Args>
-		static void LogCritical(const char* message, Args... args)
+		static void logCritical(const char* message, Args... args)
 		{
-			GetInstance().Log(LogPriority::Critical, message, args...);
+			getInstance().log(LogPriority::Critical, message, args...);
 		}
 
 	private:

@@ -11,7 +11,7 @@
 #include "shader.hpp"
 #include "texture.hpp"
 
-namespace Core
+namespace core
 {
 	enum MaterialType
 	{
@@ -47,26 +47,26 @@ namespace Core
 		Material(MaterialParams params);
 		~Material();
 
-		void AddTexture(Ref<Texture2D> texture, const std::string& name);
+		void addTexture(ref<Texture2D> texture, const std::string& name);
 
-		void SetBasecolor(const std::string& textureName, const uint32_t& index = 0);
-		void SetBasecolor(glm::vec4 color);
+		void setBasecolor(const std::string& textureName, const uint32_t& index = 0);
+		void setBasecolor(glm::vec4 color);
 
-		[[nodiscard]] Ref<Shader> GetShader() { return shader; }
+		[[nodiscard]] ref<Shader> getShader() { return shader; }
 
-		static Ref<Material> Create(MaterialParams params);
+		static ref<Material> create(MaterialParams params);
 
 	private:
-		void UpdateUniforms();
+		void updateUniforms();
 
 	private:
 		MaterialParams params;
 
-		Ref<Shader> shader;
+		ref<Shader> shader;
 
-		std::unordered_map<std::string, Ref<Texture2D>> textures;
+		std::unordered_map<std::string, ref<Texture2D>> textures;
 
-		Ref<Texture2D> baseColorMap;
+		ref<Texture2D> baseColorMap;
 		bgfx::UniformHandle u_BaseColorMap;
 
 		glm::vec4 baseColorFactor;

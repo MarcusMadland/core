@@ -7,24 +7,24 @@
 #include "renderer/texture.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
 	Texture2D::Texture2D(void* data, const Texture2DParams& params)
 		: handle(BGFX_INVALID_HANDLE), params(params)
 	{
 		if (!data)
 		{
-			Logger::LogError("Failed to create texture, invalid data");
+			Logger::logError("Failed to create texture, invalid data");
 		}
 
 		if (params.width <= 0 || params.height <= 0)
 		{
-			Logger::LogError("Failed to create texture, invalid texture width or/and height");
+			Logger::logError("Failed to create texture, invalid texture width or/and height");
 		}
 
 		if (!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::RGBA8, BGFX_SAMPLER_U_BORDER | BGFX_SAMPLER_V_BORDER))
 		{
-			Logger::LogError("Failed to create texture, invalid texture");
+			Logger::logError("Failed to create texture, invalid texture");
 		}
 
 		// Create bgfx texture handle
@@ -48,8 +48,8 @@ namespace Core
 		bgfx::destroy(handle);
 	}
 
-	Ref<Texture2D> Texture2D::Create(void* data, const Texture2DParams& params)
+	ref<Texture2D> Texture2D::create(void* data, const Texture2DParams& params)
 	{
-		return MakeRef<Texture2D>(data, params);
+		return makeRef<Texture2D>(data, params);
 	}
 }

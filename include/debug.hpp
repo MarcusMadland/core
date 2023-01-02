@@ -22,22 +22,22 @@
 #include "debug/logger.hpp"
 #include "debug/debug_draw.hpp"
 
-namespace Core
+namespace core
 {
-	namespace Capture
+	namespace capture
 	{
 		/*
 		 * Captures a screenshot of the screen
 		 *
 		 * @return A .png image located under debug/screenshots/
 		 */
-		void Screenshot();
+		void screenshot();
 
 		/*
 		 * Begins screen capture of screen. CaptureEnd() needs to be called to
 		 * stop capturing screen.
 		 */
-		void CaptureBegin();
+		void captureBegin();
 
 		/*
 		 * Stops capturing screen. CaptureBegin() needs to be called to stop
@@ -45,6 +45,6 @@ namespace Core
 		 *
 		 * @return A .avi video file located under debug/captures/
 		 */
-		void CaptureEnd();
+		void captureEnd();
 	}
 }

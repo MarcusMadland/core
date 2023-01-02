@@ -10,7 +10,7 @@
 
 BgfxCallback::BgfxCallback()
 {
-	Core::Logger::LogInfo("Constructing BGFX Callbacks");
+	core::Logger::logInfo("Constructing BGFX Callbacks");
 }
 
 BgfxCallback::~BgfxCallback()
@@ -50,7 +50,7 @@ void BgfxCallback::traceVargs(const char* _filePath, uint16_t _line, const char*
 	outString.erase(0, 1);
 	
 	// Log BGFX message to the console window
-	Core::Logger::LogInfo(outString.c_str());
+	core::Logger::logInfo(outString.c_str());
 }
 
 void BgfxCallback::profilerBegin(const char* , uint32_t , const char* , uint16_t ) 
@@ -96,7 +96,7 @@ void BgfxCallback::screenShot(const char* _filePath, uint32_t _width, uint32_t _
 
 void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t , bgfx::TextureFormat::Enum , bool _yflip) 
 {
-	Core::Logger::LogWarn("Recording video capture...");
+	core::Logger::logWarn("Recording video capture...");
 
 	std::string capturePath = "../debug/captures/";
 
@@ -127,7 +127,7 @@ void BgfxCallback::captureBegin(uint32_t _width, uint32_t _height, uint32_t , bg
 
 void BgfxCallback::captureEnd() 
 {
-	Core::Logger::LogWarn("Video capture saved to debug/captures/*.avi");
+	core::Logger::logWarn("Video capture saved to debug/captures/*.avi");
 
 	if (aviWriter != nullptr)
 	{
@@ -143,7 +143,7 @@ void BgfxCallback::captureEnd()
 
 void BgfxCallback::captureFrame(const void* _data, uint32_t /*_size*/) 
 {
-	//Core::Logger::LogWarn("Using capture without callback (a.k.a. pointless) [frame]");
+	//core::Logger::LogWarn("Using capture without callback (a.k.a. pointless) [frame]");
 
 	if (aviWriter != nullptr)
 	{

@@ -5,12 +5,12 @@
 #include "renderer/material.hpp"
 #include "renderer/renderer.hpp"
 
-namespace Core
+namespace core
 {
 	Material::Material(MaterialParams params)
 		: params(params)
 	{
-		shader = Renderer::GetShaderManager()->Get("uber");
+		shader = Renderer::getShaderManager()->get("uber");
 
 		// Uniforms
 		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap", bgfx::UniformType::Sampler, 2);
@@ -21,27 +21,22 @@ namespace Core
 	{
 	}
 
-	void Material::AddTexture(Ref<Texture2D> texture, const std::string& name)
+	void Material::addTexture(ref<Texture2D> texture, const std::string& name)
 	{
 		textures[name] = texture;
 	}
 
-	void Material::SetBasecolor(const std::string& textureName, const uint32_t& index)
+	void Material::setBasecolor(const std::string& textureName, const uint32_t& index)
 	{
 		baseColorMap = textures[textureName];
 	}
 
-	void Material::SetBasecolor(glm::vec4 color)
+	void Material::setBasecolor(glm::vec4 color)
 	{
 		baseColorFactor = color;
 	}
 
-	Ref<Material> Material::Create(MaterialParams params)
-	{
-		return MakeRef<Material>(params);
-	}
-
-	void Material::UpdateUniforms()
+	void Material::updateUniforms()
 	{
 		// Base Color	
 		if (baseColorMap)
@@ -65,5 +60,10 @@ namespace Core
 			BGFX_STATE_BLEND_ALPHA : 0;
 									
 		bgfx::setState(twoSidedStates | translucentStates);
+	}
+
+	ref<Material> Material::create(MaterialParams params)
+	{
+		return makeRef<Material>(params);
 	}
 }

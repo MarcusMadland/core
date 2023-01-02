@@ -4,7 +4,7 @@
 
 #include "app/event.hpp"
 
-namespace Core 
+namespace core 
 {
 	class Layer
 	{
@@ -18,13 +18,13 @@ namespace Core
 		Layer& operator=(const Layer&) = default;
 		Layer& operator=(Layer&&) = default;
 
-		virtual void OnAttach() {}
-		virtual void OnDetach() {}
-		virtual void OnUpdate(const float& dt) {}
-		virtual void OnImGuiRender() {}
-		virtual void OnEvent(Event& event) {}
+		virtual void onAttach() {}
+		virtual void onDetach() {}
+		virtual void onUpdate(const float& dt) {}
+		virtual void onImGuiRender() {}
+		virtual void onEvent(Event& event) {}
 
-		[[nodiscard]] const char* GetName() const { return layerName; }
+		[[nodiscard]] const char* getName() const { return layerName; }
 
 	protected:
 		const char* layerName;
@@ -42,10 +42,10 @@ namespace Core
 		LayerStack& operator=(const LayerStack&) = default;
 		LayerStack& operator=(LayerStack&&) = default;
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* overlay);
-		void PopLayer(Layer* layer);
-		void PopOverlay(Layer* overlay);
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
+		void popLayer(Layer* layer);
+		void popOverlay(Layer* overlay);
 
 		std::vector<Layer*>::iterator begin() { return layers.begin(); }
 		std::vector<Layer*>::iterator end() { return layers.end(); }
@@ -67,12 +67,12 @@ namespace Core
 		ImGuiLayer& operator=(const ImGuiLayer&) = default;
 		ImGuiLayer& operator=(ImGuiLayer&&) = default;
 
-		void OnAttach() override;
-		void OnDetach() override;
-		void OnUpdate(const float& dt) override;
-		void OnImGuiRender() override;
+		void onAttach() override;
+		void onDetach() override;
+		void onUpdate(const float& dt) override;
+		void onImGuiRender() override;
 
-		static void Begin();
-		static void End();
+		static void begin();
+		static void end();
 	};
 }

@@ -4,7 +4,7 @@
 
 #include "renderer/vertex.hpp"
 
-namespace Core
+namespace core
 {
 	PrimitiveVertex::PrimitiveVertex()
 		: position(glm::vec3(0.0f))

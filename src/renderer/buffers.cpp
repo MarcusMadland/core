@@ -2,7 +2,7 @@
 
 #include "renderer/buffers.hpp"
 
-namespace Core
+namespace core
 {
 	VertexArray::VertexArray(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh)
 		: vbh(vbh), ibh(ibh)
@@ -15,8 +15,8 @@ namespace Core
 		bgfx::destroy(vbh);
 	}
 
-	Ref<VertexArray> VertexArray::Create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh)
+	ref<VertexArray> VertexArray::create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh)
 	{
-		return MakeRef<VertexArray>(vbh, ibh);
+		return makeRef<VertexArray>(vbh, ibh);
 	}
 }

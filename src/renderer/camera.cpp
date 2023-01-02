@@ -8,7 +8,7 @@
 
 #include "renderer/camera.hpp"
 
-namespace Core
+namespace core
 {
 	Camera::Camera(const CameraParams& params, const uint32_t viewID)
 		: params(params), view(glm::mat4(1.0f)), proj(glm::mat4(1.0f)), viewID(viewID)
@@ -23,7 +23,7 @@ namespace Core
 		bgfx::setViewTransform(viewID, &view[0][0], &proj[0][0]);
 	}
 
-	void Camera::Recalculate()
+	void Camera::recalculate()
 	{
 		bx::mtxLookAt(&view[0][0],
 			{ params.position.x, params.position.y, params.position.z },
@@ -35,8 +35,8 @@ namespace Core
 		bgfx::setViewTransform(viewID, &view[0][0], &proj[0][0]);
 	}
 
-	Ref<Camera> Camera::Create(const CameraParams& params, const uint32_t viewID )
+	ref<Camera> Camera::create(const CameraParams& params, const uint32_t viewID )
 	{
-		return MakeRef<Camera>(params, viewID);
+		return makeRef<Camera>(params, viewID);
 	}
 }

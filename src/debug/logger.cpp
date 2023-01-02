@@ -2,16 +2,16 @@
 
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
-	void Logger::SetPriority(const LogPriority& newPriority)
+	void Logger::setPriority(const LogPriority& newPriority)
 	{
-		GetInstance().priority = newPriority;
+		getInstance().priority = newPriority;
 	}
 
-	LogPriority Logger::GetPriority()
+	LogPriority Logger::getPriority()
 	{
-		return GetInstance().priority;
+		return getInstance().priority;
 	}
 	
 }

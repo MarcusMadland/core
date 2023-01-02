@@ -4,7 +4,7 @@
 
 #include "app/event.hpp"
 
-namespace Core
+namespace core
 {
 	EventDispatcher::EventDispatcher(Event& event)
 		: event(event)

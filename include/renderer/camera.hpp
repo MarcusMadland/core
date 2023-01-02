@@ -6,7 +6,7 @@
 
 #include "common.hpp"
 
-namespace Core
+namespace core
 {
 	struct CameraParams
 	{
@@ -31,17 +31,17 @@ namespace Core
 		Camera& operator=(const Camera&) = default;
 		Camera& operator=(Camera&&) = default;
 
-		void Recalculate();
+		void recalculate();
 
-		[[nodiscard]] const CameraParams& GetParams() const { return params; }
-		[[nodiscard]] CameraParams& GetParams() { return params; }
+		[[nodiscard]] const CameraParams& getParams() const { return params; }
+		[[nodiscard]] CameraParams& getParams() { return params; }
 
-		[[nodiscard]] const uint32_t& GetViewID() const { return viewID; }
-		[[nodiscard]] const glm::mat4& GetViewMatrix() const { return view; }
-		[[nodiscard]] const glm::mat4& GetProjectionMatrix() const { return proj; }
-		[[nodiscard]] const glm::mat4& GetViewProjectionMatrix() const { return view * proj; }
+		[[nodiscard]] const uint32_t& getViewID() const { return viewID; }
+		[[nodiscard]] const glm::mat4& getViewMatrix() const { return view; }
+		[[nodiscard]] const glm::mat4& getProjectionMatrix() const { return proj; }
+		[[nodiscard]] const glm::mat4& getViewProjectionMatrix() const { return view * proj; }
 
-		static Ref<Camera> Create(const CameraParams& params, const uint32_t viewID = 0);
+		static ref<Camera> create(const CameraParams& params, const uint32_t viewID = 0);
 
 	private:
 		CameraParams params;

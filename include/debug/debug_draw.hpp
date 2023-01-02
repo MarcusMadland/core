@@ -32,7 +32,7 @@
 struct bgfx::VertexLayout;
 struct bgfx::UniformHandle;
 
-namespace Core
+namespace core
 {
 	class DebugDraw final
 	{
@@ -46,7 +46,7 @@ namespace Core
 		 * 
 		 * @return Reference to this class.
 		 */
-		static DebugDraw& GetInstance()
+		static DebugDraw& getInstance()
 		{
 			static DebugDraw instance;
 			return instance;
@@ -63,7 +63,7 @@ namespace Core
 		 * in world space
 		 * @param[in] scale Scale in all three directions
 		 */
-		static void DrawDebugPyramid(const glm::vec4& color,
+		static void drawDebugPyramid(const glm::vec4& color,
 			const glm::vec3& start, const glm::vec3& end,
 			const glm::vec3& scale = glm::vec3(1.0f));
 
@@ -76,7 +76,7 @@ namespace Core
 		 * @param[in] rotation Rotation of cube in quaternion
 		 * @param[in] scale Scale in all three directions
 		 */
-		static void DrawDebugCube(const glm::vec4& color,
+		static void drawDebugCube(const glm::vec4& color,
 			const glm::vec3& position,
 			const glm::quat& rotation = glm::vec3(0.0f),
 			const glm::vec3& scale = glm::vec3(1.0f));
@@ -89,7 +89,7 @@ namespace Core
 		 * space
 		 * @param[in] radius Scale in all radius
 		 */
-		static void DrawDebugSphere(glm::vec4 color, glm::vec3 position,
+		static void drawDebugSphere(glm::vec4 color, glm::vec3 position,
 			float radius = 1.0f);
 
 		/*
@@ -101,7 +101,7 @@ namespace Core
 		 * @param[in] scale Scale in two directions (width, height), depth is
 		 * irrelevant
 		 */
-		static void DrawDebugQuad(glm::vec4 color, glm::vec3 position,
+		static void drawDebugQuad(glm::vec4 color, glm::vec3 position,
 			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
@@ -116,7 +116,7 @@ namespace Core
 		 * space
 		 * @param[in] gridCount The amount of grids to be drawn
 		 */
-		static void DrawDebugGrid(glm::vec4 color, glm::vec3 position,
+		static void drawDebugGrid(glm::vec4 color, glm::vec3 position,
 			uint32_t gridCount = 1);
 
 		/*
@@ -126,7 +126,7 @@ namespace Core
 		 * @param[in] start Start position of the line in world space
 		 * @param[in] end End position of the line in world space
 		 */
-		static void DrawDebugLine(glm::vec4 color, glm::vec3 start,
+		static void drawDebugLine(glm::vec4 color, glm::vec3 start,
 			glm::vec3 end);
 
 		/*
@@ -138,7 +138,7 @@ namespace Core
 		 * normalized
 		 * @param[in] length The length of the arrow in the given direction
 		 */
-		static void DrawDebugArrow(glm::vec4 color, glm::vec3 position,
+		static void drawDebugArrow(glm::vec4 color, glm::vec3 position,
 			glm::vec3 direction, float length = 1.0f);
 
 		/*
@@ -149,7 +149,7 @@ namespace Core
 		 * @param[in] position Position of the coordinates
 		 * @param[in] scale The length of all three lines
 		 */
-		static void DrawDebugWorldCoord(glm::vec3 position, float scale = 1.0f);
+		static void drawDebugWorldCoord(glm::vec3 position, float scale = 1.0f);
 
 		/*
 		 * Draws a debug circle with given color and transform
@@ -161,7 +161,7 @@ namespace Core
 		 * @param[in] scale Scale in two directions (width, height), depth is
 		 * irrelevant
 		 */
-		static void DrawDebugCircle(glm::vec4 color, glm::vec3 position,
+		static void drawDebugCircle(glm::vec4 color, glm::vec3 position,
 			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
@@ -170,24 +170,24 @@ namespace Core
 		 *
 		 * @todo Yet to be implemented
 		 */
-		static void DrawDebugText(uint16_t x, uint16_t y, const char* text, ...);
+		static void drawDebugText(uint16_t x, uint16_t y, const char* text, ...);
 
 	private:
-		void DrawDebugShape(const Ref<VertexArray>& vao, glm::vec4 color, 
+		void drawDebugShape(const ref<VertexArray>& vao, glm::vec4 color, 
 			Transform transform);
 		
 	private:
-		Ref<Shader> shader;
+		ref<Shader> shader;
 
 		bgfx::VertexLayout layout;
 		bgfx::UniformHandle u_color;
 
-		Ref<VertexArray> vaoCube;
-		Ref<VertexArray> vaoSphere;
-		Ref<VertexArray> vaoPyramid;
-		Ref<VertexArray> vaoQuad;
-		Ref<VertexArray> vaoLine;
-		Ref<VertexArray> vaoGrid;
-		Ref<VertexArray> vaoCircle;
+		ref<VertexArray> vaoCube;
+		ref<VertexArray> vaoSphere;
+		ref<VertexArray> vaoPyramid;
+		ref<VertexArray> vaoQuad;
+		ref<VertexArray> vaoLine;
+		ref<VertexArray> vaoGrid;
+		ref<VertexArray> vaoCircle;
 	};
 }

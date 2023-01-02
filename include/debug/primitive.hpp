@@ -7,7 +7,7 @@
 #include "renderer/vertex.hpp"
 #include "math/transform.hpp"
 
-namespace Core
+namespace core
 {
 	class Primitive
 	{
@@ -23,11 +23,12 @@ namespace Core
 		Primitive& operator=(const Primitive&) = default;
 		Primitive& operator=(Primitive&&) = default;
 
-		void Make(const std::vector<PrimitiveVertex>& primitiveVertices,
-			const std::vector<uint16_t>& primitiveIndices);
+		[[nodiscard]] const std::vector<PrimitiveVertex>& getVertices() const { return vertices; }
+		[[nodiscard]] const std::vector<uint16_t>& getIndices() const { return indices; }
 
-		[[nodiscard]] const std::vector<PrimitiveVertex>& GetVertices() const { return vertices; }
-		[[nodiscard]] const std::vector<uint16_t>& GetIndices() const { return indices; }
+	protected:
+		void make(const std::vector<PrimitiveVertex>& primitiveVertices,
+			const std::vector<uint16_t>& primitiveIndices);
 
 	public:
 		std::vector<PrimitiveVertex> vertices;

@@ -6,59 +6,59 @@
 #include "math.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
 	struct RendererData
 	{
-		Ref<ShaderManager> shaderManager;
-		Ref<Camera> camera;
+		ref<ShaderManager> shaderManager;
+		ref<Camera> camera;
 	};
 	static RendererData* data;
 
-	void Renderer::Init()
+	void Renderer::init()
 	{
 		data = new RendererData();
 		data->shaderManager = std::make_shared<ShaderManager>();
 
 		// Shaders
-		data->shaderManager->LoadAndAdd(
+		data->shaderManager->loadAndAdd(
 			"../shaders/compiled/uber-vert.bin", 
 			"../shaders/compiled/uber-frag.bin");
-		data->shaderManager->LoadAndAdd(
+		data->shaderManager->loadAndAdd(
 			"../shaders/compiled/simple-vert.bin", 
 			"../shaders/compiled/simple-frag.bin");
 		
 		#ifdef _DEBUG
-			data->shaderManager->LoadAndAdd(
+			data->shaderManager->loadAndAdd(
 				"../shaders/compiled/debugdraw-vert.bin", 
 				"../shaders/compiled/debugdraw-frag.bin");
 		#endif
 	}
 
-	void Renderer::Shutdown()
+	void Renderer::shutdown()
 	{
 		delete data;
 	}
 
-	bool Renderer::Begin(Ref<Camera> camera)
+	bool Renderer::begin(ref<Camera> camera)
 	{
 		data->camera = camera;
 
 		return true;
 	}
-	void Renderer::End()
+	void Renderer::end()
 	{
 	
 	}
 
-	void Renderer::SubmitVertexArray(Ref<VertexArray> vao, Ref<Shader> shader)
+	void Renderer::submitVertexArray(ref<VertexArray> vao, ref<Shader> shader)
 	{
 		// If camera is null, meaning we either passed null at begin or never called begin
 		// We set it to 0 if no camera is availanble. This only happens in debug draw
 		bgfx::ViewId viewID = 0; 
 		if (data->camera)
 		{
-			viewID = data->camera->GetViewID();
+			viewID = data->camera->getViewID();
 		}
 
 		// Handle Vertex Array
@@ -69,46 +69,46 @@ namespace Core
 		bgfx::submit(viewID, shader->handle);
 	}
 
-	void Renderer::SubmitVertexArrayTransform(Ref<VertexArray> vao, Ref<Shader> shader, Transform transform)
+	void Renderer::submitVertexArrayTransform(ref<VertexArray> vao, ref<Shader> shader, Transform transform)
 	{
 		// Handle Transform
-		bgfx::setTransform(&Math::ComposeMatrix(transform)[0][0]);
+		bgfx::setTransform(&math::composeMatrix(transform)[0][0]);
 
 		// Submit
-		SubmitVertexArray(vao, shader);
+		submitVertexArray(vao, shader);
 	}
 
-	void Renderer::SubmitMesh(Ref<Mesh> mesh, Transform transform)
+	void Renderer::submitMesh(ref<Mesh> mesh, Transform transform)
 	{
 		// Handle Transform
-		bgfx::setTransform(&(Math::ComposeMatrix(transform) * Math::ComposeMatrix(mesh->GetTransform()))[0][0]);
+		bgfx::setTransform(&(math::composeMatrix(transform) * math::composeMatrix(mesh->getTransform()))[0][0]);
 
 		// Only submit mesh if material is valid 
 		// @todo Add standard material if not material is submitted
-		if (mesh->GetMaterial())
+		if (mesh->getMaterial())
 		{
 			// Material
-			mesh->GetMaterial()->UpdateUniforms();
+			mesh->getMaterial()->updateUniforms();
 
 			// Submit
-			SubmitVertexArray(mesh->GetVertexArray(), mesh->GetMaterial()->GetShader());
+			submitVertexArray(mesh->getVertexArray(), mesh->getMaterial()->getShader());
 		}
 	}
 
-	void Renderer::SubmitBatch(Ref<Batch> batch)
+	void Renderer::submitBatch(ref<Batch> batch)
 	{
 		if (batch->currBatchedIndices.size() > 0 || batch->currBatchedVertices.size() > 0)
 		{
-			batch->Flush();
+			batch->flush();
 		}
 
-		for (uint32_t i = 0; i < batch->GetBatchedMeshes().size(); i++)
+		for (uint32_t i = 0; i < batch->getBatchedMeshes().size(); i++)
 		{
-			SubmitMesh(batch->GetBatchedMeshes()[i], Transform());
+			submitMesh(batch->getBatchedMeshes()[i], Transform());
 		}
 	}
 
-	Ref<ShaderManager> Renderer::GetShaderManager()
+	ref<ShaderManager> Renderer::getShaderManager()
 	{
 		return data->shaderManager;
 	}

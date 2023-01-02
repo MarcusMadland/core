@@ -11,7 +11,7 @@
 #include "app/layer.hpp"
 #include "app/app.hpp"
 
-namespace Core
+namespace core
 {
 	Layer::Layer(const char* name)
 		: layerName(name)
@@ -30,40 +30,40 @@ namespace Core
 		}
 	}
 
-	void LayerStack::PushLayer(Layer* layer)
+	void LayerStack::pushLayer(Layer* layer)
 	{
 		layers.emplace(layers.begin() + layerInsertIndex, layer);
 		layerInsertIndex++;
-		layer->OnAttach();
+		layer->onAttach();
 	}
 
-	void LayerStack::PushOverlay(Layer* overlay)
+	void LayerStack::pushOverlay(Layer* overlay)
 	{
 		layers.emplace_back(overlay);
-		overlay->OnAttach();
+		overlay->onAttach();
 	}
 
-	void LayerStack::PopLayer(Layer* layer)
+	void LayerStack::popLayer(Layer* layer)
 	{
 		const auto it = std::find(layers.begin(),
 			layers.begin() + layerInsertIndex, layer);
 
 		if (it != layers.begin() + layerInsertIndex)
 		{
-			layer->OnDetach();
+			layer->onDetach();
 			layers.erase(it);
 			layerInsertIndex--;
 		}
 	}
 
-	void LayerStack::PopOverlay(Layer* overlay)
+	void LayerStack::popOverlay(Layer* overlay)
 	{
 		const auto it = std::find(layers.begin() +
 			layerInsertIndex, layers.end(), overlay);
 
 		if (it != layers.end())
 		{
-			overlay->OnDetach();
+			overlay->onDetach();
 			layers.erase(it);
 		}
 	}
@@ -75,7 +75,7 @@ namespace Core
 	{
 	}
 
-	void ImGuiLayer::OnAttach()
+	void ImGuiLayer::onAttach()
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -102,14 +102,14 @@ namespace Core
 		}
 
 		// Get GLFW window for imgui initialzation
-		App& app = App::Instance();
-		auto* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		App& app = App::getInstance();
+		auto* window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
 
 		ImGui_ImplGlfw_InitForOther(window, true);
 		ImGui_Implbgfx_Init(255);
 	}
 
-	void ImGuiLayer::OnDetach()
+	void ImGuiLayer::onDetach()
 	{
 		ImGui_Implbgfx_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -117,16 +117,16 @@ namespace Core
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnUpdate(const float& dt)
+	void ImGuiLayer::onUpdate(const float& dt)
 	{
 	}
 
-	void ImGuiLayer::OnImGuiRender()
+	void ImGuiLayer::onImGuiRender()
 	{
 
 	}
 
-	void ImGuiLayer::Begin()
+	void ImGuiLayer::begin()
 	{
 		ImGui_Implbgfx_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -136,12 +136,12 @@ namespace Core
 		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 	}
 
-	void ImGuiLayer::End()
+	void ImGuiLayer::end()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		App& app = App::Instance();
-		io.DisplaySize = ImVec2(static_cast<float>(app.GetWindow().GetWidth()),
-			static_cast<float>(app.GetWindow().GetHeight()));
+		App& app = App::getInstance();
+		io.DisplaySize = ImVec2(static_cast<float>(app.getWindow().getWidth()),
+			static_cast<float>(app.getWindow().getHeight()));
 
 		ImGui::Render();
 

@@ -5,14 +5,14 @@
 #include "renderer/shader.hpp"
 #include "debug/logger.hpp"
 
-namespace Core
+namespace core
 {
 	Shader::Shader(const std::string& filenameVertex, const std::string& filenameFragment)
 		: handle(BGFX_INVALID_HANDLE)
 	{
 		// Create handles for vertex and fragment shader
-		bgfx::ShaderHandle vsh = LoadShader(filenameVertex);
-		bgfx::ShaderHandle fsh = LoadShader(filenameFragment);
+		bgfx::ShaderHandle vsh = loadShader(filenameVertex);
+		bgfx::ShaderHandle fsh = loadShader(filenameFragment);
 
 		// Create handle for shader program with the vertex and fragment shader
 		handle = bgfx::createProgram(vsh, fsh, true);
@@ -22,7 +22,7 @@ namespace Core
 		auto last = filenameVertex.find_last_of('-');
 		name = filenameVertex.substr(first, last - first);
 
-		Logger::LogInfo("Loaded shader: %s", name.c_str());
+		Logger::logInfo("Loaded shader: %s", name.c_str());
 	}
 
 	Shader::~Shader()
@@ -30,17 +30,17 @@ namespace Core
 		bgfx::destroy(handle);
 	}
 
-	Ref<Shader> Shader::Create(const std::string& filenameVertex, const std::string& filenameFragment)
+	ref<Shader> Shader::create(const std::string& filenameVertex, const std::string& filenameFragment)
 	{
-		return MakeRef<Shader>(filenameVertex, filenameFragment);
+		return makeRef<Shader>(filenameVertex, filenameFragment);
 	}
 
-	bgfx::ShaderHandle Shader::LoadShader(const std::string& filename)
+	bgfx::ShaderHandle Shader::loadShader(const std::string& filename)
 	{
 		FILE* file = fopen(filename.c_str(), "rb");
 		if (!file)
 		{
-			Logger::LogCritical("Failed to load shader");
+			Logger::logCritical("Failed to load shader");
 			return bgfx::ShaderHandle();
 		}
 
@@ -56,29 +56,29 @@ namespace Core
 		return bgfx::createShader(mem);
 	}
 
-	void ShaderManager::LoadAndAdd(const std::string& vertexShaderPath,
+	void ShaderManager::loadAndAdd(const std::string& vertexShaderPath,
 		const std::string& fragmentShaderPath)
 	{
-		if (const Ref<Shader> shader = Load(vertexShaderPath, fragmentShaderPath))
+		if (const ref<Shader> shader = load(vertexShaderPath, fragmentShaderPath))
 		{
-			Add(shader);
+			add(shader);
 		}	
 	}
 
-	void ShaderManager::Add(const Ref<Shader>& shader)
+	void ShaderManager::add(const ref<Shader>& shader)
 	{
-		shaders[shader->GetName()] = shader;
+		shaders[shader->getName()] = shader;
 	}
 
-	Ref<Shader> ShaderManager::Load(const std::string& vertexShaderPath,
+	ref<Shader> ShaderManager::load(const std::string& vertexShaderPath,
 		const std::string& fragmentShaderPath)
 	{
-		Ref<Shader> shader = Shader::Create(vertexShaderPath, fragmentShaderPath);
+		ref<Shader> shader = Shader::create(vertexShaderPath, fragmentShaderPath);
 
 		return shader;
 	}
 
-	Ref<Shader> ShaderManager::Get(const std::string& name)
+	ref<Shader> ShaderManager::get(const std::string& name)
 	{
 		return shaders[name];
 	}

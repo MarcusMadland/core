@@ -11,30 +11,30 @@
 #include "buffers.hpp"
 #include "material.hpp"
 
-namespace Core
+namespace core
 {
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material);
+		Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, ref<Material> material);
 		
-		static Ref<Mesh> Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material);
+		static ref<Mesh> create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, ref<Material> material);
 		
-		[[nodiscard]] const Transform& GetTransform() const { return transform; }
-		[[nodiscard]] const Ref<Material> GetMaterial() const { return material; }
-		[[nodiscard]] const Ref<VertexArray> GetVertexArray() const { return vao; }
+		[[nodiscard]] const Transform& getTransform() const { return transform; }
+		[[nodiscard]] const ref<Material> getMaterial() const { return material; }
+		[[nodiscard]] const ref<VertexArray> getVertexArray() const { return vao; }
 
-		const std::vector<MeshVertex> GetVertices() const { return vertices; }
-		const std::vector<uint16_t> GetIndices() const { return indices; }
+		const std::vector<MeshVertex> getVertices() const { return vertices; }
+		const std::vector<uint16_t> getIndices() const { return indices; }
 
 	private:
-		Ref<Material> material;
+		ref<Material> material;
 		Transform transform;
 
 		std::vector<MeshVertex> vertices;
 		std::vector<uint16_t> indices;
 		
-		Ref<VertexArray> vao;
+		ref<VertexArray> vao;
 	};
 
 	

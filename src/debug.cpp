@@ -8,11 +8,11 @@
 #include "debug.hpp"
 #include "app/app.hpp"
 
-namespace Core
+namespace core
 {
-	namespace Capture
+	namespace capture
 	{
-		void Screenshot()
+		void screenshot()
 		{
 			std::string screenshotPath = "../debug/screenshots/";
 
@@ -29,17 +29,17 @@ namespace Core
 
 			bgfx::requestScreenShot(BGFX_INVALID_HANDLE, (std::string(screenshotPath) + screenshotTitle).c_str());
 
-			Logger::LogWarn("Screenshot saved to %s", (std::string(screenshotPath) + screenshotTitle + ".tga").c_str());
+			Logger::logWarn("Screenshot saved to %s", (std::string(screenshotPath) + screenshotTitle + ".tga").c_str());
 		}
 
-		void CaptureBegin()
+		void captureBegin()
 		{
-			bgfx::reset(App::Instance().GetWindow().GetWidth(), App::Instance().GetWindow().GetHeight(), App::Instance().GetWindow().GetResetFlags() | BGFX_RESET_CAPTURE);
+			bgfx::reset(App::getInstance().getWindow().getWidth(), App::getInstance().getWindow().getWidth(), App::getInstance().getWindow().getResetFlags() | BGFX_RESET_CAPTURE);
 		}
 
-		void CaptureEnd()
+		void captureEnd()
 		{
-			bgfx::reset(App::Instance().GetWindow().GetWidth(), App::Instance().GetWindow().GetHeight(), App::Instance().GetWindow().GetResetFlags());
+			bgfx::reset(App::getInstance().getWindow().getWidth(), App::getInstance().getWindow().getWidth(), App::getInstance().getWindow().getResetFlags());
 		}
 	}
 }

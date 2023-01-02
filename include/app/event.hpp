@@ -4,7 +4,7 @@
 
 #include <functional>
 
-namespace Core
+namespace core
 {
 	
 	enum class EventType
@@ -25,8 +25,8 @@ namespace Core
 	};
 	
 	#define EVENT_CLASS_TYPE(type) \
-		static EventType GetStaticType() { return EventType::##type; } \
-		virtual EventType GetEventType() const override { return GetStaticType(); } 
+		static EventType getStaticType() { return EventType::##type; } \
+		virtual EventType getEventType() const override { return getStaticType(); } 
 	
 	class Event
 	{
@@ -41,7 +41,7 @@ namespace Core
 		Event& operator=(Event&&) = default;
 		
 		
-		[[nodiscard]] virtual EventType GetEventType() const = 0;
+		[[nodiscard]] virtual EventType getEventType() const = 0;
 
 		
 		bool handled = false;
@@ -57,9 +57,9 @@ namespace Core
 
 		
 		template<typename T>
-		bool Dispatch(EventFn<T> func)
+		bool dispatch(EventFn<T> func)
 		{
-			if (event.GetEventType() == T::GetStaticType())
+			if (event.getEventType() == T::getStaticType())
 			{
 				event.handled = func(*static_cast<T*>(&event));
 				return true;
@@ -76,8 +76,8 @@ namespace Core
 	public:
 		WindowResizeEvent(const uint32_t width, const uint32_t height);
 
-		[[nodiscard]] uint32_t GetWidth() const { return width; }
-		[[nodiscard]] uint32_t GetHeight() const { return height; }
+		[[nodiscard]] uint32_t getWidth() const { return width; }
+		[[nodiscard]] uint32_t getHeight() const { return height; }
 
 		
 		EVENT_CLASS_TYPE(WindowResize)
@@ -97,7 +97,8 @@ namespace Core
 	{
 	public:
 		explicit KeyEvent(int code);
-		[[nodiscard]] int GetKeyCode() const { return keyCode; }
+
+		[[nodiscard]] int getKeyCode() const { return keyCode; }
 
 	private:
 		int keyCode;
@@ -108,8 +109,7 @@ namespace Core
 	public:
 		KeyPressedEvent(const int code, const int repeatCount);
 
-		
-		[[nodiscard]] int GetRepeatCount() const { return repeatCount; }
+		[[nodiscard]] int getRepeatCount() const { return repeatCount; }
 
 		EVENT_CLASS_TYPE(KeyPressed)
 
@@ -138,8 +138,8 @@ namespace Core
 	public:
 		MouseMovedEvent(const float x, const float y);
 
-		[[nodiscard]] float GetX() const { return mouseX; }
-		[[nodiscard]] float GetY() const { return mouseY; }
+		[[nodiscard]] float getX() const { return mouseX; }
+		[[nodiscard]] float getY() const { return mouseY; }
 
 		EVENT_CLASS_TYPE(MouseMoved)
 		
@@ -152,8 +152,8 @@ namespace Core
 	public:
 		MouseScrolledEvent(const float xOffset, const float yOffset);
 
-		[[nodiscard]] float GetXOffset() const { return offsetX; }
-		[[nodiscard]] float GetYOffset() const { return offsetY; }
+		[[nodiscard]] float getXOffset() const { return offsetX; }
+		[[nodiscard]] float getYOffset() const { return offsetY; }
 
 		EVENT_CLASS_TYPE(MouseScrolled)
 		
@@ -166,7 +166,7 @@ namespace Core
 	public:
 		explicit MouseButtonEvent(const int button);
 		
-		[[nodiscard]] int GetMouseButton() const { return button; }
+		[[nodiscard]] int getMouseButton() const { return button; }
 	
 	private:
 		int button;

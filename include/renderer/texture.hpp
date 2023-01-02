@@ -6,7 +6,7 @@
 
 struct bgfx::TextureHandle;
 
-namespace Core
+namespace core
 {
 	struct Texture2DParams
 	{
@@ -26,9 +26,9 @@ namespace Core
 		Texture2D(void* data, const Texture2DParams& params);
 		~Texture2D();
 
-		[[nodiscard]] const Texture2DParams& GetParams() const { return params; }
+		[[nodiscard]] const Texture2DParams& getParams() const { return params; }
 
-		static Ref<Texture2D> Create(void* data, const Texture2DParams& params);
+		static ref<Texture2D> create(void* data, const Texture2DParams& params);
 
 	private: 
 		Texture2DParams params;

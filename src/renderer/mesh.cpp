@@ -8,9 +8,9 @@
 #include "renderer/buffers.hpp"
 #include "renderer/vertex.hpp"
 
-namespace Core
+namespace core
 {
-	Mesh::Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material)
+	Mesh::Mesh(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, ref<Material> material)
 		: vertices(vertices), indices(indices), material(material)
 	{
 		// Vertex Layout following MeshVertex struct
@@ -27,11 +27,11 @@ namespace Core
 		// Shape 
 		bgfx::VertexBufferHandle cubeVbh = bgfx::createVertexBuffer(bgfx::makeRef(Mesh::vertices.data(), Mesh::vertices.size() * sizeof(MeshVertex)), layout);
 		bgfx::IndexBufferHandle cubeIbh = bgfx::createIndexBuffer(bgfx::makeRef(Mesh::indices.data(), Mesh::indices.size() * sizeof(uint16_t)));
-		vao = VertexArray::Create(cubeVbh, cubeIbh);
+		vao = VertexArray::create(cubeVbh, cubeIbh);
 	}
 
-	Ref<Mesh> Mesh::Create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, Ref<Material> material)
+	ref<Mesh> Mesh::create(std::vector<MeshVertex> vertices, std::vector<uint16_t> indices, ref<Material> material)
 	{
-		return MakeRef<Mesh>(vertices, indices, material);
+		return makeRef<Mesh>(vertices, indices, material);
 	}
 }

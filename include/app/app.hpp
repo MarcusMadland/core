@@ -6,7 +6,7 @@
 #include "app/event.hpp"
 #include "app/layer.hpp"
 
-namespace Core 
+namespace core 
 {
 	class App
 	{
@@ -22,29 +22,29 @@ namespace Core
 		App& operator=(App&&) = delete;
 
 		
-		void Run();
+		void run();
 
 		
-		void Shutdown();
+		void shutdown();
 
 		
-		void OnEvent(Event& e);
+		void onEvent(Event& e);
 
 		
-		void PushLayer(Layer* layer);
+		void pushLayer(Layer* layer);
 
 		
-		void PushOverlay(Layer* layer);
+		void pushOverlay(Layer* layer);
 
 		
-		static App& Instance() { return *instance; }
+		static App& getInstance() { return *instance; }
 
 		
-		[[nodiscard]] Window& GetWindow() const { return *window; }
+		[[nodiscard]] Window& getWindow() const { return *window; }
 
 	private:
-		bool OnWindowClose(WindowCloseEvent& e);
-		bool OnWindowResize(const WindowResizeEvent& e);
+		bool onWindowClose(WindowCloseEvent& e);
+		bool onWindowResize(const WindowResizeEvent& e);
 
 	private:
 		Window* window; // @todo Raw pointer? why?
