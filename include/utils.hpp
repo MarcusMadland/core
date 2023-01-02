@@ -20,7 +20,7 @@
 #pragma once
 
 #include <bgfx/bgfx.h>
-#include "graphics/texture.hpp"
+#include "renderer/texture.hpp"
 
 namespace Core
 {

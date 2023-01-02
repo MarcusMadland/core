@@ -5,10 +5,10 @@
 
 #include "debug/debug_draw.hpp"
 #include "debug/logger.hpp"
+#include "debug/primitive.hpp"
 #include "math.hpp"
-#include "graphics/renderer.hpp"
-#include "graphics/shader.hpp"
-#include "primitive/primitive.hpp"
+#include "renderer/renderer.hpp"
+#include "renderer/shader.hpp"
 
 namespace Core
 {
@@ -89,7 +89,9 @@ namespace Core
 	#endif
 	}
 	
-	void DebugDraw::DrawDebugPyramid(glm::vec4 color, glm::vec3 start, glm::vec3 end, glm::vec3 scale )
+	void DebugDraw::DrawDebugPyramid(const glm::vec4& color,
+			const glm::vec3& start, const glm::vec3& end,
+			const glm::vec3& scale /*= glm::vec3(1.0f)*/)
 	{
 		// Handle direction to euler rotation
 		const glm::quat offset = Core::Math::ToQuat(90.0f, 90.0f, 0.0f);
@@ -100,7 +102,10 @@ namespace Core
 
 		GetInstance().DrawDebugShape(GetInstance().vaoPyramid, color, Transform(start, rotation, finalScale));
 	}
-	void DebugDraw::DrawDebugCube(glm::vec4 color, glm::vec3 position, glm::quat rotation , glm::vec3 scale )
+	void DebugDraw::DrawDebugCube(const glm::vec4& color,
+			const glm::vec3& position,
+			const glm::quat& rotation /*= glm::vec3(0.0f )*/,
+			const glm::vec3& scale/* = glm::vec3(1.0f) */)
 	{
 		GetInstance().DrawDebugShape(GetInstance().vaoCube, color, Transform(position, rotation, scale));
 	}

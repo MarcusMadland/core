@@ -18,12 +18,11 @@
 #endif
 #include <GLFW/glfw3native.h>
 
+#include "3rd-party/impl_bgfx/bgfx_callback.hpp"
 #include "app/window.hpp"
-#include "event/app_event.hpp"
-#include "event/key_event.hpp"
-#include "event/mouse_event.hpp"
+#include "app/event.hpp"
 #include "debug/logger.hpp"
-#include "impl_bgfx/bgfx_callback.hpp"
+
 
 namespace Core
 {

@@ -1,4 +1,18 @@
-
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "crpch.hpp"
 
@@ -12,29 +26,31 @@
 
 #include "math.hpp"
 #include "defines.hpp"
-#include "graphics/camera.hpp"
+#include "renderer/camera.hpp"
 
 namespace Core::Math
 {
 	Transform DecomposeMatrix(const glm::mat4& matrix)
 	{
 		Transform result;
-		
-		glm::mat4 Local(matrix);
+		glm::mat4 local(matrix);
 
 		// Normalize the matrix
-		if (glm::epsilonEqual(Local[3][3], static_cast<float>(0),
+		if (glm::epsilonEqual(local[3][3], static_cast<float>(0),
 			glm::epsilon<float>()))
 		{
 			return Transform();
 		}
-		
-		result.position = glm::vec3(Local[3]);
-		Local[3] = glm::vec4(0, 0, 0, Local[3].w);
-		
+
+		// Extract position and remove translation from local matrix
+		result.position = glm::vec3(local[3]);
+		local[3] = glm::vec4(0, 0, 0, local[3].w);
+
+		// Extract scale
 		for (int i = 0; i < 3; i++)
 			result.scale[i] = glm::length(glm::vec3(matrix[i]));
 
+		// Extract rotation
 		const glm::mat3 rotMatrix(
 			glm::vec3(matrix[0]) / result.scale[0],
 			glm::vec3(matrix[1]) / result.scale[1],
@@ -46,18 +62,54 @@ namespace Core::Math
 
 	glm::mat4 ComposeMatrix(const Transform& transform)
 	{
-		// Compose translation matrix by translating from vec3
-		glm::mat4 translation = glm::translate(glm::mat4(1.0f), transform.position);
+		// Compose translation matrix by translating from position
+		const glm::mat4 translation = glm::translate(glm::mat4(1.0f),
+			transform.position);
 
-		// Compose rotation matrix by converting the euler vec3 to radians and then 
-		// over to quaternion. From quat we can easily convert to a rotation matrix
-		glm::mat4 rotation = glm::toMat4(transform.rotation);
+		// Compose rotation matrix by converting the quaternion to a 4x4 matrix
+		const glm::mat4 rotation = glm::toMat4(transform.rotation);
 
-		// Compose scale matrix by scaling from vec3
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.scale);
+		// Compose scale matrix by scaling from scale
+		const glm::mat4 scale = glm::scale(glm::mat4(1.0f),
+			transform.scale);
 
 		// Multiply all transformation matrices and return result
 		return translation * rotation * scale;
+	}
+	
+	glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace, const Ref<Camera>& camera)
+	{
+		constexpr glm::vec3 result =  glm::vec3();
+		return result;
+	}
+
+	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace,
+		const Ref<Camera>& camera, const float& depth )
+	{
+		// Create a viewport from camera width and height
+		const glm::vec4 viewport = { 0,0,camera->GetParams().width,
+			camera->GetParams().height};
+
+		// Un-project screenspace to world space with current viewport
+		glm::vec3 result = glm::unProject({ screenSpace.x, screenSpace.y,
+			1 }, camera->GetViewMatrix(),
+			camera->GetProjectionMatrix(), viewport);
+
+		// Normalize the new direction with a multiplied depth value
+		result = glm::normalize(result - camera->GetParams().position) * depth
+			+ camera->GetParams().position;
+
+		return result;
+	}
+
+	glm::vec3 Exp(const glm::vec3& a, const glm::vec3& b)
+	{
+		const glm::vec3 result = glm::vec3(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x);
+		
+		return result;
 	}
 
 	glm::quat FindLookAtRotation(const glm::vec3& start, const glm::vec3& target)
@@ -76,31 +128,6 @@ namespace Core::Math
 		const glm::vec3 NewZ = Exp(NewX, NewY);
 
 		return glm::quat(glm::mat4(glm::mat3(NewX, NewY, NewZ)));
-	}
-
-	glm::vec3 WorldToScreenSpace(const glm::vec3& worldSpace, const Ref<Camera>& camera)
-	{
-		// @todo
-		return glm::vec3();
-	}
-
-	glm::vec3 ScreenToWorldSpace(const glm::vec2& screenSpace, const Ref<Camera>& camera, const float& depth )
-	{
-		glm::vec4 viewport = { 0,0,camera->GetParams().width, camera->GetParams().height};
-		glm::vec3 pos = glm::unProject({ screenSpace.x,screenSpace.y,1 }, camera->GetViewMatrix(), camera->GetProjectionMatrix(), viewport);
-		pos = glm::normalize(pos - camera->GetParams().position) * depth + camera->GetParams().position;
-
-		return pos;
-	}
-
-	glm::vec3 Exp(const glm::vec3& a, const glm::vec3& b)
-	{
-		const glm::vec3 result = glm::vec3(
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x);
-		
-		return result;
 	}
 
 	glm::quat ToQuat(const float& pitch, const float& yaw, const float& roll)

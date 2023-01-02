@@ -5,7 +5,7 @@
 
 #include <memory>
 
-#include "event/event.hpp"
+#include "app/event.hpp"
 
 struct GLFWwindow;
 struct BgfxCallback;

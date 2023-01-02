@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h> // for glfw getTime
 
 #include "app/app.hpp"
-#include "graphics/renderer.hpp"
+#include "renderer/renderer.hpp"
 #include "debug/logger.hpp"
 
 namespace Core

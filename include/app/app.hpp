@@ -3,10 +3,8 @@
 #pragma once
 
 #include "window.hpp"
-#include "event/event.hpp"
-#include "event/app_event.hpp"
-#include "layer/layer_stack.hpp"
-#include "layer/layers/imgui_layer.hpp"
+#include "app/event.hpp"
+#include "app/layer.hpp"
 
 namespace Core 
 {
