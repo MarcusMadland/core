@@ -35,7 +35,7 @@ namespace core
 		 * Advanced Maths
 		 */
 
-		/*
+		/*!
 		 * Decomposes a 4x4 matrix into a Transform structure.
 		 *
 		 * @param[in] matrix A 4x4 matrix to decompose from
@@ -44,7 +44,7 @@ namespace core
 		 */
 		Transform decomposeMatrix(const glm::mat4& matrix);
 
-		/*
+		/*!
 		 * Composes a 4x4 matrix from a Transform structure.
 		 *
 		 * @param[in] transform A transform struct to construct from
@@ -53,13 +53,13 @@ namespace core
 		 */
 		glm::mat4 composeMatrix(const Transform& transform);
 
-		/*
+		/*!
 		 * @todo Yet to be implemented
 		 */
 		glm::vec3 worldToScreenSpace(const glm::vec3& worldSpace,
 			const ref<Camera>& camera);
 
-		/*
+		/*!
 		 * Tries to convert from screen space to world space.
 		 * 
 		 * @remark The returned value starts from the bottom left corner in
@@ -76,7 +76,7 @@ namespace core
 		glm::vec3 screenToWorldSpace(const glm::vec2& screenSpace,
 			const ref<Camera>& camera, const float& depth = 2.0f); 
 
-		/*
+		/*!
 		 * Tries to find the rotation between two points
 		 *
 		 * @param[in] start The start position in world space (eye)
@@ -87,7 +87,7 @@ namespace core
 		glm::quat findLookAtRotation(const glm::vec3& start,
 			const glm::vec3& target);
 
-		/*
+		/*!
 		 * Tries to find the rotation from a directional vector's X axis
 		 *
 		 * @param[in] direction The direction to convert from
@@ -100,7 +100,7 @@ namespace core
 		 * Simple Maths
 		 */
 
-		/*
+		/*!
 		 * @todo Yet to be documented
 		 */
 		glm::vec3 exp(const glm::vec3& a, const glm::vec3& b);
@@ -109,7 +109,7 @@ namespace core
 		 * Conversions
 		 */
 
-		/*
+		/*!
 		 * Converts from euler rotation to a quaternion rotation
 		 *
 		 * @param[in] pitch Pitch rotation (x)
@@ -120,7 +120,7 @@ namespace core
 		 */
 		glm::quat toQuat(const float& pitch, const float& yaw, const float& roll);
 
-		/*
+		/*!
 		 * Converts from euler rotation to a quaternion rotation
 		 *
 		 * @remark Euler rotation should be in this order, Pitch, Yaw, Roll
@@ -135,7 +135,7 @@ namespace core
 		 * Utilities
 		 */
 
-		/*
+		/*!
 		 * Checks if input value is between min and max
 		 *
 		 * @param[in] value The value to check
@@ -146,7 +146,7 @@ namespace core
 		 */
 		bool inRange(const float& value, const float& min, const float& max);
 
-		/*
+		/*!
 		 * Linear Interpolates from current to target
 		 *
 		 * @param[in] current The current value to interpolate from. Should be
@@ -158,7 +158,7 @@ namespace core
 		float interp(const float& current, const float& target,
 			const float& deltaTime, const float& speed);
 
-		/*
+		/*!
 		 * Linear Interpolates from current to target
 		 *
 		 * @param[in] current The current value to interpolate from. Should be

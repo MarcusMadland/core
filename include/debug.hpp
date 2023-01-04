@@ -26,22 +26,25 @@ namespace core
 {
 	namespace capture
 	{
-		/*
+		/*!
 		 * Captures a screenshot of the screen
 		 *
 		 * @return A .png image located under debug/screenshots/
 		 */
 		void screenshot();
 
-		/*
-		 * Begins screen capture of screen. CaptureEnd() needs to be called to
-		 * stop capturing screen.
+		/*!
+		 * Begins screen capture of screen
+		 * 
+		 * @remark CaptureEnd() needs to be called to stop 
+		 * capturing screen.
 		 */
 		void captureBegin();
 
-		/*
-		 * Stops capturing screen. CaptureBegin() needs to be called to stop
-		 * capturing screen.
+		/*!
+		 * Stops capturing screen 
+		 * 
+		 * @remark CaptureBegin() needs to be called before this
 		 *
 		 * @return A .avi video file located under debug/captures/
 		 */

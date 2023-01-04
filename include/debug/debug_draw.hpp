@@ -52,7 +52,7 @@ namespace core
 			return instance;
 		}
 
-		/*
+		/*!
 		 * Draws a debug pyramid from start position to end position with
 		 * given color and scale
 		 *
@@ -67,7 +67,7 @@ namespace core
 			const glm::vec3& start, const glm::vec3& end,
 			const glm::vec3& scale = glm::vec3(1.0f));
 
-		/*
+		/*!
 		 * Draws a debug cube with given color and transform
 		 *
 		 * @param[in] color Color of cube in RGBA format
@@ -81,7 +81,7 @@ namespace core
 			const glm::quat& rotation = glm::vec3(0.0f),
 			const glm::vec3& scale = glm::vec3(1.0f));
 
-		/*
+		/*!
 		 * Draws a debug sphere with given color and transform
 		 *
 		 * @param[in] color Color of sphere in RGBA format
@@ -92,7 +92,7 @@ namespace core
 		static void drawDebugSphere(glm::vec4 color, glm::vec3 position,
 			float radius = 1.0f);
 
-		/*
+		/*!
 		 * Draws a debug quad with given color and transform
 		 *
 		 * @param[in] color Color of quad in RGBA format
@@ -105,7 +105,7 @@ namespace core
 			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
-		/*
+		/*!
 		 * Draws a debug grid with given color and position
 		 *
 		 * @remark Uses one draw call each quad, do not overuse. This is meant
@@ -119,7 +119,7 @@ namespace core
 		static void drawDebugGrid(glm::vec4 color, glm::vec3 position,
 			uint32_t gridCount = 1);
 
-		/*
+		/*!
 		 * Draws a debug line from start to end
 		 *
 		 * @param[in] color Color of line in RGBA format
@@ -129,7 +129,7 @@ namespace core
 		static void drawDebugLine(glm::vec4 color, glm::vec3 start,
 			glm::vec3 end);
 
-		/*
+		/*!
 		 * Draws a debug arrow in a given direction
 		 *
 		 * @param[in] color Color of line in RGBA format
@@ -141,7 +141,7 @@ namespace core
 		static void drawDebugArrow(glm::vec4 color, glm::vec3 position,
 			glm::vec3 direction, float length = 1.0f);
 
-		/*
+		/*!
 		 * Draws debug world coordinates
 		 *
 		 * @remark Red is X, Green is Y, Blue is Z
@@ -151,7 +151,7 @@ namespace core
 		 */
 		static void drawDebugWorldCoord(glm::vec3 position, float scale = 1.0f);
 
-		/*
+		/*!
 		 * Draws a debug circle with given color and transform
 		 *
 		 * @param[in] color Color of circle in RGBA format
@@ -165,7 +165,7 @@ namespace core
 			glm::quat rotation = glm::vec3(0.0f),
 			glm::vec2 scale = glm::vec2(1.0f));
 
-		/*
+		/*!
 		 * Draws a debug circle with given color and transform
 		 *
 		 * @todo Yet to be implemented

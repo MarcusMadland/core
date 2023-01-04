@@ -66,7 +66,7 @@ namespace core
 			return instance;
 		}
 
-		/*
+		/*!
 		 * Set the desired priority of the logger. Any messages lower than the
 		 * current priority will not be logged
 		 *
@@ -74,7 +74,7 @@ namespace core
 		 */
 		static void setPriority(const LogPriority& newPriority);
 
-		/*
+		/*!
 		 * Get the current priority of the logger as type
 		 *
 		 * @return Current set log priority
@@ -163,7 +163,7 @@ namespace core
 		}
 
 	public:
-		/*
+		/*!
 		 * Log a message and args with the Trace priority
 		 *
 		 * @param[in] message The message to print to the console
@@ -175,7 +175,7 @@ namespace core
 			getInstance().log(LogPriority::Trace, message, args...);
 		}
 
-		/*
+		/*!
 		 * Log a message and args with the Debug priority
 		 *
 		 * @param[in] message The message to print to the console
@@ -187,7 +187,7 @@ namespace core
 			getInstance().log(LogPriority::Debug, message, args...);
 		}
 
-		/*
+		/*!
 		 * Log a message and args with the Info priority
 		 *
 		 * @param[in] message The message to print to the console
@@ -199,7 +199,7 @@ namespace core
 			getInstance().log(LogPriority::Info, message, args...);
 		}
 
-		/*
+		/*!
 		 * Log a message and args with the Warn priority
 		 *
 		 * @param[in] message The message to print to the console
@@ -211,7 +211,7 @@ namespace core
 			getInstance().log(LogPriority::Warn, message, args...);
 		}
 
-		/*
+		/*!
 		 * Log a message and args with the Error priority
 		 *
 		 * @param[in] message The message to print to the console
@@ -222,8 +222,8 @@ namespace core
 		{
 			getInstance().log(LogPriority::Error, message, args...);
 		}
-
-		/*
+		
+		/*!
 		 * Log a message and args with the Critical priority
 		 *
 		 * @param[in] message The message to print to the console
