@@ -63,3 +63,17 @@ project/*.json
 *.DS_Store
 *.xcodeproj
 *.build
+
+# Makefile
+/Makefile
+project/Makefile
+core/Makefile
+core/external/bgfx/makefile
+core/external/bimg/makefile
+core/external/bx/makefile
+.vscode/
+.DS_Store
+build/
+_build/
+_static/
+_templates/
