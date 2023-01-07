@@ -1,13 +1,25 @@
-
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #pragma once
 
-#include <vector>
 #include <glm/glm.hpp>
 #include <bgfx/bgfx.h>
 
 #include "common.hpp"
-#include "defines.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
 
@@ -44,20 +56,27 @@ namespace core
 	friend class Renderer;
 
 	public:
-		Material(MaterialParams params);
-		~Material();
+		explicit Material(const MaterialParams& params);
+		~Material() = default;
 
-		void addTexture(ref<Texture2D> texture, const std::string& name);
+		Material(const Material&) = default;
+		Material(Material&&) = default;
 
-		void setBasecolor(const std::string& textureName, const uint32_t& index = 0);
-		void setBasecolor(glm::vec4 color);
+		Material& operator=(const Material&) = default;
+		Material& operator=(Material&&) = default;
+
+		void addTexture(const ref<Texture2D>& texture, const std::string& name);
+
+		void setBasecolor(const std::string& textureName,
+			const uint32_t& index = 0);
+		void setBasecolor(const glm::vec4& color);
 
 		[[nodiscard]] ref<Shader> getShader() { return shader; }
 
-		static ref<Material> create(MaterialParams params);
+		static ref<Material> create(const MaterialParams& params);
 
 	private:
-		void updateUniforms();
+		void updateUniforms() const;
 
 	private:
 		MaterialParams params;

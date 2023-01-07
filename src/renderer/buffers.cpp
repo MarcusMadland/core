@@ -4,7 +4,8 @@
 
 namespace core
 {
-	VertexArray::VertexArray(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh)
+	VertexArray::VertexArray(const bgfx::VertexBufferHandle& vbh,
+		const bgfx::IndexBufferHandle& ibh)
 		: vbh(vbh), ibh(ibh)
 	{
 	}
@@ -15,7 +16,8 @@ namespace core
 		bgfx::destroy(vbh);
 	}
 
-	ref<VertexArray> VertexArray::create(bgfx::VertexBufferHandle vbh, bgfx::IndexBufferHandle ibh)
+	ref<VertexArray> VertexArray::create(const bgfx::VertexBufferHandle& vbh,
+		const bgfx::IndexBufferHandle& ibh)
 	{
 		return makeRef<VertexArray>(vbh, ibh);
 	}
