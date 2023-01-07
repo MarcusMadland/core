@@ -9,25 +9,24 @@
 
 namespace core
 {
-	Texture2D::Texture2D(void* data, const Texture2DParams& params)
-		: handle(BGFX_INVALID_HANDLE), params(params)
+	Texture2D::Texture2D(const uint8_t* data, const Texture2DParams& params)
+		: params(params), handle(BGFX_INVALID_HANDLE)
 	{
-		if (!data)
-		{
-			Logger::logError("Failed to create texture, invalid data");
-		}
+		assert(data, "Texture data is invalid");
 
 		if (params.width <= 0 || params.height <= 0)
 		{
 			Logger::logError("Failed to create texture, invalid texture width or/and height");
 		}
 
-		if (!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::RGBA8, BGFX_SAMPLER_U_BORDER | BGFX_SAMPLER_V_BORDER))
+		if (!bgfx::isTextureValid(0, false, 1,
+			bgfx::TextureFormat::RGBA8, BGFX_SAMPLER_U_BORDER |
+			BGFX_SAMPLER_V_BORDER))
 		{
-			Logger::logError("Failed to create texture, invalid texture");
+			Logger::logError("Texture with these input can't be created");
 		}
 
-		// Create bgfx texture handle
+		// Create texture handle
 		handle = bgfx::createTexture2D(
 			params.width
 			, params.height
@@ -35,10 +34,11 @@ namespace core
 			, 1
 			, bgfx::TextureFormat::RGBA8
 			, (params.nearest ? (BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT) : (BGFX_SAMPLER_MIN_ANISOTROPIC | BGFX_SAMPLER_MAG_ANISOTROPIC)) | BGFX_SAMPLER_U_BORDER | BGFX_SAMPLER_V_BORDER
-			, bgfx::copy(data, params.width * params.height * params.channels)
+			, bgfx::copy(data, params.width * params.height *
+				params.channels)
 		);
 
-		// Delete input data since we copy the data to bgfx
+		// Delete input data since we copy the data to the handle
 		delete data;
 	}
 
@@ -48,7 +48,8 @@ namespace core
 		bgfx::destroy(handle);
 	}
 
-	ref<Texture2D> Texture2D::create(void* data, const Texture2DParams& params)
+	ref<Texture2D> Texture2D::create(const void* data,
+		const Texture2DParams& params)
 	{
 		return makeRef<Texture2D>(data, params);
 	}

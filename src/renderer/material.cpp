@@ -23,8 +23,8 @@ namespace core
 {
 	Material::Material(const MaterialParams& params)
 		: params(params)
-		, baseColorMap(nullptr), u_BaseColorMap()
-		, baseColorFactor(glm::vec4(0.0f)), u_BaseColorFactor()
+		, baseColorMap(nullptr), u_BaseColorMap(BGFX_INVALID_HANDLE)
+		, baseColorFactor(glm::vec4(0.0f)), u_BaseColorFactor(BGFX_INVALID_HANDLE)
 	{
 		shader = Renderer::getShaderManager()->get("uber");
 		assert(shader, "Shader is null");

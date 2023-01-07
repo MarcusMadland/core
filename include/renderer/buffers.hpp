@@ -25,6 +25,8 @@ namespace core
 	// @todo Create buffer wrappers for vbo and ibo as well? Is it really needed?
 	class VertexArray
 	{
+	friend class Renderer;
+		
 	public:
 		VertexArray(const bgfx::VertexBufferHandle& vbh,
 			const bgfx::IndexBufferHandle& ibh);
