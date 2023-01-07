@@ -20,7 +20,9 @@
 #pragma once
 
 #include <bgfx/bgfx.h>
+
 #include "renderer/texture.hpp"
+#include "renderer/vertex.hpp"
 
 namespace core::utils
 {
