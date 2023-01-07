@@ -16,8 +16,8 @@
 
 #include "crpch.hpp"
 
+#include "defines.hpp"
 #include "renderer/shader.hpp"
-
 #include "debug/logger.hpp"
 
 namespace core
@@ -57,7 +57,7 @@ namespace core
 		FILE* file;
 		fopen_s(&file, filename.c_str(), "rb");
 		
-		assert(file, "Failed to load shader (usually invalid path)");
+		ASSERT(file, "Failed to load shader (usually invalid path)");
 
 		fseek(file, 0, SEEK_END);
 		const long fileSize = ftell(file);

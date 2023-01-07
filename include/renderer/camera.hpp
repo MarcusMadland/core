@@ -19,14 +19,15 @@
 #include <glm/glm.hpp>
 
 #include "common.hpp"
+#include "app/app.hpp"
 
 namespace core
 {
 	struct CameraParams
 	{
 		float fov = 45.0f;
-		float width = 1280.0f;
-		float height = 720.0f;
+		float width = static_cast<float>(App::getInstance().getWindow().getWidth());
+		float height = static_cast<float>(App::getInstance().getWindow().getHeight());
 		float clipNear = 0.001f;
 		float clipFar = 100.0f;
 		glm::vec3 lookAt = glm::vec3(0.0f);

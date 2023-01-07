@@ -233,10 +233,10 @@ namespace core
 		std::vector<PrimitiveVertex> vertices;
 		std::vector<uint16_t> indices;
 
-		size_t vertexCount = 20;
+		int vertexCount = 20;
 
 		// Size our vector so it can hold all the requested vertices plus our center one
-		vertices.resize(vertexCount + 1);
+		vertices.resize(static_cast<size_t>(vertexCount + 1));
 
 		// Calculate the angle we'll need to rotate by for each iteration (* (PI / 180) to convert it into radians)
 		double segRotationAngle = (360.0 / vertexCount) * (3.14159265 / 180);
@@ -254,8 +254,8 @@ namespace core
 			double finalSegRotationAngle = (i * segRotationAngle);
 
 			// Rotate the start point around the origin (0, 0) by the finalSegRotationAngle (see https://en.wikipedia.org/wiki/Rotation_(mathematics) section on two dimensional rotation)
-			vertices[i].position.x = cos(finalSegRotationAngle) * startX - sin(finalSegRotationAngle) * startY;
-			vertices[i].position.y = cos(finalSegRotationAngle) * startY + sin(finalSegRotationAngle) * startX;
+			vertices[i].position.x = static_cast<float>(cos(finalSegRotationAngle) * startX - sin(finalSegRotationAngle) * startY);
+			vertices[i].position.y = static_cast<float>(cos(finalSegRotationAngle) * startY + sin(finalSegRotationAngle) * startX);
 
 			// Add generated point index
 			indices.push_back(i);

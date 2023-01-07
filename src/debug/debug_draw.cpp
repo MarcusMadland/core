@@ -25,6 +25,7 @@
 #include "math.hpp"
 #include "renderer/renderer.hpp"
 #include "renderer/shader.hpp"
+#include "defines.hpp"
 
 namespace core
 {
@@ -138,7 +139,7 @@ namespace core
 		const Transform& transform) const
 	{
 	#ifdef _DEBUG
-		assert(vao, "Vertex Array Buffer is null");
+		ASSERT(vao, "Vertex Array Buffer is null");
 		
 		// Uniforms
 		bgfx::setUniform(u_color, &color[0]);

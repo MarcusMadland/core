@@ -4,6 +4,7 @@
 
 #include <bgfx/bgfx.h>
 
+#include "defines.hpp"
 #include "renderer/texture.hpp"
 #include "debug/logger.hpp"
 
@@ -12,7 +13,7 @@ namespace core
 	Texture2D::Texture2D(const uint8_t* data, const Texture2DParams& params)
 		: params(params), handle(BGFX_INVALID_HANDLE)
 	{
-		assert(data, "Texture data is invalid");
+		ASSERT(data, "Texture data is invalid");
 
 		if (params.width <= 0 || params.height <= 0)
 		{
@@ -48,7 +49,7 @@ namespace core
 		bgfx::destroy(handle);
 	}
 
-	ref<Texture2D> Texture2D::create(const void* data,
+	ref<Texture2D> Texture2D::create(const uint8_t* data,
 		const Texture2DParams& params)
 	{
 		return makeRef<Texture2D>(data, params);

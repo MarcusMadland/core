@@ -19,6 +19,17 @@
  */
 #pragma once
 
+#include "debug/logger.hpp"
+
+/*
+ * Debugging
+ */
+#ifdef _DEBUG
+	#define ASSERT(x, ...) { if(!(x)) { Logger::logCritical("Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define ASSERT(x, ...)
+#endif
+
 /*
  * Math
  */

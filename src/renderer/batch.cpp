@@ -16,6 +16,7 @@
 
 #include "crpch.hpp"
 
+#include "defines.hpp"
 #include "renderer/batch.hpp"
 #include "debug/logger.hpp"
 
@@ -29,8 +30,8 @@ namespace core
 	void Batch::add(const std::vector<MeshVertex>& vertices,
 		const std::vector<uint16_t>& indices)
 	{
-		assert(vertices.size() > 0, "Vertices are empty");
-		assert(indices.size() > 0, "Indices are empty");
+		ASSERT(vertices.size() > 0, "Vertices are empty");
+		ASSERT(indices.size() > 0, "Indices are empty");
 		
 		const size_t dataCount = (vertices.size() + indices.size()) +
 			(currBatchedVertices.size() + currBatchedIndices.size());
@@ -52,9 +53,9 @@ namespace core
 			vertices.begin(), vertices.end());
 	}
 
-	void  Batch::add(const ref<Mesh>& mesh)
+	void Batch::add(const ref<Mesh>& mesh)
 	{
-		assert(mesh, "Mesh is invalid");
+		ASSERT(mesh, "Mesh is invalid");
 		
 		if (mesh->getMaterial() != material)
 		{
@@ -68,7 +69,7 @@ namespace core
 	{
 		const ref<Mesh> batchedMesh = Mesh::create(currBatchedVertices,
 			currBatchedIndices, material);
-		assert(batchedMesh, "Mesh is invalid");
+		ASSERT(batchedMesh, "Mesh is invalid");
 		batchedMeshes.push_back(batchedMesh);
 
 		Logger::logInfo("Flushed batch, with %u batches, %u vertices and %u indices",

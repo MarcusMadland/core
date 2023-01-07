@@ -40,7 +40,8 @@ namespace core
 		static void submitVertexArrayTransform(const ref<VertexArray>& vao,
 			const ref<Shader>& shader, const Transform& transform);
 		static void submitMesh(const ref<Mesh>& mesh, const Transform& transform);
-		static void submitBatch(const ref<Batch>& batch);
+		static void submitBatch(const ref<Batch>& batch, 
+			const Transform& transform = Transform());
 
 		static ref<ShaderManager> getShaderManager();
 	};

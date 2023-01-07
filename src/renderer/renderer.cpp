@@ -19,6 +19,7 @@
 #include <bgfx/bgfx.h>
 
 #include "math.hpp"
+#include "defines.hpp"
 #include "renderer/renderer.hpp"
 #include "debug/logger.hpp"
 
@@ -58,7 +59,7 @@ namespace core
 
 	bool Renderer::begin(const ref<Camera>& camera)
 	{
-		assert(camera, "Camera is null, camera is needed to render");
+		ASSERT(camera, "Camera is null, camera is needed to render");
 
 		return true;
 	}
@@ -70,8 +71,8 @@ namespace core
 	void Renderer::submitVertexArray(const ref<VertexArray>& vao,
 		const ref<Shader>& shader)
 	{
-		assert(vao, "Vertex Array Buffer is invalid");
-		assert(shader, "Shader is invalid");
+		ASSERT(vao, "Vertex Array Buffer is invalid");
+		ASSERT(shader, "Shader is invalid");
 		
 		// If camera is null, meaning we either passed null at begin or never called begin
 		// We set it to 0 if no camera is available. This only happens in debug draw
@@ -92,7 +93,7 @@ namespace core
 	void Renderer::submitVertexArrayTransform(const ref<VertexArray>& vao,
 		const ref<Shader>& shader, const Transform& transform)
 	{
-		assert(vao, "Vertex Array Buffer is invalid");
+		ASSERT(vao, "Vertex Array Buffer is invalid");
 		
 		// Handle Transform
 		bgfx::setTransform(&math::composeMatrix(transform)[0][0]);
@@ -103,7 +104,7 @@ namespace core
 
 	void Renderer::submitMesh(const ref<Mesh>& mesh, const Transform& transform)
 	{
-		assert(mesh, "Mesh is invalid");
+		ASSERT(mesh, "Mesh is invalid");
 		
 		// Handle Transform
 		bgfx::setTransform(&(math::composeMatrix(transform) *
@@ -121,19 +122,18 @@ namespace core
 		}
 	}
 
-	void Renderer::submitBatch(const ref<Batch>& batch)
+	void Renderer::submitBatch(const ref<Batch>& batch, const Transform& transform)
 	{
-		assert(batch, "Batch is invalid");
+		ASSERT(batch, "Batch is invalid");
 		
-		if (batch->currBatchedIndices.empty() ||
-			batch->currBatchedVertices.empty())
+		if (batch->getBatchedMeshes().empty())
 		{
 			batch->flush();
 		}
 
 		for (uint32_t i = 0; i < batch->getBatchedMeshes().size(); i++)
 		{
-			submitMesh(batch->getBatchedMeshes()[i], Transform());
+			submitMesh(batch->getBatchedMeshes()[i], transform);
 		}
 	}
 

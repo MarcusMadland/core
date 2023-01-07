@@ -8,11 +8,17 @@
 
 namespace core 
 {
+	struct AppParams
+	{
+		const char* name = "Project";
+		uint32_t width = 1280;
+		uint32_t height = 720;
+	};
+	
 	class App
 	{
 	public:
-		explicit App(const char* name = "Project", 
-			uint32_t width = 1280, uint32_t height = 720);
+		explicit App(const AppParams& params = AppParams());
 		virtual ~App() = default;
 
 		App(const App&) = delete;

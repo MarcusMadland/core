@@ -18,6 +18,7 @@
 
 #include <bgfx/bgfx.h>
 
+#include "defines.hpp"
 #include "debug/logger.hpp"
 #include "renderer/mesh.hpp"
 #include "renderer/buffers.hpp"
@@ -30,8 +31,8 @@ namespace core
 		: material(material), vertices(std::move(vertices))
 		, indices(std::move(indices))
 	{
-		assert(vertices.size() > 0, "Vertices are empty");
-		assert(indices.size() > 0, "Indices are empty");
+		ASSERT(this->vertices.size() > 0, "Vertices are empty");
+		ASSERT(this->indices.size() > 0, "Indices are empty");
 		
 		if (!material)
 		{

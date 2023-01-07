@@ -14,7 +14,7 @@ namespace core
 		this, std::placeholders::_1)
 	App* App::instance = nullptr;
 
-	App::App(const char* name, uint32_t width, uint32_t height)
+	App::App(const AppParams& params)
 		: isRunning(true)
 		, isMinimized(false)
 		, lastFrameTime(0.0f)
@@ -31,7 +31,7 @@ namespace core
 		instance = this;
 
 		// Window
-		window = new Window(name, width, height);
+		window = new Window(params.name, params.width, params.height);
 		window->setEventCallback(BIND_EVENT_FN(onEvent));
 
 		// Initialize renderer
@@ -95,6 +95,7 @@ namespace core
 		{
 			isRunning = false;
 		}
+		delete window;
 	}
 
 	void App::onEvent(Event& e)

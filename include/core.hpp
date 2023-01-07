@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
+ // "core-renderer", 
+ // https://github.com/MarcusMadland/core-renderer
+
 /*
  * Collection of commonly used headers
  */
 #pragma once
+
 
 #include "common.hpp"
 #include "debug.hpp"

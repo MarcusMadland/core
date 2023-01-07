@@ -49,7 +49,7 @@ namespace core
 
 		[[nodiscard]] const Texture2DParams& getParams() const { return params; }
 
-		static ref<Texture2D> create(const void* data,
+		static ref<Texture2D> create(const uint8_t* data,
 			const Texture2DParams& params);
 
 	private: 

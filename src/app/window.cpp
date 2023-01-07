@@ -93,7 +93,7 @@ namespace core
 				inf.width = width_;
 				inf.height = height_;
 
-				bgfx::reset((uint32_t)width_, (uint32_t)height_, inf.resetFlags);
+				bgfx::reset(static_cast<uint32_t>(width_), static_cast<uint32_t>(height_), inf.resetFlags);
 				bgfx::setViewRect(0, 0, 0, bgfx::BackbufferRatio::Equal);
 
 				WindowResizeEvent event(width_, height_);
@@ -206,7 +206,6 @@ namespace core
 		glfwDestroyWindow(window);
 
 		if (bgfxCallback) { delete bgfxCallback; }
-		if (window) { delete window; }
 	}
 
 	void Window::onUpdate()

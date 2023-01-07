@@ -47,11 +47,13 @@ namespace core
 
 	Transform operator*(const Transform& a, const Transform& b)
 	{
-		return Transform(a.position * b.position, a.rotation * b.rotation, a.scale * b.scale);
+		return Transform(a.position * b.position,
+			a.rotation * b.rotation, a.scale * b.scale);
 	}
 
 	Transform operator+(const Transform& a, const Transform& b)
 	{
-		return Transform(a.position + b.position, a.rotation + b.rotation, a.scale + b.scale);
+		return Transform(a.position + b.position,
+			a.rotation + b.rotation, a.scale + b.scale);
 	}
 }

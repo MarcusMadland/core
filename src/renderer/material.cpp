@@ -16,6 +16,7 @@
 
 #include "crpch.hpp"
 
+#include "defines.hpp"
 #include "renderer/material.hpp"
 #include "renderer/renderer.hpp"
 
@@ -27,7 +28,7 @@ namespace core
 		, baseColorFactor(glm::vec4(0.0f)), u_BaseColorFactor(BGFX_INVALID_HANDLE)
 	{
 		shader = Renderer::getShaderManager()->get("uber");
-		assert(shader, "Shader is null");
+		ASSERT(shader, "Shader is null");
 			
 		// Uniforms
 		u_BaseColorMap = bgfx::createUniform("u_BaseColorMap",
@@ -45,7 +46,7 @@ namespace core
 	void Material::setBasecolor(const std::string& textureName,
 		const uint32_t& index)
 	{
-		assert(!textureName.empty(), "Texture name is empty");
+		ASSERT(!textureName.empty(), "Texture name is empty");
 		baseColorMap = textures[textureName];
 	}
 
