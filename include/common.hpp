@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/*
+ * Collection of commonly used types and other
+ */
 #pragma once
 
 #include <memory>

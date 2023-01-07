@@ -1,8 +1,22 @@
-
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "crpch.hpp"
 
-#include "debug/primitive.hpp"
+#include "debug/debug_shape.hpp"
 
 namespace core
 {
@@ -22,8 +36,10 @@ namespace core
 
 	
 	// Hard coded Cube that will be used mostly for debug drawing
-	Cube::Cube(const glm::vec3& scale )
+	Cube::Cube()
 	{
+		constexpr glm::vec3 scale = glm::vec3(1.0f);
+		
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(36);
 		vertices[0].position = { -scale.x ,  scale.y ,  scale.z };
@@ -47,8 +63,10 @@ namespace core
 	}
 
 	// Hard coded Pyramid that will be used mostly for debug drawing
-	Pyramid::Pyramid(const glm::vec3& scale )
+	Pyramid::Pyramid()
 	{
+		constexpr glm::vec3 scale = glm::vec3(1.0f);
+		
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(5);
 
@@ -83,7 +101,7 @@ namespace core
 	}
 
 	// Hard coded Sphere that will be used mostly for debug drawing
-	Sphere::Sphere(const float& radius )
+	Sphere::Sphere()
 	{
 		std::vector<PrimitiveVertex> vertices;
 		std::vector<uint16_t> indices;
@@ -99,6 +117,7 @@ namespace core
 
 			for (float longitude = 0.0f; longitude <= longitudeBands; longitude++)
 			{
+				constexpr float radius = 0.5f;
 				const float phi = longitude * 2.f * static_cast<float>(3.141592 / longitudeBands);
 				const float sinPhi = glm::sin(phi);
 				const float cosPhi = glm::cos(phi);
@@ -130,8 +149,10 @@ namespace core
 	}
 
 	// Hard coded Quad that will be used mostly for debug drawing and billboards
-	Quad::Quad(const float scale )
+	Quad::Quad()
 	{
+		constexpr float scale = 1.0f;
+		
 		std::vector<PrimitiveVertex> vertices;
 		vertices.resize(4);
 		vertices[0].position = { -scale, -scale, 0.0f};
@@ -205,8 +226,10 @@ namespace core
 	}
 
 	// Hard coded Circle that will be used mostly for debug drawing
-	Circle::Circle(float radius )
+	Circle::Circle()
 	{
+		constexpr float radius = 0.5f;
+		
 		std::vector<PrimitiveVertex> vertices;
 		std::vector<uint16_t> indices;
 

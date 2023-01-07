@@ -22,32 +22,29 @@
 #include "debug/logger.hpp"
 #include "debug/debug_draw.hpp"
 
-namespace core
+namespace core::capture
 {
-	namespace capture
-	{
-		/*!
-		 * Captures a screenshot of the screen
-		 *
-		 * @return A .png image located under debug/screenshots/
-		 */
-		void screenshot();
+	/*!
+	 * Captures a screenshot of the screen
+	 *
+	 * @remark Returns a .png image located under debug/screenshots/
+	 */
+	void screenshot();
 
-		/*!
-		 * Begins screen capture of screen
-		 * 
-		 * @remark CaptureEnd() needs to be called to stop 
-		 * capturing screen.
-		 */
-		void captureBegin();
+	/*!
+	 * Begins screen capture of screen
+	 * 
+	 * @remark CaptureEnd() needs to be called to stop 
+	 * capturing screen.
+	 */
+	void captureBegin();
 
-		/*!
-		 * Stops capturing screen 
-		 * 
-		 * @remark CaptureBegin() needs to be called before this
-		 *
-		 * @return A .avi video file located under debug/captures/
-		 */
-		void captureEnd();
-	}
+	/*!
+	 * Stops capturing screen 
+	 * 
+	 * @warning CaptureBegin() needs to be called before this
+	 *
+	 * @remark Returns a .avi video file located under debug/captures/
+	 */
+	void captureEnd();
 }

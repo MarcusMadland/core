@@ -22,22 +22,20 @@
 #include <bgfx/bgfx.h>
 #include "renderer/texture.hpp"
 
-namespace core
+namespace core::utils
 {
-	namespace utils
-	{
-		/*
-		 * Loads a texture's data
-		 *
-		 * @remark The out params can be further modified before creation of
-		 * texture
-		 *
-		 * @param[in] filename The directory and filename of the texture
-		 * @param[out] outParams The texture parameters out put used to create
-		 * a texture
-		 *
-		 * @return Texture data in bytes
-		 */
-		uint8_t* loadTexture2D(const std::string& filename, Texture2DParams& outParams);
-	}
+	/*
+	 * Loads a texture's data
+	 *
+	 * @remark The out params can be further modified before creation of
+	 * texture
+	 *
+	 * @param[in] filename The directory and filename of the texture
+	 * @param[out] outParams The texture parameters out put used to create
+	 * a texture
+	 *
+	 * @return Texture data in bytes
+	 */
+	uint8_t* loadTexture2D(const std::string& filename,
+		Texture2DParams& outParams);
 }

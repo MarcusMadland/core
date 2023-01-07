@@ -59,7 +59,7 @@ namespace core
 		 * @param[in] color Color of pyramid in RGBA format
 		 * @param[in] start Start position of pyramid (center of bottom quad) in
 		 * world space
-		 * @param[in] start End position of pyramid (top where triangles meet)
+		 * @param[in] end End position of pyramid (top where triangles meet)
 		 * in world space
 		 * @param[in] scale Scale in all three directions
 		 */
@@ -89,8 +89,9 @@ namespace core
 		 * space
 		 * @param[in] radius Scale in all radius
 		 */
-		static void drawDebugSphere(glm::vec4 color, glm::vec3 position,
-			float radius = 1.0f);
+		static void drawDebugSphere(const glm::vec4& color,
+			const glm::vec3& position,
+			const float& radius = 1.0f);
 
 		/*!
 		 * Draws a debug quad with given color and transform
@@ -101,9 +102,10 @@ namespace core
 		 * @param[in] scale Scale in two directions (width, height), depth is
 		 * irrelevant
 		 */
-		static void drawDebugQuad(glm::vec4 color, glm::vec3 position,
-			glm::quat rotation = glm::vec3(0.0f),
-			glm::vec2 scale = glm::vec2(1.0f));
+		static void drawDebugQuad(const glm::vec4& color,
+			const glm::vec3& position,
+			const glm::quat& rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+			const glm::vec2& scale = glm::vec2(1.0f));
 
 		/*!
 		 * Draws a debug grid with given color and position
@@ -116,8 +118,9 @@ namespace core
 		 * space
 		 * @param[in] gridCount The amount of grids to be drawn
 		 */
-		static void drawDebugGrid(glm::vec4 color, glm::vec3 position,
-			uint32_t gridCount = 1);
+		static void drawDebugGrid(const glm::vec4& color,
+			const glm::vec3& position,
+			const uint32_t& gridCount = 1);
 
 		/*!
 		 * Draws a debug line from start to end
@@ -126,8 +129,8 @@ namespace core
 		 * @param[in] start Start position of the line in world space
 		 * @param[in] end End position of the line in world space
 		 */
-		static void drawDebugLine(glm::vec4 color, glm::vec3 start,
-			glm::vec3 end);
+		static void drawDebugLine(const glm::vec4& color, const glm::vec3& start,
+			const glm::vec3& end);
 
 		/*!
 		 * Draws a debug arrow in a given direction
@@ -138,8 +141,9 @@ namespace core
 		 * normalized
 		 * @param[in] length The length of the arrow in the given direction
 		 */
-		static void drawDebugArrow(glm::vec4 color, glm::vec3 position,
-			glm::vec3 direction, float length = 1.0f);
+		static void drawDebugArrow(const glm::vec4& color,
+			const glm::vec3& position,
+			const glm::vec3& direction, const float& length = 1.0f);
 
 		/*!
 		 * Draws debug world coordinates
@@ -149,7 +153,8 @@ namespace core
 		 * @param[in] position Position of the coordinates
 		 * @param[in] scale The length of all three lines
 		 */
-		static void drawDebugWorldCoord(glm::vec3 position, float scale = 1.0f);
+		static void drawDebugWorldCoord(const glm::vec3& position,
+			const float& scale = 1.0f);
 
 		/*!
 		 * Draws a debug circle with given color and transform
@@ -161,20 +166,22 @@ namespace core
 		 * @param[in] scale Scale in two directions (width, height), depth is
 		 * irrelevant
 		 */
-		static void drawDebugCircle(glm::vec4 color, glm::vec3 position,
-			glm::quat rotation = glm::vec3(0.0f),
-			glm::vec2 scale = glm::vec2(1.0f));
+		static void drawDebugCircle(const glm::vec4& color,
+			const glm::vec3& position,
+			const glm::quat& rotation = glm::vec3(0.0f),
+			const glm::vec2& scale = glm::vec2(1.0f));
 
 		/*!
 		 * Draws a debug circle with given color and transform
 		 *
 		 * @todo Yet to be implemented
 		 */
-		static void drawDebugText(uint16_t x, uint16_t y, const char* text, ...);
+		static void drawDebugText(const uint16_t& x, const uint16_t& y,
+			const char* text, ...);
 
 	private:
 		void drawDebugShape(const ref<VertexArray>& vao, glm::vec4 color, 
-			Transform transform);
+			const Transform& transform) const;
 		
 	private:
 		ref<Shader> shader;
