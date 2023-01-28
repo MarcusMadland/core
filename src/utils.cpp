@@ -50,4 +50,10 @@ namespace core::utils
 
 		return bytes;
 	}
+	void ProcessNode(aiScene* scene, aiNode* node)
+	{
+	}
+	void ProcessMesh(aiScene* scene, aiMesh* mesh)
+	{
+	}
 }

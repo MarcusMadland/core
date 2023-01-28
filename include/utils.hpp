@@ -24,6 +24,13 @@
 #include "renderer/texture.hpp"
 #include "renderer/vertex.hpp"
 
+/*
+ * Forward Declarations
+ */
+class aiScene;
+class aiNode;
+class aiMesh;
+
 namespace core::utils
 {
 	/*
@@ -40,4 +47,9 @@ namespace core::utils
 	 */
 	uint8_t* loadTexture2D(const std::string& filename,
 		Texture2DParams& outParams);
+
+
+
+	static void ProcessNode(aiScene* scene, aiNode* node);
+	static void ProcessMesh(aiScene* scene, aiMesh* mesh);
 }

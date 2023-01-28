@@ -22,7 +22,6 @@
  */
 #pragma once
 
-
 #include "common.hpp"
 #include "debug.hpp"
 #include "defines.hpp"

@@ -18,7 +18,9 @@
 
 #include "common.hpp"
 
-// Forward Declarations
+/*
+ * Forward Declarations
+ */
 struct bgfx::TextureHandle;
 
 namespace core
