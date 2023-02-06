@@ -68,4 +68,8 @@ namespace core
 	{
 		return makeRef<Mesh>(vertices, indices, material);
 	}
+	void Mesh::setMaterial(const ref<Material>& material)
+	{
+		this->material = material;
+	}
 }

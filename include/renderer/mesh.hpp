@@ -35,6 +35,8 @@ namespace core
 			const std::vector<uint16_t>& indices,
 			const ref<Material>& material);
 		
+		void setMaterial(const ref<Material>& material);
+
 		[[nodiscard]] Transform getTransform() const { return transform; }
 		[[nodiscard]] ref<Material> getMaterial() const { return material; }
 		[[nodiscard]] ref<VertexArray> getVertexArray() const { return vao; }

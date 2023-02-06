@@ -28,8 +28,10 @@ void BgfxCallback::fatal(const char* _filePath, uint16_t _line, bgfx::Fatal::Enu
 
 void BgfxCallback::traceVargs(const char* _filePath, uint16_t _line, const char* _format, va_list _argList) 
 {
+	constexpr bool logBGFX = false;
+
 	// Filter out all trace logs we don't want to see
-	if (_format[0] != '!')
+	if (_format[0] != '!' && !logBGFX)
 	{
 		return;
 	}
@@ -47,7 +49,10 @@ void BgfxCallback::traceVargs(const char* _filePath, uint16_t _line, const char*
 
 	// Remove first character from the const char array since that will be a '!' and we don't want to log that
 	std::string outString = out;
-	outString.erase(0, 1);
+	if (!logBGFX)
+	{
+		outString.erase(0, 1);
+	}
 	
 	// Log BGFX message to the console window
 	core::Logger::logInfo(outString.c_str());

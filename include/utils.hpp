@@ -23,13 +23,7 @@
 
 #include "renderer/texture.hpp"
 #include "renderer/vertex.hpp"
-
-/*
- * Forward Declarations
- */
-class aiScene;
-class aiNode;
-class aiMesh;
+#include "renderer/mesh.hpp"
 
 namespace core::utils
 {
@@ -46,10 +40,21 @@ namespace core::utils
 	 * @return Texture data in bytes
 	 */
 	uint8_t* loadTexture2D(const std::string& filename,
-		Texture2DParams& outParams);
+		Texture2DParams& outParams, const bool& yFlip = false);
 
-
-
-	static void ProcessNode(aiScene* scene, aiNode* node);
-	static void ProcessMesh(aiScene* scene, aiMesh* mesh);
+	struct MeshLoadSettings
+	{
+		bool isSkeletalMesh = false;
+	};
+	/*
+	 * Loads a mesh's data
+	 *
+	 * @param[in] filename The directory and filename of the mesh
+	 * @param[in] loadSettings Settings to use when loading mesh
+	 * @param[out] outVertices List of the mesh vertex data
+	 * @param[out] outIndices List of the mesh index data
+	 *
+	 * @return List of mesh pointers
+	 */
+	std::vector<ref<Mesh>> loadMesh(const std::string& filename, const MeshLoadSettings& loadSettings);
 }

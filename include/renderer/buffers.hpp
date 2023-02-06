@@ -22,7 +22,43 @@
 
 namespace core
 {
-	// @todo Create buffer wrappers for vbo and ibo as well? Is it really needed?
+	class VertexLayout
+	{
+
+	};
+
+	class VertexBuffer
+	{
+	public:
+		VertexBuffer(const VertexLayout& layout);
+		~VertexBuffer();
+
+		VertexBuffer(const VertexBuffer&) = default;
+		VertexBuffer(VertexBuffer&&) = default;
+
+		VertexBuffer& operator=(const VertexBuffer&) = default;
+		VertexBuffer& operator=(VertexBuffer&&) = default;
+
+	private:
+		bgfx::VertexBufferHandle handle;
+	};
+
+	class IndexBuffer
+	{
+	public:
+		IndexBuffer();
+		~IndexBuffer();
+
+		IndexBuffer(const IndexBuffer&) = default;
+		IndexBuffer(IndexBuffer&&) = default;
+
+		IndexBuffer& operator=(const IndexBuffer&) = default;
+		IndexBuffer& operator=(IndexBuffer&&) = default;
+
+	private:
+		bgfx::IndexBufferHandle handle;
+	};
+
 	class VertexArray
 	{
 	friend class Renderer;

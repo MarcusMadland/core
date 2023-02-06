@@ -23,19 +23,37 @@
 #include "mesh.hpp"
 #include "math/transform.hpp"
 
+/*
+ * Forward Declarations
+ */
+class Framebuffer;
+
 namespace core
 {
+	struct PassParams
+	{
+		uint16_t id; // order- 0 call first
+		uint64_t states;
+		uint32_t width;
+		uint32_t height;
+		ref<Framebuffer> framebuffer;
+	};
+
 	class Renderer
 	{
 	public:
 		static void init();
 		static void shutdown();
 
-		static bool begin(const ref<Camera>& camera);
-		static void end();
+		static bool beginPass(const ref<Camera>& camera, const PassParams& params);
+		static void endPass();
+		static void render(const uint32_t& width, const uint32_t& height);
+		static void getFinalRender();
 
 		static void submitVertexArray(const ref<VertexArray>& vao,
 			const ref<Shader>& shader);
+		static void submitVertexArray(const ref<VertexArray>& vao,
+			const std::string& shaderName);
 
 		static void submitVertexArrayTransform(const ref<VertexArray>& vao,
 			const ref<Shader>& shader, const Transform& transform);

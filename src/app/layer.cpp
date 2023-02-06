@@ -96,9 +96,11 @@ namespace core
 		{
 			style.WindowRounding = 0.0f;
 
+			// Imgui style here..
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-
-			// Standard style here..
+			//style.Colors[ImGuiCol_MenuBarBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+			//style.Colors[ImGuiCol_Text] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+			
 		}
 
 		// Get GLFW window for imgui initialzation

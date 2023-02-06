@@ -25,7 +25,7 @@ namespace core
 	Material::Material(const MaterialParams& params)
 		: params(params)
 		, baseColorMap(nullptr), u_BaseColorMap(BGFX_INVALID_HANDLE)
-		, baseColorFactor(glm::vec4(0.0f)), u_BaseColorFactor(BGFX_INVALID_HANDLE)
+		, baseColorFactor(glm::vec4(CORE_BIG_NUMBER)), u_BaseColorFactor(BGFX_INVALID_HANDLE)
 	{
 		shader = Renderer::getShaderManager()->get("uber");
 		ASSERT(shader, "Shader is null");
@@ -43,8 +43,7 @@ namespace core
 		textures[name] = texture;
 	}
 
-	void Material::setBasecolor(const std::string& textureName,
-		const uint32_t& index)
+	void Material::setBasecolor(const std::string& textureName)
 	{
 		ASSERT(!textureName.empty(), "Texture name is empty");
 		baseColorMap = textures[textureName];
@@ -58,27 +57,25 @@ namespace core
 	void Material::updateUniforms() const
 	{
 		// Base Color	
-		if (baseColorMap)
+		if ((baseColorFactor.w >= CORE_BIG_NUMBER) && baseColorMap)
 		{
 			bgfx::setTexture(0, u_BaseColorMap, baseColorMap->handle);
 		}
-		else
-		{
-			bgfx::setUniform(u_BaseColorFactor, &baseColorFactor);
-		}
+		bgfx::setUniform(u_BaseColorFactor, &baseColorFactor); // Set it to default factor when texture is valid
 
 		// States
-		const uint64_t twoSidedStates = (params.twoSided == true) ? 
-			( BGFX_STATE_WRITE_RGB
-			| BGFX_STATE_WRITE_A 
+		const uint64_t default = BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_A
 			| BGFX_STATE_WRITE_Z
-			| BGFX_STATE_DEPTH_TEST_LESS
-			| BGFX_STATE_MSAA) : BGFX_STATE_DEFAULT;
+			| BGFX_STATE_DEPTH_TEST_LESS;
 
-		const uint64_t translucentStates = (params.blendType == Translucent) ?
-			BGFX_STATE_BLEND_ALPHA : 0;
+		const uint64_t twoSided    = (params.twoSided) ?
+			0 : BGFX_STATE_CULL_CCW;
+
+		const uint64_t translucent = (params.blendType == BlendType::Translucent) ?
+			BGFX_STATE_BLEND_ALPHA     : 0;
 									
-		bgfx::setState(twoSidedStates | translucentStates);
+		bgfx::setState(default | twoSided | translucent);
 	}
 
 	ref<Material> Material::create(const MaterialParams& params)

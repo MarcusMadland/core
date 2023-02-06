@@ -70,8 +70,9 @@ namespace core
 			if (!isMinimized)
 			{
 				for (Layer* layer : layerStack)
+				{
 					layer->onUpdate(deltaTime);
-
+				}
 
 				#ifdef _DEBUG
 				{
@@ -83,9 +84,16 @@ namespace core
 					core::ImGuiLayer::end();
 				}
 				#endif
+
+				window->onUpdate(); 
+
+				for (Layer* layer : layerStack)
+				{
+					layer->onPostUpdate(deltaTime);
+				}
 			}
 
-			window->onUpdate();
+			
 		}
 	}
 

@@ -25,18 +25,18 @@
 
 namespace core
 {
-	enum MaterialType
+	enum class MaterialType
 	{
 		Default,
 	};
 
-	enum BlendType
+	enum class BlendType
 	{
 		Opaque,
 		Translucent,
 	};
 
-	enum ShadingType
+	enum class ShadingType
 	{
 		Lit,
 		Unlit,
@@ -67,8 +67,7 @@ namespace core
 
 		void addTexture(const ref<Texture2D>& texture, const std::string& name);
 
-		void setBasecolor(const std::string& textureName,
-			const uint32_t& index = 0);
+		void setBasecolor(const std::string& textureName);
 		void setBasecolor(const glm::vec4& color);
 
 		[[nodiscard]] ref<Shader> getShader() { return shader; }

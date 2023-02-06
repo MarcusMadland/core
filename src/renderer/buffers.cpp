@@ -21,4 +21,16 @@ namespace core
 	{
 		return makeRef<VertexArray>(vbh, ibh);
 	}
+	IndexBuffer::IndexBuffer()
+	{
+	}
+	IndexBuffer::~IndexBuffer()
+	{
+	}
+	VertexBuffer::VertexBuffer(const VertexLayout& layout)
+	{
+	}
+	VertexBuffer::~VertexBuffer()
+	{
+	}
 }

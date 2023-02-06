@@ -24,9 +24,8 @@
 
 namespace core
 {
-	Camera::Camera(const CameraParams& params, const uint32_t& viewID)
+	Camera::Camera(const CameraParams& params)
 		: params(params), view(glm::mat4(1.0f)), proj(glm::mat4(1.0f))
-		, viewID(viewID)
 	{
 		recalculate();
 	}
@@ -39,13 +38,10 @@ namespace core
 
 		bx::mtxProj(&proj[0][0], params.fov, params.width / params.height,
 			params.clipNear, params.clipFar, bgfx::getCaps()->homogeneousDepth);
-
-		bgfx::setViewTransform(static_cast<uint16_t>(viewID), &view[0][0],
-			&proj[0][0]);
 	}
 
-	ref<Camera> Camera::create(const CameraParams& params, const uint32_t& viewID )
+	ref<Camera> Camera::create(const CameraParams& params)
 	{
-		return makeRef<Camera>(params, viewID);
+		return makeRef<Camera>(params);
 	}
 }

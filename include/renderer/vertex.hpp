@@ -29,6 +29,12 @@ namespace core
 		PrimitiveVertex();
 	};
 
+	struct ScreenVertex
+	{
+		glm::vec3 position;
+		glm::vec2 texCoord;
+	};
+
 	struct MeshVertex
 	{
 		glm::vec3 position;

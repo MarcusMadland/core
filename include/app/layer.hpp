@@ -21,6 +21,7 @@ namespace core
 		virtual void onAttach() {}
 		virtual void onDetach() {}
 		virtual void onUpdate(const float& dt) {}
+		virtual void onPostUpdate(const float& dt) {}
 		virtual void onImGuiRender() {}
 		virtual void onEvent(Event& event) {}
 

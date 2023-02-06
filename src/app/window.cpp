@@ -22,6 +22,7 @@
 #include "app/window.hpp"
 #include "app/event.hpp"
 #include "debug/logger.hpp"
+#include "defines.hpp"
 
 
 namespace core
@@ -88,13 +89,14 @@ namespace core
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window_,
 			const  int width_, const int height_)
 			{
+				ASSERT(glfwGetWindowUserPointer(window_));
+
 				WindowInfo& inf =
-					*static_cast<WindowInfo*>(glfwGetWindowUserPointer(window_));
+					*(WindowInfo*)glfwGetWindowUserPointer(window_);
 				inf.width = width_;
 				inf.height = height_;
 
 				bgfx::reset(static_cast<uint32_t>(width_), static_cast<uint32_t>(height_), inf.resetFlags);
-				bgfx::setViewRect(0, 0, 0, bgfx::BackbufferRatio::Equal);
 
 				WindowResizeEvent event(width_, height_);
 				inf.eventCallback(event);
@@ -210,10 +212,11 @@ namespace core
 
 	void Window::onUpdate()
 	{
-		glfwPollEvents();
-
 		// Swap buffers
 		bgfx::frame();
+
+		// Events
+		glfwPollEvents();
 
 		// Set debug text
 		#ifdef _DEBUG

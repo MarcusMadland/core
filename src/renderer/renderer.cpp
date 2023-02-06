@@ -21,6 +21,7 @@
 #include "math.hpp"
 #include "defines.hpp"
 #include "renderer/renderer.hpp"
+#include "renderer/framebuffer.hpp"
 #include "debug/logger.hpp"
 
 namespace core
@@ -28,7 +29,12 @@ namespace core
 	struct RendererData
 	{
 		ref<ShaderManager> shaderManager;
-		ref<Camera> camera;
+
+		std::vector<bgfx::FrameBufferHandle> framebuffers;
+
+		ref<Camera> currCamera;
+		uint16_t currPassID;
+
 	};
 	static RendererData* data;
 
@@ -39,16 +45,16 @@ namespace core
 
 		// Shaders
 		data->shaderManager->loadAndAdd(
-			"../shaders/compiled/uber-vert.bin", 
-			"../shaders/compiled/uber-frag.bin");
+			"../../shaders/compiled/uber-vert.bin", 
+			"../../shaders/compiled/uber-frag.bin");
 		data->shaderManager->loadAndAdd(
-			"../shaders/compiled/simple-vert.bin", 
-			"../shaders/compiled/simple-frag.bin");
+			"../../shaders/compiled/postprocess-vert.bin",
+			"../../shaders/compiled/postprocess-frag.bin");
 		
 		#ifdef _DEBUG
 			data->shaderManager->loadAndAdd(
-				"../shaders/compiled/debugdraw-vert.bin", 
-				"../shaders/compiled/debugdraw-frag.bin");
+				"../../shaders/compiled/debugdraw-vert.bin", 
+				"../../shaders/compiled/debugdraw-frag.bin");
 		#endif
 	}
 
@@ -57,15 +63,39 @@ namespace core
 		delete data;
 	}
 
-	bool Renderer::begin(const ref<Camera>& camera)
+	bool Renderer::beginPass(const ref<Camera>& camera, const PassParams& params)
 	{
 		ASSERT(camera, "Camera is null, camera is needed to render");
+		data->currCamera = camera;
+		data->currPassID = params.id;
+
+		// Set viewport
+		bgfx::setViewRect(params.id, 0, 0, params.width, params.height);
+
+		// @todo fix
+		bgfx::setViewClear(params.id, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0xe3fcffff, 1.0f, 0);
+
+		// Set framebuffer
+		bgfx::setViewFrameBuffer(params.id, params.framebuffer->handle);
+		
+		// Update camera uniform to shader
+		bgfx::setViewTransform(params.id, &camera->getViewMatrix()[0][0],
+			&camera->getProjectionMatrix()[0][0]);
 
 		return true;
 	}
-	void Renderer::end()
+	void Renderer::endPass()
 	{
 	
+	}
+
+	void Renderer::render(const uint32_t& width, const uint32_t& height)
+	{
+		
+	}
+
+	void Renderer::getFinalRender()
+	{
 	}
 
 	void Renderer::submitVertexArray(const ref<VertexArray>& vao,
@@ -73,21 +103,28 @@ namespace core
 	{
 		ASSERT(vao, "Vertex Array Buffer is invalid");
 		ASSERT(shader, "Shader is invalid");
-		
-		// If camera is null, meaning we either passed null at begin or never called begin
-		// We set it to 0 if no camera is available. This only happens in debug draw
-		bgfx::ViewId viewID = 0; 
-		if (data->camera)
-		{
-			viewID = static_cast<uint16_t>(data->camera->getViewID());
-		}
 
 		// Handle Vertex Array
 		bgfx::setVertexBuffer(0, vao->vbh);
 		bgfx::setIndexBuffer(vao->ibh);
 
 		// Submit
-		bgfx::submit(viewID, shader->handle);
+		bgfx::submit(data->currPassID, shader->handle);
+	}
+
+	void Renderer::submitVertexArray(const ref<VertexArray>& vao,
+		const std::string& shaderName)
+	{
+		ASSERT(vao, "Vertex Array Buffer is invalid");
+		ref<Shader> shaderRef = data->shaderManager->get(shaderName);
+		ASSERT(shaderRef, "Shader is invalid");
+
+		// Handle Vertex Array
+		bgfx::setVertexBuffer(0, vao->vbh);
+		bgfx::setIndexBuffer(vao->ibh);
+
+		// Submit
+		bgfx::submit(data->currPassID, shaderRef->handle);
 	}
 
 	void Renderer::submitVertexArrayTransform(const ref<VertexArray>& vao,
@@ -141,4 +178,6 @@ namespace core
 	{
 		return data->shaderManager;
 	}
+
+
 }

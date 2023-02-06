@@ -37,7 +37,7 @@ namespace core
 	class Camera final
 	{
 	public:
-		Camera(const CameraParams& params, const uint32_t& viewID);
+		Camera(const CameraParams& params);
 		~Camera() = default;
 
 		Camera(const Camera&) = default;
@@ -51,19 +51,16 @@ namespace core
 		[[nodiscard]] const CameraParams& getParams() const { return params; }
 		[[nodiscard]] CameraParams& getParams() { return params; }
 
-		[[nodiscard]] const uint32_t& getViewID() const { return viewID; }
 		[[nodiscard]] const glm::mat4& getViewMatrix() const { return view; }
 		[[nodiscard]] const glm::mat4& getProjectionMatrix() const { return proj; }
 		[[nodiscard]] const glm::mat4& getViewProjectionMatrix() const { return view * proj; }
 
-		static ref<Camera> create(const CameraParams& params, const uint32_t& viewID = 0);
+		static ref<Camera> create(const CameraParams& params);
 
 	private:
 		CameraParams params;
 
 		glm::mat4 view;
 		glm::mat4 proj;
-
-		uint32_t viewID;
 	};
 }
