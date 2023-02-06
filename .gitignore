@@ -77,3 +77,6 @@ build/
 _build/
 _static/
 _templates/
+
+# Renderdoc
+*.rdc
