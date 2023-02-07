@@ -105,8 +105,8 @@ namespace core
 		ASSERT(shader, "Shader is invalid");
 
 		// Handle Vertex Array
-		bgfx::setVertexBuffer(0, vao->vbh);
-		bgfx::setIndexBuffer(vao->ibh);
+		bgfx::setVertexBuffer(0, vao->vertexBuffer->handle);
+		bgfx::setIndexBuffer(vao->indexBuffer->handle);
 
 		// Submit
 		bgfx::submit(data->currPassID, shader->handle);
@@ -120,8 +120,8 @@ namespace core
 		ASSERT(shaderRef, "Shader is invalid");
 
 		// Handle Vertex Array
-		bgfx::setVertexBuffer(0, vao->vbh);
-		bgfx::setIndexBuffer(vao->ibh);
+		bgfx::setVertexBuffer(0, vao->vertexBuffer->handle);
+		bgfx::setIndexBuffer(vao->indexBuffer->handle);
 
 		// Submit
 		bgfx::submit(data->currPassID, shaderRef->handle);

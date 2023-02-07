@@ -87,7 +87,7 @@ namespace core
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 		// Font
-		// io.FontDefault = io.Fonts->AddFontFromFileTTF("", 12.0f)...
+		//io.FontDefault = io.Fonts->AddFontFromFileTTF("../../core/assets/fonts/Tahoma.ttf", 16.0f);
 
 		// Style
 		ImGui::StyleColorsClassic();

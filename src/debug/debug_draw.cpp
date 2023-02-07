@@ -33,103 +33,111 @@ namespace core
 		: u_color()
 	{
 	#ifdef _DEBUG
+
 		// Vertex Layout
-		layout.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8)
-			.add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
-			.end();
+		std::vector<BufferElement> layout =
+		{
+			{ AttribType::Float, 3, Attrib::Position },
+			{ AttribType::Uint8, 4, Attrib::Color0 },
+			{ AttribType::Float, 3, Attrib::Normal },
+		};
 
 		// Shape (Cube)
-		static ref<Cube> cubePrim = makeRef<Cube>();
-		const bgfx::VertexBufferHandle cubeVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(cubePrim->getVertices().data(),
-				static_cast<uint32_t>(cubePrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle cubeIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(cubePrim->getIndices().data(),
-				static_cast<uint32_t>(cubePrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoCube = VertexArray::create(cubeVbh, cubeIbh);
+		{
+			static ref<Cube> cubePrim = makeRef<Cube>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, cubePrim->getVertices().data(),
+				static_cast<uint32_t>(cubePrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(cubePrim->getIndices().data(),
+				static_cast<uint32_t>(cubePrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoCube = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 
 		// Shape (Sphere)
-		static ref<Sphere> spherePrim = makeRef<Sphere>();
-		const bgfx::VertexBufferHandle sphereVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(spherePrim->getVertices().data(),
-				static_cast<uint32_t>(spherePrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle sphereIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(spherePrim->getIndices().data(),
-				static_cast<uint32_t>(spherePrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoSphere = VertexArray::create(sphereVbh, sphereIbh);
+		{
+			static ref<Sphere> spherePrim = makeRef<Sphere>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, spherePrim->getVertices().data(),
+				static_cast<uint32_t>(spherePrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(spherePrim->getIndices().data(),
+				static_cast<uint32_t>(spherePrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoSphere = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 
 		// Shape (Pyramid)
-		static ref<Pyramid> pyramidPrim = makeRef<Pyramid>();
-		const bgfx::VertexBufferHandle pyramidVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(pyramidPrim->getVertices().data(),
-				static_cast<uint32_t>(pyramidPrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle pyramidIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(pyramidPrim->getIndices().data(),
-				static_cast<uint32_t>(pyramidPrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoPyramid = VertexArray::create(pyramidVbh, pyramidIbh);
+		{
+			static ref<Pyramid> pyramidPrim = makeRef<Pyramid>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, pyramidPrim->getVertices().data(),
+				static_cast<uint32_t>(pyramidPrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(pyramidPrim->getIndices().data(),
+				static_cast<uint32_t>(pyramidPrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoPyramid = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 
 		// Shape (Quad)
-		static ref<Quad> quadPrim = makeRef<Quad>();
-		const bgfx::VertexBufferHandle quadVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(quadPrim->getVertices().data(),
-				static_cast<uint32_t>(quadPrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle quadIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(quadPrim->getIndices().data(),
-				static_cast<uint32_t>(quadPrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoQuad = VertexArray::create(quadVbh, quadIbh);
+		{
+			static ref<Quad> quadPrim = makeRef<Quad>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, quadPrim->getVertices().data(),
+				static_cast<uint32_t>(quadPrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(quadPrim->getIndices().data(),
+				static_cast<uint32_t>(quadPrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoQuad = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 
 		// Shape (Line)
-		static ref<Line> linePrim = makeRef<Line>();
-		const bgfx::VertexBufferHandle lineVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(linePrim->getVertices().data(),
-				static_cast<uint32_t>(linePrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle lineIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(linePrim->getIndices().data(),
-				static_cast<uint32_t>(linePrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoLine = VertexArray::create(lineVbh, lineIbh);
+		{
+			static ref<Line> linePrim = makeRef<Line>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, linePrim->getVertices().data(),
+				static_cast<uint32_t>(linePrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(linePrim->getIndices().data(),
+				static_cast<uint32_t>(linePrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoLine = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 		
 		// Shape (Grid)
-		static ref<Grid> gridPrim = makeRef<Grid>();
-		const bgfx::VertexBufferHandle gridVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(gridPrim->getVertices().data(),
-				static_cast<uint32_t>(gridPrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle gridIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(gridPrim->getIndices().data(),
-				static_cast<uint32_t>(gridPrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoGrid = VertexArray::create(gridVbh, gridIbh);
+		{
+			static ref<Grid> gridPrim = makeRef<Grid>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, gridPrim->getVertices().data(),
+				static_cast<uint32_t>(gridPrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(gridPrim->getIndices().data(),
+				static_cast<uint32_t>(gridPrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoGrid = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 		
 		// Shape (Circle)
-		static ref<Circle> circlePrim = makeRef<Circle>();
-		const bgfx::VertexBufferHandle circleVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(circlePrim->getVertices().data(),
-				static_cast<uint32_t>(circlePrim->getVertices().size() *
-					sizeof(PrimitiveVertex))), layout);
-		const bgfx::IndexBufferHandle circleIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(circlePrim->getIndices().data(),
-				static_cast<uint32_t>(circlePrim->getIndices().size() *
-					sizeof(uint16_t))));
-		vaoCircle = VertexArray::create(circleVbh, circleIbh);
+		{
+			static ref<Circle> circlePrim = makeRef<Circle>();
+
+			ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, circlePrim->getVertices().data(),
+				static_cast<uint32_t>(circlePrim->getVertices().size()) * sizeof(PrimitiveVertex));
+
+			ref<IndexBuffer> indexBuffer = IndexBuffer::create(circlePrim->getIndices().data(),
+				static_cast<uint32_t>(circlePrim->getIndices().size()) * sizeof(uint16_t));
+
+			vaoCircle = core::VertexArray::create(vertexBuffer, indexBuffer);
+		}
 
 		// Shader
 		shader = Renderer::getShaderManager()->get("debugdraw");
 
 		// Uniforms
 		u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
-
 
 		Logger::logInfo("Debug Draw allocated debug shapes");
 	#endif

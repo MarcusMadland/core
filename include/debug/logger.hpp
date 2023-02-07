@@ -38,7 +38,7 @@ namespace core
 	/*
 	 * Log priorities in order.
 	 */
-	enum LogPriority
+	enum class LogPriority
 	{
 		Trace,
 		Debug,

@@ -32,6 +32,5 @@ namespace core
 		, tangent(glm::vec3(0.0f))
 		, biNormal(glm::vec3(0.0f))
 		, texCoord(glm::vec2(0.0f))
-		, data(glm::vec4(0.0f))
 	{}
 }

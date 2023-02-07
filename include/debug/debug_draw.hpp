@@ -186,7 +186,7 @@ namespace core
 	private:
 		ref<Shader> shader;
 
-		bgfx::VertexLayout layout;
+		std::vector<BufferElement> layout;
 		bgfx::UniformHandle u_color;
 
 		ref<VertexArray> vaoCube;

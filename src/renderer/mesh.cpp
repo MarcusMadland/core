@@ -39,27 +39,25 @@ namespace core
 			Logger::logWarn("Created mesh contains no material");
 		}
 		
-		// Vertex Layout following MeshVertex struct
-		bgfx::VertexLayout layout;
-		layout.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Tangent, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Bitangent, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::TexCoord7, 4, bgfx::AttribType::Float)
-			.end();
+		std::vector<BufferElement> layout =
+		{
+			{ AttribType::Float, 3, Attrib::Position },
+			{ AttribType::Float, 3, Attrib::Normal },
+			{ AttribType::Float, 3, Attrib::Tangent },
+			{ AttribType::Float, 3, Attrib::Bitangent },
+			{ AttribType::Float, 2, Attrib::TexCoord0 }
+		};
+		
+		ref<VertexBuffer> vertexBuffer = VertexBuffer::create(layout, Mesh::vertices.data(),
+			static_cast<uint32_t>(Mesh::vertices.size()) * sizeof(MeshVertex));
+		ASSERT(vertexBuffer, "Invalid VertexBuffer");
+			
+		ref<IndexBuffer> indexBuffer = IndexBuffer::create(Mesh::indices.data(),
+			static_cast<uint32_t>(Mesh::indices.size()) * sizeof(uint16_t));
+		ASSERT(indexBuffer, "Invalid IndexBuffer");
 
-		// Shape 
-		const bgfx::VertexBufferHandle cubeVbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(Mesh::vertices.data(),
-				static_cast<uint32_t>(Mesh::vertices.size()) *
-				sizeof(MeshVertex)), layout);
-		const bgfx::IndexBufferHandle cubeIbh = bgfx::createIndexBuffer(
-			bgfx::makeRef(Mesh::indices.data(),
-				static_cast<uint32_t>(Mesh::indices.size()) *
-				sizeof(uint16_t)));
-		vao = VertexArray::create(cubeVbh, cubeIbh);
+		vao = VertexArray::create(vertexBuffer, indexBuffer);
+		ASSERT(vao, "Invalid VertexArray");
 	}
 
 	ref<Mesh> Mesh::create(const std::vector<MeshVertex>& vertices,

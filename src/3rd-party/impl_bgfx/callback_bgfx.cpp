@@ -28,7 +28,7 @@ void BgfxCallback::fatal(const char* _filePath, uint16_t _line, bgfx::Fatal::Enu
 
 void BgfxCallback::traceVargs(const char* _filePath, uint16_t _line, const char* _format, va_list _argList) 
 {
-	constexpr bool logBGFX = false;
+	constexpr bool logBGFX = true;
 
 	// Filter out all trace logs we don't want to see
 	if (_format[0] != '!' && !logBGFX)
